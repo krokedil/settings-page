@@ -1,0 +1,29 @@
+{
+    "name": "krokedil/settings-page",
+    "description": "A package to help setup settings pages in WordPress and WooCommerce for Krokedil plugins to add the Addons and Support tabs",
+    "version": "1.0.0",
+    "type": "library",
+    "require-dev": {
+        "wp-coding-standards/wpcs": "dev-develop",
+        "php-stubs/woocommerce-stubs": "dev-master"
+    },
+    "license": "GPL-V2",
+    "autoload": {
+        "psr-4": {
+            "Krokedil\\SettingsPage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Krokedil AB",
+            "email": "info@krokedil.se"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

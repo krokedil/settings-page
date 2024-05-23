@@ -1,0 +1,26 @@
+.krokedil_support {
+    display: grid;
+    grid-template-rows: auto repeat(2, auto);
+    gap: 40px;
+}
+
+.krokedil_support__section {
+    background-color: white;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.krokedil_support__form label {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.krokedil_support__form label span {
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.krokedil_support__info p:first-of-type {
+    margin-top: 0;
+}
