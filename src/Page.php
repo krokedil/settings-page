@@ -32,11 +32,29 @@ class Page {
 	}
 
 	/**
+	 * Output the layout.
+	 *
+	 * @return void
+	 */
+	public function output() {
+		wp_enqueue_style( 'krokedil-settings-page' );
+
+		?>
+		<div class="krokedil_settings__custom_page">
+			<div class="krokedil_settings__wrapper">
+				<?php $this->output_subsection(); ?>
+				<?php $this->output_sidebar(); ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Output the page HTML.
 	 *
 	 * @return void
 	 */
 	public function output_page_content() {
-		echo wp_kses_post( $this->content );
+		echo $this->content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
