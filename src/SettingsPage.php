@@ -115,6 +115,7 @@ class SettingsPage {
 
 		$page               = $this->pages[ $id ];
 		$general_content    = $page['args']['general_content'] ?? '';
+		$icon               = $page['args']['icon'] ?? '';
 		$support            = $page['support'];
 		$addons             = $page['addons'];
 		$navigation         = $page['navigation'];
@@ -123,12 +124,14 @@ class SettingsPage {
 		switch ( $current_subsection ) {
 			case 'support':
 				// If we are on the support tab. Print the support content.
+				$support->set_icon( $icon );
 				$support->output_header();
 				$navigation->output();
 				$support->output();
 				break;
 			case 'addons':
 				// If we are on the addons tab. Print the addons content.
+				$addons->set_icon( $icon );
 				$addons->output_header();
 				$navigation->output();
 				$addons->output();

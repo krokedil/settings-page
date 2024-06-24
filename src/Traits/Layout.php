@@ -13,6 +13,24 @@ trait Layout {
 	protected $gateway;
 
 	/**
+	 * The icon for the page.
+	 *
+	 * @var string $icon
+	 */
+	protected $icon;
+
+	/**
+	 * Set the icon url.
+	 *
+	 * @param string $icon The icon url.
+	 *
+	 * @return void
+	 */
+	public function set_icon( $icon ) {
+		$this->icon = $icon;
+	}
+
+	/**
 	 * Print the header for the page.
 	 *
 	 * @return void
