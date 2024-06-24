@@ -35,5 +35,5 @@ trait Singleton {
 	/**
 	 * Prevent unserializing the instance of the class.
 	 */
-	protected function __wakeup() {}
+	public function __wakeup() {}
 }
