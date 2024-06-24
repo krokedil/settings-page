@@ -35,12 +35,14 @@ class Addons {
 	/**
 	 * Class constructor.
 	 *
-	 * @param array $addons Addons for the page.
-	 * @param array $sidebar Sidebar content.
-	 *
+	 * @param array                    $addons Addons for the page.
+	 * @param array                    $sidebar Sidebar content.
+	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
+
 	 * @return void
 	 */
-	public function __construct( $addons, $sidebar ) {
+	public function __construct( $addons, $sidebar, $gateway = null ) {
+		$this->gateway = $gateway;
 		$this->title   = __( 'Addons', 'krokedil-settings' );
 		$this->addons  = $addons;
 		$this->sidebar = $sidebar;
@@ -142,13 +144,11 @@ class Addons {
 	 * @return void
 	 */
 	public function print_addon_card( $addon ) {
-		$title       = $addon['title'];
-		$link        = self::get_link( $addon['link'] ?? array() );
+		$title  = $addon['title'];
+		$source = $addon['source'];
+
 		$description = self::get_description( $addon['description'] );
 		$image       = self::get_image( $addon['image'] ?? array() );
-		$active      = self::is_plugin_active( $addon['slug'] );
-		$installed   = self::is_plugin_installed( $addon['slug'] );
-		$status      = $active ? __( 'Active', 'krokedil-settings' ) : ( $installed ? __( 'Installed', 'krokedil-settings' ) : 'not-installed' );
 
 		?>
 		<div class="krokedil_addons__card">
@@ -159,15 +159,39 @@ class Addons {
 				<h3 class="krokedil_addons__card_title"><?php echo esc_html( $title ); ?></h3>
 				<p class="krokedil_addons__card_description"><?php echo wp_kses_post( $description ); ?></p>
 			</div>
-			<div class="krokedil_addons__card_action">
-				<span class='krokedil_addons__read_more'>
-					<?php if ( 'not-installed' !== $status ) : ?>
-						<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>" class="button button-primary"><?php echo esc_html( $status ); ?></a>
-					<?php else : ?>
-						<?php echo wp_kses_post( $link ); ?>
-					<?php endif; ?>
-				</span>
-			</div>
+			<?php $this->print_addon_actions( $addon ); ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Print the action buttons/links for the addon card.
+	 *
+	 * @param array $addon Addon data.
+	 *
+	 * @return void
+	 */
+	public function print_addon_actions( $addon ) {
+		$read_more = $addon['links']['read_more'] ?? array();
+		$buy_now   = $addon['links']['buy_now'] ?? array();
+
+		$active           = self::is_plugin_active( $addon['slug'] );
+		$installed        = self::is_plugin_installed( $addon['slug'] );
+		$status           = $active ? __( 'Active', 'krokedil-settings' ) : ( $installed ? __( 'Installed', 'krokedil-settings' ) : 'not-installed' );
+		$plugins_page_url = admin_url( 'plugins.php' );
+
+		?>
+		<div class="krokedil_addons__card_action">
+			<span class='krokedil_addons__read_more'>
+				<?php echo wp_kses_post( self::get_link( $read_more ) ); ?>
+			</span>
+			<span class='krokedil_addons__buy_now'>
+				<?php if ( 'not-installed' === $status ) : ?>
+					<?php echo wp_kses_post( self::get_link( $buy_now ) ); ?>
+				<?php else : ?>
+					<a href="<?php echo esc_url( $plugins_page_url ); ?>" class="button button-secondary"><?php echo esc_html( $status ); ?></a>
+				<?php endif; ?>
+			</span>
 		</div>
 		<?php
 	}

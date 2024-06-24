@@ -43,6 +43,11 @@
 }
 
 .krokedil_addons__card_action {
-    text-align: end;
+    display: flex;
+    justify-content: space-between;
     padding: 10px;
+}
+
+.krokedil_addons__card_action .krokedil_addons__read_more {
+    margin-top: 5px;
 }

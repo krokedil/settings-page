@@ -73,12 +73,13 @@ class SettingsPage {
 	/**
 	 * Register a page for extension.
 	 *
-	 * @param string $id   ID of the page.
-	 * @param array  $args Arguments for the page.
+	 * @param string                   $id   ID of the page.
+	 * @param array                    $args Arguments for the page.
+	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
 	 *
 	 * @return void
 	 */
-	public function register_page( $id, $args ) {
+	public function register_page( $id, $args, $gateway ) {
 		$default_args = array(
 			'page'              => '',
 			'tab'               => '',
@@ -93,8 +94,8 @@ class SettingsPage {
 
 		$this->pages[ $id ] = array(
 			'navigation' => new Navigation( $args ),
-			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'] ) : null,
-			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'] ) : null,
+			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $gateway ) : null,
+			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $gateway ) : null,
 			'args'       => $args,
 		);
 	}
@@ -122,11 +123,13 @@ class SettingsPage {
 		switch ( $current_subsection ) {
 			case 'support':
 				// If we are on the support tab. Print the support content.
+				$support->output_header();
 				$navigation->output();
 				$support->output();
 				break;
 			case 'addons':
 				// If we are on the addons tab. Print the addons content.
+				$addons->output_header();
 				$navigation->output();
 				$addons->output();
 				break;

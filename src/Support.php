@@ -21,13 +21,15 @@ class Support {
 	/**
 	 * Class constructor.
 	 *
-	 * @param array $support Support for the page.
-	 * @param array $sidebar Sidebar content.
+	 * @param array                    $support Support for the page.
+	 * @param array                    $sidebar Sidebar content.
+	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
 	 *
 	 * @return void
 	 */
-	public function __construct( $support, $sidebar ) {
+	public function __construct( $support, $sidebar, $gateway = null ) {
 		$this->title   = __( 'Support', 'krokedil-settings' );
+		$this->gateway = $gateway;
 		$this->support = $support;
 		$this->sidebar = $sidebar;
 	}

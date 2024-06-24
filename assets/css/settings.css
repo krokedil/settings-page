@@ -1,3 +1,11 @@
+
+.krokedil_settings__header {
+	display: flex;
+	gap: 20px;
+	margin-bottom: 20px;
+    align-items: center;
+}
+
 .krokedil_settings__wrapper {
     display: grid;
     grid-template-columns: 1fr min-content;
