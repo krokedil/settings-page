@@ -6,11 +6,10 @@
 
 .krokedil_addons__card {
     display: grid;
-    grid-template-rows: 200px 300px 50px;
+    grid-template-rows: 200px auto 50px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
