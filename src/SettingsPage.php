@@ -79,7 +79,7 @@ class SettingsPage {
 	 *
 	 * @return void
 	 */
-	public function register_page( $id, $args, $gateway ) {
+	public function register_page( $id, $args, $gateway = null ) {
 		$default_args = array(
 			'page'              => '',
 			'tab'               => '',
