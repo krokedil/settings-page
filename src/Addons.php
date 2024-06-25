@@ -192,7 +192,7 @@ class Addons {
 
 		?>
 		<div class="krokedil_addons__card_action">
-			<span class='krokedil_addons__price'><?php echo esc_html( $price ); ?></span>
+			<span class='krokedil_addons__price'><b><?php echo esc_html( $price ); ?></b></span>
 			<span class='krokedil_addons__buy_now'>
 				<?php if ( 'not-installed' === $status ) : ?>
 					<?php echo wp_kses_post( self::get_link( $buy_now ) ); ?>
