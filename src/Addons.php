@@ -144,8 +144,8 @@ class Addons {
 	 * @return void
 	 */
 	public function print_addon_card( $addon ) {
-		$title  = $addon['title'];
-		$source = $addon['source'];
+		$title     = $addon['title'];
+		$read_more = $addon['links']['read_more'] ?? array();
 
 		$description = self::get_description( $addon['description'] );
 		$image       = self::get_image( $addon['image'] ?? array() );
@@ -158,6 +158,9 @@ class Addons {
 			<div class="krokedil_addons__card_content">
 				<h3 class="krokedil_addons__card_title"><?php echo esc_html( $title ); ?></h3>
 				<p class="krokedil_addons__card_description"><?php echo wp_kses_post( $description ); ?></p>
+				<span class='krokedil_addons__read_more'>
+					<?php echo wp_kses_post( self::get_link( $read_more ) ); ?>
+				</span>
 			</div>
 			<?php $this->print_addon_actions( $addon ); ?>
 		</div>
@@ -172,8 +175,15 @@ class Addons {
 	 * @return void
 	 */
 	public function print_addon_actions( $addon ) {
-		$read_more = $addon['links']['read_more'] ?? array();
-		$buy_now   = $addon['links']['buy_now'] ?? array();
+		$buy_now = $addon['links']['buy_now'] ?? array();
+		$price   = $addon['price'] ?? array();
+
+		// If the locale is swedish, then use the sek price. Else use the eur price.
+		if ( ! empty( $price ) ) {
+			$price = 'sv' === self::get_locale() ? $price['sek'] : $price['eur'];
+		} else {
+			$price = __( 'Free', 'krokedil-settings' );
+		}
 
 		$active           = self::is_plugin_active( $addon['slug'] );
 		$installed        = self::is_plugin_installed( $addon['slug'] );
@@ -182,9 +192,7 @@ class Addons {
 
 		?>
 		<div class="krokedil_addons__card_action">
-			<span class='krokedil_addons__read_more'>
-				<?php echo wp_kses_post( self::get_link( $read_more ) ); ?>
-			</span>
+			<span class='krokedil_addons__price'><?php echo esc_html( $price ); ?></span>
 			<span class='krokedil_addons__buy_now'>
 				<?php if ( 'not-installed' === $status ) : ?>
 					<?php echo wp_kses_post( self::get_link( $buy_now ) ); ?>

@@ -48,6 +48,6 @@
     padding: 10px;
 }
 
-.krokedil_addons__card_action .krokedil_addons__read_more {
+.krokedil_addons__read_more, .krokedil_addons__price {
     margin-top: 5px;
 }
