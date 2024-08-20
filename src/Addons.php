@@ -126,7 +126,7 @@ class Addons {
 
 		?>
 		<div class="krokedil_addons">
-			<p>These are other plugins from Krokedil that work well together with the plugin.</p>
+			<p><?php esc_html_e( 'These are other plugins from Krokedil that work well together with the plugin.', 'krokedil-settings' ); ?></p>
 			<div class='krokedil_addons__cards'>
 				<?php foreach ( $addons as $addon ) : ?>
 					<?php $this->print_addon_card( $addon ); ?>

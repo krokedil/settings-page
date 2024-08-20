@@ -31,7 +31,21 @@ class SettingsPage {
 	 * @return void
 	 */
 	public function init() {
+		$this->load_textdomain();
 		$this->register_scripts();
+	}
+
+	/**
+	 * Load the text domain for the package.
+	 *
+	 * @return void
+	 */
+	public function load_textdomain() {
+		$filename = dirname( __DIR__ ) . '/languages/krokedil-settings-' . get_locale() . '.mo';
+
+		if ( file_exists( $filename ) ) {
+			load_textdomain( 'krokedil-settings', $filename );
+		}
 	}
 
 	/**

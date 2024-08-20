@@ -52,7 +52,7 @@ class Support {
 		// Load CSS.
 		wp_enqueue_style( 'krokedil-support-page' );
 
-		$system_report = WC()->api->get_endpoint_data( '/wc/v3/system_status' );
+		$system_report = wc_get_container()->get( \Automattic\WooCommerce\Utilities\RestApiUtil::class )->get_endpoint_data( '/wc/v3/system_status' );
 		$beacon_id     = '9c22f83e-3611-42aa-a148-1ca06de53566';
 
 		// Localize the support scrip.
@@ -91,7 +91,7 @@ class Support {
 		?>
 		<div class='krokedil_support'>
 			<div class="krokedil_support__info">
-				<p>Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem:</p>
+				<p><?php esc_html_e( 'Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem', 'krokedil-settings' ); ?>:</p>
 				<ul>
 					<?php foreach ( $links as $link ) : ?>
 						<li><?php echo wp_kses_post( self::get_link( $link ) ); ?></li>
@@ -102,7 +102,7 @@ class Support {
 						<?php echo wp_kses_post( self::get_link_text( $link_text ) ); ?>
 					<?php endforeach; ?>
 				</div>
-				<button type="button" class="button button-primary support-button">Open support ticket</button>
+				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket', 'krokedil-settings' ); ?></button>
 			</div>
 		</div>
 		<?php

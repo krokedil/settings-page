@@ -25,5 +25,8 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "scripts": {
+        "makepot": "wp --allow-root i18n make-pot ./src ./languages/krokedil-settings.pot --domain=krokedil-settings"
     }
 }
