@@ -177,6 +177,12 @@ class Addons {
 	public function print_addon_actions( $addon ) {
 		$buy_now = $addon['links']['buy_now'] ?? array();
 		$price   = $addon['price'] ?? array();
+		$source  = $addon['source'] ?? '';
+		$slug    = $addon['slug'] ?? '';
+
+		if ( empty( $slug ) ) {
+			return;
+		}
 
 		// If the locale is swedish, then use the sek price. Else use the eur price.
 		if ( ! empty( $price ) ) {
@@ -185,22 +191,56 @@ class Addons {
 			$price = __( 'Free', 'krokedil-settings' );
 		}
 
-		$active           = self::is_plugin_active( $addon['slug'] );
-		$installed        = self::is_plugin_installed( $addon['slug'] );
-		$status           = $active ? __( 'Active', 'krokedil-settings' ) : ( $installed ? __( 'Installed', 'krokedil-settings' ) : 'not-installed' );
-		$plugins_page_url = admin_url( 'plugins.php' );
+		$active    = self::is_plugin_active( $addon['slug'] );
+		$installed = self::is_plugin_installed( $addon['slug'] );
+		$status    = $active ? 'active' : ( $installed ? 'installed' : 'not-installed' );
 
 		?>
 		<div class="krokedil_addons__card_action">
 			<span class='krokedil_addons__price'><b><?php echo esc_html( $price ); ?></b></span>
-			<span class='krokedil_addons__buy_now'>
-				<?php if ( 'not-installed' === $status ) : ?>
-					<?php echo wp_kses_post( self::get_link( $buy_now ) ); ?>
-				<?php else : ?>
-					<a href="<?php echo esc_url( $plugins_page_url ); ?>" class="button button-secondary"><?php echo esc_html( $status ); ?></a>
-				<?php endif; ?>
-			</span>
+			<?php self::get_action_button( $buy_now, $status, $source, $slug ); ?>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Get the action button for the plugin based on the status.
+	 *
+	 * @param array  $link The link resource.
+	 * @param string $status The status of the plugin.
+	 * @param string $source The plugin source.
+	 * @param string $slug The plugin slug.
+	 *
+	 * @return void
+	 */
+	protected static function get_action_button( $link, $status, $source, $slug ) {
+		$plugin_page_url = add_query_arg( 's', $slug, home_url( '/wp-admin/plugins.php' ) );
+		$text            = $link['text'] ?? '';
+
+		switch ( $status ) {
+			case 'active':
+				$text          = __( 'Active', 'krokedil-settings' );
+				$link['class'] = ( $link['class'] ?? '' ) . ' disabled';
+				break;
+			case 'installed':
+				$text = __( 'Installed', 'krokedil-settings' );
+				break;
+			default:
+				break;
+		}
+
+		$link['text'] = $text;
+		if ( 'wordpress' !== $source && 'not-installed' !== $status ) { // phpcs:ignore
+			foreach ( $link['href'] as $key => $value ) {
+				$link['href'][ $key ] = $plugin_page_url;
+				$link['target']       = '';
+			}
+		}
+
+		?>
+		<span class='krokedil_addons__buy_now'>
+			<?php echo wp_kses_post( self::get_link( $link ) ); ?>
+		</span>
 		<?php
 	}
 }
