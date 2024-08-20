@@ -20,8 +20,15 @@
     margin: 0 3px 0 5px;
 }
 
+@media only screen and (max-width: 840px) {
+    .krokedil_settings__content {
+        min-width: 750px;
+        grid-row: 1 / 3;
+    }
+}
+
 .krokedil_settings__content {
-    min-width: 750px;
+    min-width: 356px;
     grid-row: 1 / 3;
 }
 

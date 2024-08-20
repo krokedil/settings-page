@@ -1,16 +1,23 @@
 .krokedil_addons__cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 356px);
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
 .krokedil_addons__card {
+    max-width: 356px;
     display: grid;
     grid-template-rows: 200px auto 50px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
+}
+
+@media only screen and (min-width: 992px) {
+    .krokedil_addons__cards {
+        grid-template-columns: repeat(auto-fit, minmax(256px, max-content));
+    }
 }
 
 .krokedil_addons__card_content {
