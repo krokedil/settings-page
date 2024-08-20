@@ -160,10 +160,12 @@ class Addons {
 			</div>
 			<div class="krokedil_addons__card_content">
 				<h3 class="krokedil_addons__card_title"><?php echo esc_html( $title ); ?></h3>
-				<p class="krokedil_addons__card_description"><?php echo wp_kses_post( $description ); ?></p>
-				<span class='krokedil_addons__read_more'>
-					<?php echo wp_kses_post( self::get_link( $read_more ) ); ?>
-				</span>
+				<p class="krokedil_addons__card_description"><?php echo wp_kses_post( $description ); ?>
+					<br />
+					<span class='krokedil_addons__read_more'>
+						<?php echo wp_kses_post( self::get_link( $read_more ) ); ?>
+					</span>
+				</p>
 			</div>
 			<?php $this->print_addon_actions( $addon ); ?>
 		</div>
