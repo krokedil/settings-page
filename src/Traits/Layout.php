@@ -20,6 +20,13 @@ trait Layout {
 	protected $icon;
 
 	/**
+	 * Plugin name.
+	 *
+	 * @var string|null $plugin_name
+	 */
+	protected $plugin_name = null;
+
+	/**
 	 * Set the icon url.
 	 *
 	 * @param string $icon The icon url.
@@ -28,6 +35,15 @@ trait Layout {
 	 */
 	public function set_icon( $icon ) {
 		$this->icon = $icon;
+	}
+
+	/**
+	 * Set the plugin name.
+	 *
+	 * @param string $plugin_name The plugin name.
+	 */
+	public function set_plugin_name( $plugin_name ) {
+		$this->plugin_name = $plugin_name;
 	}
 
 	/**

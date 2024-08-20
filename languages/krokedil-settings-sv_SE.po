@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-20T11:53:17+00:00\n"
-"PO-Revision-Date: 2024-08-20 13:56+0200\n"
+"POT-Creation-Date: 2024-08-20T12:51:52+00:00\n"
+"PO-Revision-Date: 2024-08-20 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -17,22 +17,25 @@ msgstr ""
 msgid "Addons"
 msgstr "Tillägg"
 
-#: Addons.php:129
-msgid ""
-"These are other plugins from Krokedil that work well together with the "
-"plugin."
-msgstr ""
-"Här är andra tillägg från Krokedil som fungerar bra tillsammans med pluginet."
+#: Addons.php:126
+msgid "the plugin"
+msgstr "pluginet"
 
-#: Addons.php:191
+#. translators: %s is the plugin name.
+#: Addons.php:128
+msgid "These are other plugins from Krokedil that work well together with %s."
+msgstr ""
+"Här är andra tillägg från Krokedil som fungerar bra tillsammans med %s."
+
+#: Addons.php:194
 msgid "Free"
 msgstr "Gratis"
 
-#: Addons.php:222
+#: Addons.php:225
 msgid "Active"
 msgstr "Aktiv"
 
-#: Addons.php:226
+#: Addons.php:229
 msgid "Installed"
 msgstr "Installerad"
 
@@ -56,10 +59,10 @@ msgstr ""
 msgid "Open support ticket"
 msgstr "Öppna support ärende"
 
-#: Traits/Sidebar.php:25
+#: Traits/Sidebar.php:27
 msgid "Plugin resources"
 msgstr "Plugin resurser"
 
-#: Traits/Sidebar.php:34
+#: Traits/Sidebar.php:36
 msgid "Additional resources"
 msgstr "Ytterligare resurser"

@@ -12,6 +12,13 @@ class SettingsPage {
 	use Singleton;
 
 	/**
+	 * Plugin name.
+	 *
+	 * @var string|null $plugin_name
+	 */
+	protected $plugin_name = null;
+
+	/**
 	 * Array of pages to extend.
 	 *
 	 * @var array $pages
@@ -20,6 +27,8 @@ class SettingsPage {
 
 	/**
 	 * Initialize the class.
+	 *
+	 * @return void
 	 */
 	protected function __construct() {
 		$this->init();
@@ -85,13 +94,26 @@ class SettingsPage {
 	}
 
 	/**
+	 * Set the plugin name.
+	 *
+	 * @param string|null $plugin_name The plugin name.
+	 *
+	 * @return self
+	 */
+	public function set_plugin_name( $plugin_name ) {
+		$this->plugin_name = $plugin_name;
+
+		return $this;
+	}
+
+	/**
 	 * Register a page for extension.
 	 *
 	 * @param string                   $id   ID of the page.
 	 * @param array                    $args Arguments for the page.
 	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
 	 *
-	 * @return void
+	 * @return self
 	 */
 	public function register_page( $id, $args, $gateway = null ) {
 		$default_args = array(
@@ -112,6 +134,8 @@ class SettingsPage {
 			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $gateway ) : null,
 			'args'       => $args,
 		);
+
+		return $this;
 	}
 
 	/**
@@ -119,12 +143,12 @@ class SettingsPage {
 	 *
 	 * @param string $id ID of the page.
 	 *
-	 * @return void
+	 * @return self
 	 */
 	public function output( $id ) {
 		// Get the registered page.
 		if ( ! isset( $this->pages[ $id ] ) ) {
-			return;
+			return $this;
 		}
 
 		$page               = $this->pages[ $id ];
@@ -139,6 +163,7 @@ class SettingsPage {
 			case 'support':
 				// If we are on the support tab. Print the support content.
 				$support->set_icon( $icon );
+				$addons->set_plugin_name( $this->plugin_name );
 				$support->output_header();
 				$navigation->output();
 				$support->output();
@@ -146,6 +171,7 @@ class SettingsPage {
 			case 'addons':
 				// If we are on the addons tab. Print the addons content.
 				$addons->set_icon( $icon );
+				$addons->set_plugin_name( $this->plugin_name );
 				$addons->output_header();
 				$navigation->output();
 				$addons->output();
@@ -159,6 +185,8 @@ class SettingsPage {
 				}
 				break;
 		}
+
+		return $this;
 	}
 
 	/**
