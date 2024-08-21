@@ -81,6 +81,9 @@ trait Layout {
 		wp_enqueue_style( 'krokedil-settings-page' );
 
 		?>
+		<?php if ( method_exists( $this, 'output_description' ) ) : ?>
+			<?php $this->output_description(); ?>
+		<?php endif; ?>
 		<div class="krokedil_settings__wrapper">
 			<?php $this->output_subsection(); ?>
 			<?php $this->output_sidebar(); ?>

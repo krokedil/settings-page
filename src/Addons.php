@@ -122,20 +122,31 @@ class Addons {
 		wp_enqueue_script( 'plugin-install' );
 		add_thickbox(); // Required for the plugin installer to work.
 
-		$addons      = $this->addons['items'];
-		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'krokedil-settings' );
-		// translators: %s is the plugin name.
-		$description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
+		$addons = $this->addons['items'];
 		?>
 		<div class="krokedil_addons">
 			<?php // translators: %s is the plugin name. ?>
-			<p><?php echo esc_html( $description ); ?></p>
 			<div class='krokedil_addons__cards'>
 				<?php foreach ( $addons as $addon ) : ?>
 					<?php $this->print_addon_card( $addon ); ?>
 				<?php endforeach; ?>
 			</div>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Output the description for the addons page.
+	 *
+	 * @return void
+	 */
+	public function output_description() {
+		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'krokedil-settings' );
+
+		// translators: %s is the plugin name.
+		$description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
+		?>
+		<p class="krokedil_addons__description"><?php echo esc_html( $description ); ?></p>
 		<?php
 	}
 
@@ -228,7 +239,13 @@ class Addons {
 				$link['class'] = ( $link['class'] ?? '' ) . ' disabled';
 				break;
 			case 'installed':
-				$text = __( 'Installed', 'krokedil-settings' );
+				$text          = __( 'Activate', 'krokedil-settings' );
+				$link['class'] = ( $link['class'] ?? '' ) . ' button-primary';
+				break;
+			case 'not-installed':
+				if ( 'wordpress' === $source ) { // phpcs:ignore
+					$text = __( 'Install Now', 'krokedil-settings' );
+				}
 				break;
 			default:
 				break;
