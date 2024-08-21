@@ -52,8 +52,11 @@ class Support {
 		// Load CSS.
 		wp_enqueue_style( 'krokedil-support-page' );
 
-		$system_report = wc_get_container()->get( \Automattic\WooCommerce\Utilities\RestApiUtil::class )->get_endpoint_data( '/wc/v3/system_status' );
-		$beacon_id     = '9c22f83e-3611-42aa-a148-1ca06de53566';
+		// If the WC Version is 9.1 or above, get the container for the RestAPiUtil, else us the WC()->api class property.
+		// @see https://github.com/woocommerce/woocommerce/blob/5690850e47284b3a9afd4e61dec01121159ca9e8/plugins/woocommerce/src/Internal/Utilities/LegacyRestApiStub.php#L183-L187.
+		$system_report = ( version_compare( WC_VERSION, '9.1', '<=' ) ) ? WC()->api->get_endpoint_data( '/wc/v3/system_status' ) : wc_get_container()->get( \Automattic\WooCommerce\Utilities\RestApiUtil::class )->get_endpoint_data( '/wc/v3/system_status' );
+
+		$beacon_id = '9c22f83e-3611-42aa-a148-1ca06de53566';
 
 		// Localize the support scrip.
 		wp_localize_script(
