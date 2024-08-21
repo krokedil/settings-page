@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-20T12:51:52+00:00\n"
+"POT-Creation-Date: 2024-08-21T07:13:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: krokedil-settings\n"
@@ -26,16 +26,20 @@ msgstr ""
 msgid "These are other plugins from Krokedil that work well together with %s."
 msgstr ""
 
-#: Addons.php:194
+#: Addons.php:196
 msgid "Free"
 msgstr ""
 
-#: Addons.php:225
+#: Addons.php:227
 msgid "Active"
 msgstr ""
 
-#: Addons.php:229
-msgid "Installed"
+#: Addons.php:231
+msgid "Activate"
+msgstr ""
+
+#: Addons.php:235
+msgid "Install Now"
 msgstr ""
 
 #: Navigation.php:55

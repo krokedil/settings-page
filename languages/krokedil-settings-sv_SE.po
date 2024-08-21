@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-20T12:51:52+00:00\n"
-"PO-Revision-Date: 2024-08-20 14:53+0200\n"
+"POT-Creation-Date: 2024-08-21T07:12:58+00:00\n"
+"PO-Revision-Date: 2024-08-21 09:13+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -27,17 +27,21 @@ msgid "These are other plugins from Krokedil that work well together with %s."
 msgstr ""
 "Här är andra tillägg från Krokedil som fungerar bra tillsammans med %s."
 
-#: Addons.php:194
+#: Addons.php:196
 msgid "Free"
 msgstr "Gratis"
 
-#: Addons.php:225
+#: Addons.php:227
 msgid "Active"
 msgstr "Aktiv"
 
-#: Addons.php:229
-msgid "Installed"
-msgstr "Installerad"
+#: Addons.php:231
+msgid "Activate"
+msgstr "Aktivera"
+
+#: Addons.php:235
+msgid "Install Now"
+msgstr "Installera nu"
 
 #: Navigation.php:55
 msgid "General"
