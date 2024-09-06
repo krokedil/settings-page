@@ -88,26 +88,68 @@ class Support {
 
 		$this->enqueue_scripts();
 
-		$links      = $this->support['links'];
-		$link_texts = $this->support['link_texts'];
+		$content = $this->support['content'];
 
 		?>
 		<div class='krokedil_support'>
 			<div class="krokedil_support__info">
 				<p><?php esc_html_e( 'Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem', 'krokedil-settings' ); ?>:</p>
-				<ul>
-					<?php foreach ( $links as $link ) : ?>
-						<li><?php echo wp_kses_post( self::get_link( $link ) ); ?></li>
-					<?php endforeach; ?>
-				</ul>
-				<div>
-					<?php foreach ( $link_texts as $link_text ) : ?>
-						<?php echo wp_kses_post( self::get_link_text( $link_text ) ); ?>
-					<?php endforeach; ?>
-				</div>
+				<?php foreach ( $content as $item ) : ?>
+					<?php echo wp_kses_post( $this->print_content( $item ) ); ?>
+				<?php endforeach; ?>
 				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket', 'krokedil-settings' ); ?></button>
 			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Print the content.
+	 *
+	 * @param array $item The item to print.
+	 * @param bool  $ignore_p_tag Whether to ignore the p tag.
+	 *
+	 * @return string
+	 */
+	public function print_content( $item, $ignore_p_tag = false ) {
+		$type = $item['type'];
+
+		$text = '';
+
+		switch ( $type ) {
+			case 'text':
+				$text = self::get_text( $item );
+				break;
+			case 'link':
+				$text = self::get_link( $item );
+				break;
+			case 'link_text':
+				$text = self::get_link_text( $item );
+				break;
+			case 'list':
+				$list_items = $item['items'];
+				$list       = '<ul class="krokedil_settings__list">';
+				foreach ( $list_items as $list_item ) {
+					$list .= '<li>';
+					$list .= $this->print_content( $list_item, true );
+					$list .= '</li>';
+				}
+				$list .= '</ul>';
+
+				$text = $list;
+				break;
+			case 'spacer':
+				$ignore_p_tag = true;
+				$text         = '<div class="krokedil_settings__spacer"></div>';
+				break;
+			default:
+				return '';
+		}
+
+		if ( $ignore_p_tag ) {
+			return $text;
+		}
+
+		return '<p>' . $text . '</p>';
 	}
 }

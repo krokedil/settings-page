@@ -129,4 +129,15 @@ trait Subsection {
 			$src
 		);
 	}
+
+	/**
+	 * Get a text based on locale.
+	 *
+	 * @param array $text Text to output.
+	 *
+	 * @return string
+	 */
+	protected static function get_text( $text ) {
+		return $text[ self::get_locale() ] ?? $text['text']['en'] ?? '';
+	}
 }

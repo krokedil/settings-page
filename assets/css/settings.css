@@ -120,3 +120,16 @@
     margin-left: 20px;
     margin-right: 20px;
 }
+
+ul.krokedil_settings__list {
+    list-style-type: unset;
+    margin-top: 0;
+}
+
+ul.krokedil_settings__list li {
+    margin-left: 30px;
+}
+
+div.krokedil_settings__spacer {
+    margin-top: 25px;
+}
