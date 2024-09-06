@@ -14,7 +14,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
 }
 
 @media only screen and (min-width: 992px) {
@@ -68,4 +68,8 @@
 
 .krokedil_addons__read_more, .krokedil_addons__price {
     margin-top: 5px;
+}
+
+.krokedil_settings__wrapper p.submit {
+    display:none;
 }

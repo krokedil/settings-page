@@ -1,7 +1,6 @@
 .krokedil_support {
     display: grid;
     grid-template-rows: auto repeat(2, auto);
-    gap: 40px;
 }
 
 .krokedil_support__section {
@@ -27,4 +26,8 @@
 
 .krokedil_support__info p {
     margin: 0.5em 0;
+}
+
+.krokedil_settings__wrapper p.submit {
+    display:none;
 }

@@ -37,7 +37,7 @@
 
 @media only screen and (max-width: 840px) {
     .krokedil_settings__sidebar {
-        margin: 0 auto;
+        /*margin: 0 auto;*/
     }
 
     .krokedil_settings__wrapper {
