@@ -97,7 +97,7 @@ class Support {
 				<?php foreach ( $content as $item ) : ?>
 					<?php echo wp_kses_post( $this->print_content( $item ) ); ?>
 				<?php endforeach; ?>
-				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket', 'krokedil-settings' ); ?></button>
+				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
 			</div>
 		</div>
 		<?php

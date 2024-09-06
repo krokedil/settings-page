@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-21T07:13:09+00:00\n"
+"POT-Creation-Date: 2024-09-06T13:27:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: krokedil-settings\n"
@@ -17,28 +17,28 @@ msgstr ""
 msgid "Addons"
 msgstr ""
 
-#: Addons.php:126
+#: Addons.php:144
 msgid "the plugin"
 msgstr ""
 
 #. translators: %s is the plugin name.
-#: Addons.php:128
+#: Addons.php:147
 msgid "These are other plugins from Krokedil that work well together with %s."
 msgstr ""
 
-#: Addons.php:196
+#: Addons.php:207
 msgid "Free"
 msgstr ""
 
-#: Addons.php:227
+#: Addons.php:238
 msgid "Active"
 msgstr ""
 
-#: Addons.php:231
+#: Addons.php:242
 msgid "Activate"
 msgstr ""
 
-#: Addons.php:235
+#: Addons.php:247
 msgid "Install Now"
 msgstr ""
 
@@ -51,12 +51,12 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: Support.php:94
+#: Support.php:96
 msgid "Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem"
 msgstr ""
 
-#: Support.php:105
-msgid "Open support ticket"
+#: Support.php:100
+msgid "Open support ticket with Krokedil"
 msgstr ""
 
 #: Traits/Sidebar.php:27
