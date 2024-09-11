@@ -1,7 +1,6 @@
 .krokedil_support {
     display: grid;
     grid-template-rows: auto repeat(2, auto);
-    gap: 40px;
 }
 
 .krokedil_support__section {
@@ -16,11 +15,19 @@
     font-weight: 700;
 }
 
+.krokedil_support__info {
+    max-width: 900px;
+}
+
 .krokedil_support__form label span {
     font-size: 12px;
     font-weight: 300;
 }
 
-.krokedil_support__info p:first-of-type {
-    margin-top: 0;
+.krokedil_support__info p {
+    margin: 0.5em 0;
+}
+
+.krokedil_settings__wrapper p.submit {
+    display:none;
 }

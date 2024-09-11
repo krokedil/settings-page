@@ -22,8 +22,14 @@
     "minimum-stability": "dev",
     "require": {},
     "config": {
+        "platform": {
+            "php": "7.4"
+        },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "scripts": {
+        "makepot": "wp --allow-root i18n make-pot ./src ./languages/krokedil-settings.pot --domain=krokedil-settings"
     }
 }
