@@ -35,12 +35,14 @@ class Addons {
 	/**
 	 * Class constructor.
 	 *
-	 * @param array $addons Addons for the page.
-	 * @param array $sidebar Sidebar content.
-	 *
+	 * @param array                    $addons Addons for the page.
+	 * @param array                    $sidebar Sidebar content.
+	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
+
 	 * @return void
 	 */
-	public function __construct( $addons, $sidebar ) {
+	public function __construct( $addons, $sidebar, $gateway = null ) {
+		$this->gateway = $gateway;
 		$this->title   = __( 'Addons', 'krokedil-settings' );
 		$this->addons  = $addons;
 		$this->sidebar = $sidebar;
@@ -121,16 +123,30 @@ class Addons {
 		add_thickbox(); // Required for the plugin installer to work.
 
 		$addons = $this->addons['items'];
-
 		?>
 		<div class="krokedil_addons">
-			<p>These are other plugins from Krokedil that work well together with the plugin.</p>
+			<?php // translators: %s is the plugin name. ?>
 			<div class='krokedil_addons__cards'>
 				<?php foreach ( $addons as $addon ) : ?>
 					<?php $this->print_addon_card( $addon ); ?>
 				<?php endforeach; ?>
 			</div>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Output the description for the addons page.
+	 *
+	 * @return void
+	 */
+	public function output_description() {
+		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'krokedil-settings' );
+
+		// translators: %s is the plugin name.
+		$description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
+		?>
+		<p class="krokedil_addons__description"><?php echo esc_html( $description ); ?></p>
 		<?php
 	}
 
@@ -142,13 +158,11 @@ class Addons {
 	 * @return void
 	 */
 	public function print_addon_card( $addon ) {
-		$title       = $addon['title'];
-		$link        = self::get_link( $addon['link'] ?? array() );
+		$title     = $addon['title'];
+		$read_more = $addon['links']['read_more'] ?? array();
+
 		$description = self::get_description( $addon['description'] );
 		$image       = self::get_image( $addon['image'] ?? array() );
-		$active      = self::is_plugin_active( $addon['slug'] );
-		$installed   = self::is_plugin_installed( $addon['slug'] );
-		$status      = $active ? __( 'Active', 'krokedil-settings' ) : ( $installed ? __( 'Installed', 'krokedil-settings' ) : 'not-installed' );
 
 		?>
 		<div class="krokedil_addons__card">
@@ -157,18 +171,98 @@ class Addons {
 			</div>
 			<div class="krokedil_addons__card_content">
 				<h3 class="krokedil_addons__card_title"><?php echo esc_html( $title ); ?></h3>
-				<p class="krokedil_addons__card_description"><?php echo wp_kses_post( $description ); ?></p>
+				<p class="krokedil_addons__card_description"><?php echo wp_kses_post( $description ); ?>
+					<br />
+					<span class='krokedil_addons__read_more'>
+						<?php echo wp_kses_post( self::get_link( $read_more ) ); ?>
+					</span>
+				</p>
 			</div>
-			<div class="krokedil_addons__card_action">
-				<span class='krokedil_addons__read_more'>
-					<?php if ( 'not-installed' !== $status ) : ?>
-						<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>" class="button button-primary"><?php echo esc_html( $status ); ?></a>
-					<?php else : ?>
-						<?php echo wp_kses_post( $link ); ?>
-					<?php endif; ?>
-				</span>
-			</div>
+			<?php $this->print_addon_actions( $addon ); ?>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Print the action buttons/links for the addon card.
+	 *
+	 * @param array $addon Addon data.
+	 *
+	 * @return void
+	 */
+	public function print_addon_actions( $addon ) {
+		$buy_now = $addon['links']['buy_now'] ?? array();
+		$price   = $addon['price'] ?? array();
+		$source  = $addon['source'] ?? '';
+		$slug    = $addon['slug'] ?? '';
+
+		if ( empty( $slug ) ) {
+			return;
+		}
+
+		// If the locale is swedish, then use the sek price. Else use the eur price.
+		if ( ! empty( $price ) ) {
+			$price = 'sv' === self::get_locale() ? $price['sek'] : $price['eur'];
+		} else {
+			$price = __( 'Free', 'krokedil-settings' );
+		}
+
+		$active    = self::is_plugin_active( $addon['slug'] );
+		$installed = self::is_plugin_installed( $addon['slug'] );
+		$status    = $active ? 'active' : ( $installed ? 'installed' : 'not-installed' );
+
+		?>
+		<div class="krokedil_addons__card_action">
+			<span class='krokedil_addons__price'><b><?php echo esc_html( $price ); ?></b></span>
+			<?php self::get_action_button( $buy_now, $status, $source, $slug ); ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Get the action button for the plugin based on the status.
+	 *
+	 * @param array  $link The link resource.
+	 * @param string $status The status of the plugin.
+	 * @param string $source The plugin source.
+	 * @param string $slug The plugin slug.
+	 *
+	 * @return void
+	 */
+	protected static function get_action_button( $link, $status, $source, $slug ) {
+		$plugin_page_url = add_query_arg( 's', $slug, home_url( '/wp-admin/plugins.php' ) );
+		$text            = $link['text'] ?? '';
+
+		switch ( $status ) {
+			case 'active':
+				$text          = __( 'Active', 'krokedil-settings' );
+				$link['class'] = ( $link['class'] ?? '' ) . ' disabled';
+				break;
+			case 'installed':
+				$text          = __( 'Activate', 'krokedil-settings' );
+				$link['class'] = ( $link['class'] ?? '' ) . ' button-primary';
+				break;
+			case 'not-installed':
+				if ( 'wordpress' === $source ) { // phpcs:ignore
+					$text = __( 'Install Now', 'krokedil-settings' );
+				}
+				break;
+			default:
+				break;
+		}
+
+		$link['text'] = $text;
+		if ( 'wordpress' !== $source && 'not-installed' !== $status ) { // phpcs:ignore
+			foreach ( $link['href'] as $key => $value ) {
+				$link['href'][ $key ] = $plugin_page_url;
+				$link['target']       = '';
+			}
+		}
+
+		?>
+		<span class='krokedil_addons__buy_now'>
+			<?php echo wp_kses_post( self::get_link( $link ) ); ?>
+		</span>
 		<?php
 	}
 }

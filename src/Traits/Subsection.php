@@ -55,8 +55,12 @@ trait Subsection {
 	 * @return string
 	 */
 	protected static function get_link( $link ) {
-		$href = $link['href'][ self::get_locale() ] ?? $link['href']['en'] ?? '';
+		$href = $link['href'] ?? '';
 		$text = $link['text'] ?? '';
+
+		if ( is_array( $href ) ) {
+			$href = $link['href'][ self::get_locale() ] ?? $link['href']['en'] ?? '';
+		}
 
 		if ( is_array( $text ) ) {
 			$text = $text[ self::get_locale() ] ?? $text['en'] ?? '';
@@ -72,7 +76,7 @@ trait Subsection {
 			esc_url( $href ),
 			esc_attr( $link['class'] ?? '' ),
 			esc_attr( $link['target'] ?? '' ),
-			esc_attr( $link['text'] ?? '' ),
+			esc_attr( $text ?? '' ),
 			esc_html( $text )
 		);
 	}
@@ -124,5 +128,16 @@ trait Subsection {
 			$src,
 			$src
 		);
+	}
+
+	/**
+	 * Get a text based on locale.
+	 *
+	 * @param array $text Text to output.
+	 *
+	 * @return string
+	 */
+	protected static function get_text( $text ) {
+		return $text[ self::get_locale() ] ?? $text['text']['en'] ?? '';
 	}
 }

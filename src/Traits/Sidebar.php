@@ -17,6 +17,8 @@ trait Sidebar {
 	public function output_sidebar() {
 		$plugin_resources     = $this->sidebar['plugin_resources']['links'];
 		$additional_resources = $this->sidebar['additional_resources']['links'];
+		$krokedil_url         = get_locale() === 'sv_SE' ? 'https://krokedil.se/' : 'https://krokedil.com/';
+
 		// Get the locale of the site but convert it to lowercase 2 letter language code.
 		?>
 			<div class="krokedil_settings__sidebar">
@@ -45,8 +47,10 @@ trait Sidebar {
 						<p class="krokedil_settings__sidebar_subtext">
 							Developed by:
 						</p>
-						<img class="krokedil_settings__sidebar_logo"
-							src="https://krokedil.se/wp-content/uploads/2020/05/webb_logo_400px.png">
+						<a class="no-external-icon" href="<?php echo esc_url( $krokedil_url ); ?>" target="_blank">
+							<img class="krokedil_settings__sidebar_logo"
+								src="https://krokedil.se/wp-content/uploads/2020/05/webb_logo_400px.png">
+						</a>
 					</div>
 			</div>
 		<?php
