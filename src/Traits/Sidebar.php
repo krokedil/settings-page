@@ -33,10 +33,19 @@ trait Sidebar {
 								</span>
 							<?php endforeach; ?>
 						</p>
+						<h1 class="krokedil_settings__sidebar_title"><?php echo esc_html( __( 'Additional resources', 'krokedil-settings' ) ); ?></h1>
+						<p class="krokedil_settings__sidebar_main_text">
+							<?php foreach ( $additional_resources as $link ) : ?>
+								<span>
+									&raquo;
+									<?php echo wp_kses_post( self::get_link( $link ) ); ?>
+								</span>
+							<?php endforeach; ?>
+						</p>
 					</div>
 					<div class="krokedil_settings__sidebar_footer">
 						<p class="krokedil_settings__sidebar_subtext">
-							Developed for Klarna by Krokedil:
+							Developed by:
 						</p>
 						<a class="no-external-icon" href="<?php echo esc_url( $krokedil_url ); ?>" target="_blank">
 							<img class="krokedil_settings__sidebar_logo"
