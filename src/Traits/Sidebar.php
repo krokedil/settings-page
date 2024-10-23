@@ -10,6 +10,46 @@ trait Sidebar {
 	protected $sidebar = array();
 
 	/**
+	 * Output the developed by text.
+	 *
+	 * @return void
+	 */
+	public function output_developed_by() {
+		$default_text = 'Developed by:';
+		$developed_by = $this->sidebar['developed_by'] ?? $default_text;
+		$krokedil_url = get_locale() === 'sv_SE' ? 'https://krokedil.se/' : 'https://krokedil.com/';
+
+		if ( is_string( $developed_by ) || ! is_array( $developed_by ) ) {
+			?>
+			<div class="krokedil_settings__sidebar_footer_krokedil">
+				<p class="krokedil_settings__sidebar_subtext"><?php echo esc_html( $default_text ); ?></p>
+				<a class="no-external-icon" href="<?php echo esc_url( $krokedil_url ); ?>" target="_blank">
+					<img class="krokedil_settings__sidebar_logo" src="https://krokedil.se/wp-content/uploads/2020/05/webb_logo_400px.png" />
+				</a>
+			</div>
+			<?php
+			return;
+		}
+
+		$for  = $developed_by['for'] ?? 'Developed for';
+		$by   = $developed_by['by'] ?? 'by';
+		$logo = $developed_by['logo'] ?? null;
+
+		?>
+			<div class="krokedil_settings__sidebar_footer">
+				<p class="krokedil_settings__sidebar_subtext"><?php echo esc_html( $for ); ?></p>
+				<?php if ( $logo ) : ?>
+					<img class="krokedil_settings__sidebar_logo" src="<?php echo esc_attr( $logo ); ?>" />
+				<?php endif; ?>
+				<p class="krokedil_settings__sidebar_subtext"><?php echo esc_html( $by ); ?></p>
+				<a class="no-external-icon" href="<?php echo esc_url( $krokedil_url ); ?>" target="_blank">
+					<img class="krokedil_settings__sidebar_logo" src="https://krokedil.se/wp-content/uploads/2020/05/webb_logo_400px.png" />
+				</a>
+			</div>
+		<?php
+	}
+
+	/**
 	 * Output the Sidebar.
 	 *
 	 * @return void
@@ -17,8 +57,6 @@ trait Sidebar {
 	public function output_sidebar() {
 		$plugin_resources     = $this->sidebar['plugin_resources']['links'] ?? array();
 		$additional_resources = $this->sidebar['additional_resources']['links'] ?? array();
-		$krokedil_url         = get_locale() === 'sv_SE' ? 'https://krokedil.se/' : 'https://krokedil.com/';
-		$developed_by         = $this->sidebar['developed_by'] ?? 'Developed by:';
 
 		// Get the locale of the site but convert it to lowercase 2 letter language code.
 		?>
@@ -50,16 +88,7 @@ trait Sidebar {
 							</p>
 						<?php endif; ?>
 					</div>
-					
-					<div class="krokedil_settings__sidebar_footer">
-						<p class="krokedil_settings__sidebar_subtext">
-							<?php echo esc_html( $developed_by ); ?>
-						</p>
-						<a class="no-external-icon" href="<?php echo esc_url( $krokedil_url ); ?>" target="_blank">
-							<img class="krokedil_settings__sidebar_logo"
-								src="https://krokedil.se/wp-content/uploads/2020/05/webb_logo_400px.png">
-						</a>
-					</div>
+					<?php $this->output_developed_by(); ?>
 				</div>
 		<?php
 	}
