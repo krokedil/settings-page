@@ -53,7 +53,7 @@ class SettingsPage {
 		$filename = dirname( __DIR__ ) . '/languages/krokedil-settings-' . get_locale() . '.mo';
 
 		if ( file_exists( $filename ) ) {
-			load_textdomain( 'krokedil-settings', $filename );
+			load_textdomain( 'klarna-payments-for-woocommerce', $filename );
 		}
 	}
 

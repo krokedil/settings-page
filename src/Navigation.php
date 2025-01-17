@@ -52,15 +52,15 @@ class Navigation {
 		$current_subsection = $this->get_current_subsection();
 		$extra_subsections  = $this->args['extra_subsections'] ?? array();
 		$tabs               = array(
-			'general' => __( 'General', 'krokedil-settings' ),
+			'general' => __( 'General', 'klarna-payments-for-woocommerce' ),
 		);
 
 		if ( ! empty( $this->args['support'] ?? array() ) ) {
-			$tabs['support'] = __( 'Support', 'krokedil-settings' );
+			$tabs['support'] = __( 'Support', 'klarna-payments-for-woocommerce' );
 		}
 
 		if ( ! empty( $this->args['addons'] ?? array() ) ) {
-			$tabs['addons'] = __( 'Addons', 'krokedil-settings' );
+			$tabs['addons'] = __( 'Addons', 'klarna-payments-for-woocommerce' );
 		}
 
 		foreach ( $extra_subsections as $key => $subsection ) {

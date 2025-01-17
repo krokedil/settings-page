@@ -43,7 +43,7 @@ class Addons {
 	 */
 	public function __construct( $addons, $sidebar, $gateway = null ) {
 		$this->gateway = $gateway;
-		$this->title   = __( 'Addons', 'krokedil-settings' );
+		$this->title   = __( 'Addons', 'klarna-payments-for-woocommerce' );
 		$this->addons  = $addons;
 		$this->sidebar = $sidebar;
 
@@ -141,10 +141,10 @@ class Addons {
 	 * @return void
 	 */
 	public function output_description() {
-		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'krokedil-settings' );
+		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'klarna-payments-for-woocommerce' );
 
 		// translators: %s is the plugin name.
-		$description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
+		$description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'klarna-payments-for-woocommerce' ), $plugin_name );
 		?>
 		<p class="krokedil_addons__description"><?php echo esc_html( $description ); ?></p>
 		<?php
@@ -204,7 +204,7 @@ class Addons {
 		if ( ! empty( $price ) ) {
 			$price = 'sv' === self::get_locale() ? $price['sek'] : $price['eur'];
 		} else {
-			$price = __( 'Free', 'krokedil-settings' );
+			$price = __( 'Free', 'klarna-payments-for-woocommerce' );
 		}
 
 		$active    = self::is_plugin_active( $addon['slug'] );
@@ -235,16 +235,16 @@ class Addons {
 
 		switch ( $status ) {
 			case 'active':
-				$text          = __( 'Active', 'krokedil-settings' );
+				$text          = __( 'Active', 'klarna-payments-for-woocommerce' );
 				$link['class'] = ( $link['class'] ?? '' ) . ' disabled';
 				break;
 			case 'installed':
-				$text          = __( 'Activate', 'krokedil-settings' );
+				$text          = __( 'Activate', 'klarna-payments-for-woocommerce' );
 				$link['class'] = ( $link['class'] ?? '' ) . ' button-primary';
 				break;
 			case 'not-installed':
 				if ( 'wordpress' === $source ) { // phpcs:ignore
-					$text = __( 'Install Now', 'krokedil-settings' );
+					$text = __( 'Install Now', 'klarna-payments-for-woocommerce' );
 				}
 				break;
 			default:

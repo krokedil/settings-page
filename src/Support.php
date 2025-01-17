@@ -28,7 +28,7 @@ class Support {
 	 * @return void
 	 */
 	public function __construct( $support, $sidebar, $gateway = null ) {
-		$this->title   = __( 'Support', 'krokedil-settings' );
+		$this->title   = __( 'Support', 'klarna-payments-for-woocommerce' );
 		$this->gateway = $gateway;
 		$this->support = $support;
 		$this->sidebar = $sidebar;
@@ -100,11 +100,11 @@ class Support {
 		?>
 		<div class='krokedil_support'>
 			<div class="krokedil_support__info">
-				<p><?php esc_html_e( 'Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem', 'krokedil-settings' ); ?>:</p>
+				<p><?php esc_html_e( 'Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem', 'klarna-payments-for-woocommerce' ); ?>:</p>
 				<?php foreach ( $content as $item ) : ?>
 					<?php echo wp_kses_post( $this->print_content( $item ) ); ?>
 				<?php endforeach; ?>
-				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
+				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'klarna-payments-for-woocommerce' ); ?></button>
 			</div>
 		</div>
 		<?php
