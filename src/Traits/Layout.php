@@ -64,7 +64,7 @@ trait Layout {
 			<div class="krokedil_settings__header_text">
 				<h2 class="krokedil_settings__header_title">
 					<?php echo esc_html( $this->gateway->get_method_title() ); ?>
-					<?php wc_back_link( __( 'Return to payments', 'woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ); //phpcs:ignore ?>
+					<?php wc_back_link( __( 'Return to payments', 'klarna-payments-for-woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ); //phpcs:ignore ?>
 				</h2>
 				<p class="krokedil_settings__header_description"><?php echo esc_html( $this->gateway->get_method_description() ); ?></p>
 			</div>
