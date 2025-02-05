@@ -71,7 +71,7 @@ class Gateway {
 	public function output_page_content() {
 		?>
 		<table class="form-table">
-			<?php echo $this->gateway->generate_settings_html( $this->gateway->get_form_fields(), false ); //phpcs:ignore ?>
+			<?php echo esc_html( $this->gateway->generate_settings_html( $this->gateway->get_form_fields(), false ) ); ?>
 		</table>
 		<?php
 	}

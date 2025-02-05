@@ -55,6 +55,6 @@ class Page {
 	 * @return void
 	 */
 	public function output_page_content() {
-		echo $this->content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo esc_html( $this->content );
 	}
 }
