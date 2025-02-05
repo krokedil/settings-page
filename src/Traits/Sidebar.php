@@ -24,7 +24,7 @@ trait Sidebar {
 			<div class="krokedil_settings__sidebar_footer_krokedil">
 				<p class="krokedil_settings__sidebar_subtext"><?php echo esc_html( $default_text ); ?></p>
 				<a class="no-external-icon" href="<?php echo esc_url( $krokedil_url ); ?>" target="_blank">
-					<img class="krokedil_settings__sidebar_logo" src="https://krokedil.se/wp-content/uploads/2020/05/webb_logo_400px.png" />
+					<img class="krokedil_settings__sidebar_logo" src="<?php echo esc_url( plugins_url( 'assets/img/krokedil-logo.png', __DIR__ ) ); ?>" />
 				</a>
 			</div>
 			<?php
@@ -43,7 +43,7 @@ trait Sidebar {
 				<?php endif; ?>
 				<p class="krokedil_settings__sidebar_subtext"><?php echo esc_html( $by ); ?></p>
 				<a class="no-external-icon" href="<?php echo esc_url( $krokedil_url ); ?>" target="_blank">
-					<img class="krokedil_settings__sidebar_logo" src="https://krokedil.se/wp-content/uploads/2020/05/webb_logo_400px.png" />
+					<img class="krokedil_settings__sidebar_logo" src="<?php echo esc_url( plugins_url( 'assets/img/krokedil-logo.png', __DIR__ ) ); ?>" />
 				</a>
 			</div>
 		<?php

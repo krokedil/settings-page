@@ -167,7 +167,7 @@ class Addons {
 		?>
 		<div class="krokedil_addons__card">
 			<div class="krokedil_addons__card_image">
-				<?php echo $image; // phpcs:ignore ?>
+				<?php echo esc_html( $image ); ?>
 			</div>
 			<div class="krokedil_addons__card_content">
 				<h3 class="krokedil_addons__card_title"><?php echo esc_html( $title ); ?></h3>
