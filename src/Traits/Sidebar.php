@@ -10,6 +10,13 @@ trait Sidebar {
 	protected $sidebar = array();
 
 	/**
+	 * Locale of the site.
+	 *
+	 * @var string
+	 */
+	protected static $locale = '';
+
+	/**
 	 * Output the developed by text.
 	 *
 	 * @return void
@@ -31,8 +38,8 @@ trait Sidebar {
 			return;
 		}
 
-		$for  = $developed_by['for'] ?? 'Developed for';
-		$by   = $developed_by['by'] ?? 'by';
+		$for  = isset( $developed_by['for'] ) ? self::get_text( $developed_by['for'] ) : 'Developed for';
+		$by   = isset( $developed_by['by'] ) ? self::get_text( $developed_by['by'] ) : 'by';
 		$logo = $developed_by['logo'] ?? null;
 
 		?>
@@ -91,5 +98,34 @@ trait Sidebar {
 					<?php $this->output_developed_by(); ?>
 				</div>
 		<?php
+	}
+
+	/**
+	 * Get a text based on locale.
+	 *
+	 * @param array $text Text to output.
+	 *
+	 * @return string
+	 */
+	protected static function get_text( $text ) {
+		return $text[ self::get_locale() ] ?? $text['text']['en'] ?? '';
+	}
+
+	/**
+	 * Get the locale of the site.
+	 *
+	 * @return string
+	 */
+	protected static function get_locale() {
+		if ( ! empty( self::$locale ) ) {
+			return self::$locale;
+		}
+
+		$locale = get_locale();
+		$locale = strtolower( substr( $locale, 0, 2 ) );
+
+		self::$locale = $locale;
+
+		return $locale;
 	}
 }
