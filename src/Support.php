@@ -100,7 +100,11 @@ class Support {
 		?>
 		<div class='krokedil_support'>
 			<div class="krokedil_support__info">
-				<p><?php esc_html_e( 'Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem', 'krokedil-settings' ); ?>:</p>
+				<?php
+				$default_description = esc_html( 'Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem:', 'krokedil-settings' );
+				$description         = $this->support['description'] ? self::get_description( $this->support['description'] ) : $default_description;
+				?>
+				<p><?php echo $description; ?></p>
 				<?php foreach ( $content as $item ) : ?>
 					<?php echo wp_kses_post( $this->print_content( $item ) ); ?>
 				<?php endforeach; ?>

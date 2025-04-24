@@ -144,8 +144,7 @@ class Addons {
 		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'krokedil-settings' );
 
 		// translators: %s is the plugin name.
-		$default_description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
-		$description         = $this->addons['description'] ? self::get_description( $this->addons['description'] ) : $default_description;
+		$description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
 		?>
 		<p class="krokedil_addons__description"><?php echo esc_html( $description ); ?></p>
 		<?php

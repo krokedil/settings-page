@@ -111,7 +111,7 @@ trait Subsection {
 	 * @return string
 	 */
 	protected static function get_description( $description ) {
-		return $description[ self::get_locale() ] ?? $description['en'] ?? '';
+		return $description['text'][ self::get_locale() ] ?? $description['text']['en'] ?? '';
 	}
 
 	/**
@@ -138,6 +138,6 @@ trait Subsection {
 	 * @return string
 	 */
 	protected static function get_text( $text ) {
-		return $text[ self::get_locale() ] ?? $text['text']['en'] ?? '';
+		return $text['text'][ self::get_locale() ] ?? $text['text']['en'] ?? '';
 	}
 }
