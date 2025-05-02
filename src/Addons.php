@@ -143,21 +143,6 @@ class Addons {
 	}
 
 	/**
-	 * Output the description for the addons page.
-	 *
-	 * @return void
-	 */
-	public function output_description() {
-		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'krokedil-settings' );
-		// translators: %s is the plugin name.
-		$default_description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
-		$description         = $this->addons['description'] ? self::get_description( $this->addons['description'] ) : $default_description;
-		?>
-		<p class="krokedil_addons__description"><?php echo esc_html( $description ); ?></p>
-		<?php
-	}
-
-	/**
 	 * Print the output for a single addon card.
 	 *
 	 * @param array $addon Addon data.
