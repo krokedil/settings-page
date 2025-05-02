@@ -90,7 +90,7 @@ trait Subsection {
 	 */
 	protected static function get_link_text( $link_text ) {
 		$link = $link_text['link'] ?? array();
-		$text = $link_text['text'][ self::get_locale() ] ?? $link_text['text']['en'] ?? '';
+		$text = $link_text[ self::get_locale() ] ?? $link_text['en'] ?? '';
 
 		// If text or link is empty, return.
 		if ( empty( $text ) ) {
@@ -111,7 +111,7 @@ trait Subsection {
 	 * @return string
 	 */
 	protected static function get_description( $description ) {
-		return $description['text'][ self::get_locale() ] ?? $description['text']['en'] ?? '';
+		return $description[ self::get_locale() ] ?? $description['en'] ?? '';
 	}
 
 	/**
@@ -138,6 +138,6 @@ trait Subsection {
 	 * @return string
 	 */
 	protected static function get_text( $text ) {
-		return $text['text'][ self::get_locale() ] ?? $text['text']['en'] ?? '';
+		return $text[ self::get_locale() ] ?? $text['en'] ?? '';
 	}
 }
