@@ -225,15 +225,15 @@ div.krokedil_settings__spacer {
 	flex-wrap: wrap;
 }
 
-.krokedil_settings__wrapper .krokedil_settings__content {
+.krokedil_settings__gateway_page .krokedil_settings__wrapper .krokedil_settings__content {
 	flex: 1;
+    flex-wrap: wrap;
 }
 
 .krokedil_settings__wrapper  .krokedil_settings__sidebar {
-	order: -1;
-	background: none;
-	border: none;
-	padding: 0;
-	display: block;
-	min-width: 250px;
+	
+}
+
+.krokedil_settings__wrapper .krokedil_settings__page_navigation {
+    min-width: 250px;
 }

@@ -257,6 +257,7 @@ class SettingsPage {
 	public static function section_start( $html, $key, $section ) {
 		ob_start();
 		?>
+		</table>
 		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section">
 			<div class="krokedil_settings__section_header">
 				<span class="krokedil_settings__section_toggle dashicons dashicons-arrow-down-alt2"></span>
