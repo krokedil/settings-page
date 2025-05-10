@@ -47,18 +47,17 @@ class Gateway {
 	 */
 	public function output() {
 		wp_enqueue_style( 'krokedil-settings-page' );
+		wp_enqueue_script( 'krokedil-settings-page' );
 		?>
 		<?php $this->output_header(); ?>
 		<?php SettingsPage::get_instance()->navigation( $this->gateway->id )->output(); ?>
 		<div class="krokedil_settings__gateway_page">
-			<div class="krokedil_settings__wrapper">
 				<?php
 				$this->output_subsection();
 				?>
 				<?php
 				$this->output_sidebar();
 				?>
-			</div>
 		</div>
 		<?php
 	}

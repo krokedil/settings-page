@@ -22,7 +22,26 @@ trait Subsection {
 	 * @return void
 	 */
 	public function output_subsection() {
+		$settings = array_filter(
+			$this->gateway->get_form_fields(),
+			function ( $field ) {
+				return isset( $field['type'] ) && 'section_start' === $field['type'];
+			}
+		);
 		?>
+		<div class="krokedil_settings__page_navigation">
+			<?php
+			foreach ( $settings as $setting ) {
+				?>
+				<p>
+					<a href="#<?php echo esc_attr( $setting['id'] ); ?>" class="krokedil_settings__page_navigation_link">
+						<?php echo esc_html( $setting['title'] ); ?>
+					</a>
+				</p>
+				<?php
+			}
+			?>
+		</div>
 		<div class="krokedil_settings__content">
 			<?php $this->output_page_content(); ?>
 		</div>

@@ -42,6 +42,9 @@ class SettingsPage {
 	public function init() {
 		$this->load_textdomain();
 		$this->register_scripts();
+
+		add_filter( 'woocommerce_generate_section_start_html', array( __CLASS__, 'section_start' ), 10, 3 );
+		add_filter( 'woocommerce_generate_section_end_html', array( __CLASS__, 'section_end' ), 10, 3 );
 	}
 
 	/**
@@ -89,6 +92,14 @@ class SettingsPage {
 			plugin_dir_url( __FILE__ ) . '../assets/js/support.js',
 			array( 'jquery' ),
 			filemtime( __DIR__ . '/../assets/js/support.js' ),
+			false,
+		);
+
+		wp_register_script(
+			'krokedil-settings-page',
+			plugin_dir_url( __FILE__ ) . '../assets/js/settings.js',
+			array( 'jquery' ),
+			filemtime( __DIR__ . '/../assets/js/settings.js' ),
 			false,
 		);
 	}
@@ -232,5 +243,53 @@ class SettingsPage {
 		}
 
 		return $this->pages[ $id ]['addons'];
+	}
+
+	/**
+	 * Get the HTML as a string for a Klarna Payments section start.
+	 *
+	 * @param string $html The HTML to append the section start to.
+	 * @param string $key The key for the section.
+	 * @param array  $section The arguments for the section.
+	 *
+	 * @return string
+	 */
+	public static function section_start( $html, $key, $section ) {
+		ob_start();
+		?>
+		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section">
+			<div class="krokedil_settings__section_header">
+				<span class="krokedil_settings__section_toggle dashicons dashicons-arrow-down-alt2"></span>
+				<h3 class="krokedil_settings__section_title">
+					<?php echo esc_html( $section['title'] ); ?>
+				</h3>
+				<div class="krokedil_settings__section_description">
+					<p><?php echo esc_html( $section['description'] ?? '' ); ?></p>
+				</div>
+			</div>
+
+			<div class="krokedil_settings__section_content">
+				<table class="form-table">
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * Get the HTML as a string for a Klarna Payments section end.
+	 *
+	 * @param string $html The HTML to append the section end to.
+	 * @param string $key The key for the section end.
+	 * @param array  $section The arguments for the section.
+	 *
+	 * @return string
+	 */
+	public static function section_end( $html, $key, $section ) {
+		ob_start();
+		?>
+		</table>
+			</div>
+				</div>
+		<?php
+		return ob_get_clean();
 	}
 }
