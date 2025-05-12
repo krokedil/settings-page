@@ -19,31 +19,40 @@ trait Subsection {
 	/**
 	 * Output the Subsection.
 	 *
+	 * @param bool $show_settings_navigation Whether to display the settings navigation.
 	 * @return void
 	 */
-	public function output_subsection() {
+	public function output_subsection( $show_settings_navigation = false ) {
 		$settings = array_filter(
 			$this->gateway->get_form_fields(),
 			function ( $field ) {
 				return isset( $field['type'] ) && 'section_start' === $field['type'];
 			}
 		);
-		?>
-		<div class="krokedil_settings__page_navigation">
+
+		if ( $show_settings_navigation ) { ?>
+			<div class="krokedil_settings__settings_navigation">
+				<h3><?php esc_html_e( 'Page Navigation', 'krokedil-settings' ); ?></h3>
+					<?php
+					foreach ( $settings as $setting ) {
+						?>
+						<p>
+							<span>
+								&raquo;
+								<a href="#<?php echo esc_attr( $setting['id'] ); ?>" class="krokedil_settings__settings_navigation_link">
+									<?php echo esc_html( $setting['title'] ); ?>
+								</a>
+							</span>
+						</p>
+						<?php
+					}
+					?>
+			</div>
 			<?php
-			foreach ( $settings as $setting ) {
-				?>
-				<p>
-					<a href="#<?php echo esc_attr( $setting['id'] ); ?>" class="krokedil_settings__page_navigation_link">
-						<?php echo esc_html( $setting['title'] ); ?>
-					</a>
-				</p>
-				<?php
-			}
-			?>
-		</div>
+		}
+		?>
 		<div class="krokedil_settings__content">
-			<?php $this->output_page_content(); ?>
+		<?php $this->output_page_content(); ?>
 		</div>
 		<?php
 	}

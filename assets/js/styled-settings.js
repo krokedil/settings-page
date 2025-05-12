@@ -1,11 +1,11 @@
 jQuery(function ($) {
-    const krokedil_settings = {
+    const krokedil_styled_settings = {
         /**
          * Toggles the Krokedil settings sections.
          */
         toggleSettingsSection: function () {
             $('.krokedil_settings__section_header').on('click', function () {
-                krokedil_settings.toggleSectionContent($(this));
+                krokedil_styled_settings.toggleSectionContent($(this));
             });
         },
 
@@ -14,7 +14,7 @@ jQuery(function ($) {
          */
         moveSubmitButton: function () {
             let $submitBtn = $('.krokedil_settings__gateway_page p.submit');
-            let $newPlacement = $('.krokedil_settings__sidebar');
+            let $newPlacement = $('.krokedil_settings__settings_navigation');
 
             if ($submitBtn.length && $newPlacement.length) {
                 $newPlacement.append($submitBtn);
@@ -25,7 +25,7 @@ jQuery(function ($) {
          * Smooth scrolls to anchor links.
          */
         smoothScroll: function () {
-            $(document).on('click', 'a.krokedil_settings__page_navigation_link', function (event) {
+            $(document).on('click', 'a.krokedil_settings__settings_navigation_link', function (event) {
                 event.preventDefault();
                 let $section = $('#krokedil_section_' + $(this).attr('href').replace('#', ''));
 
@@ -36,7 +36,7 @@ jQuery(function ($) {
                 history.pushState(null, null, $(this).attr('href'));
 
                 if (!$section.find('.krokedil_settings__section_content').hasClass('active')) {
-                    krokedil_settings.toggleSectionContent($section);
+                    krokedil_styled_settings.toggleSectionContent($section);
                 }
 
                 $('html, body').animate({
@@ -63,10 +63,10 @@ jQuery(function ($) {
         openSettingsSection: function () {
             // Check if the URL contains a hash
             let sectionId = window.location.hash ?? '';
-            let $section = $('krokedil_section_' + sectionId);
+            let $section = $('#krokedil_section_' + sectionId.replace('#', ''));
 
             if ($section.length) {
-                krokedil_settings.toggleSectionContent($section);
+                krokedil_styled_settings.toggleSectionContent($section);
             }
         },
 
@@ -74,6 +74,11 @@ jQuery(function ($) {
          * Initializes the events for this file.
          */
         init: function () {
+            // Check if the specific class exists in the DOM
+            if ( ! $('.krokedil_settings__gateway_page.styled').length ) {
+                return;
+            }
+
             $(document)
                 .ready(this.toggleSettingsSection)
                 .ready(this.moveSubmitButton)
@@ -81,5 +86,5 @@ jQuery(function ($) {
                 .ready(this.openSettingsSection);
         },
     };
-    krokedil_settings.init();
+    krokedil_styled_settings.init();
 });

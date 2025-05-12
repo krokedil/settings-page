@@ -156,7 +156,9 @@ div.krokedil_settings__spacer {
     margin-top: 25px;
 }
 
-.krokedil_settings__section {
+/**/
+
+.krokedil_settings__gateway_page.styled .krokedil_settings__section {
 	position: relative;
 	background: white;
     border: 1px solid #e5e5e5;
@@ -165,75 +167,76 @@ div.krokedil_settings__spacer {
 	margin-bottom: 10px;
 }
 
-.krokedil_settings__section .krokedil_settings__section_toggle {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section .krokedil_settings__section_toggle {
 	position: absolute;
     top: 20px;
     right: 20px;
     z-index: 999;
 }
 
-.woocommerce .krokedil_settings__section .krokedil_settings__section_content {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section .krokedil_settings__section_content {
 	display: none;
-	margin: 0  20px;
+	margin: 0 20px;
 	width: calc(100% - 40px);
 	max-width: 600px;
+    padding-bottom: 10px;
 }
 
-.woocommerce .krokedil_settings__section .krokedil_settings__section_content.active {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section .krokedil_settings__section_content.active {
     display: table;
 }
 
-.krokedil_settings__section .krokedil_settings__section_header {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section .krokedil_settings__section_header {
 	padding: 10px 20px;
 	border-bottom: solid 1px #e5e5e5;
 	cursor: pointer;
 }
 
-.woocommerce .krokedil_settings__section table.form-table th.titledesc {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table th.titledesc {
 	width: calc(100% - 20px);
 }
 
-.woocommerce .krokedil_settings__section table.form-table td.forminp, .woocommerce .krokedil_settings__section table.form-table td.forminp input:not([type="checkbox"]):not([type="radio"]):not(.colorpick), .woocommerce .krokedil_settings__section table.form-table td.forminp select {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp, .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp input:not([type="checkbox"]):not([type="radio"]):not(.colorpick), .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp select {
 	width: 100%;
 	max-width: none;
 }
 
-.krokedil_settings__gateway_page .krokedil_settings__wrapper, .krokedil_settings__gateway_page .krokedil_settings__wrapper .krokedil_settings__content {
+.krokedil_settings__gateway_page.styled .krokedil_settings__wrapper, .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__content {
 	display: flex;
 	flex-wrap: nowrap;
 	gap: 10px;
 }
 
-.krokedil_settings__gateway_page {
+.krokedil_settings__gateway_page.styled {
 	max-width: 1700px;
 }
 
-.woocommerce .krokedil_settings__section table.form-table td.forminp input.colorpick {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp input.colorpick {
 	width: calc(100% - 40px);
 }
 
-.krokedil_settings__section .form-table .titledesc {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section .form-table .titledesc {
 	display: block;
 }
 
-.krokedil_settings__section .form-table .forminp {
+.krokedil_settings__gateway_page.styled .krokedil_settings__section .form-table .forminp {
 	padding: 0;
 }
 
-.krokedil_settings__wrapper {
+.krokedil_settings__gateway_page.styled .krokedil_settings__wrapper {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.krokedil_settings__gateway_page .krokedil_settings__wrapper .krokedil_settings__content {
+.krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__content {
 	flex: 1;
     flex-wrap: wrap;
 }
 
-.krokedil_settings__wrapper  .krokedil_settings__sidebar {
-	
+.krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation {
+    width: 200px;
 }
 
-.krokedil_settings__wrapper .krokedil_settings__page_navigation {
-    min-width: 250px;
+.krokedil_settings__gateway_page.styled .krokedil_settings__settings_navigation_link {
+    font-size: 1.1em;
 }
