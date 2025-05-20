@@ -32,7 +32,7 @@ trait Subsection {
 
 		if ( $show_settings_navigation ) { ?>
 			<div class="krokedil_settings__settings_navigation">
-				<h3><?php esc_html_e( 'Page Navigation', 'krokedil-settings' ); ?></h3>
+				<h3><?php esc_html_e( 'Sections', 'krokedil-settings' ); ?></h3>
 					<?php
 					foreach ( $settings as $setting ) {
 						?>

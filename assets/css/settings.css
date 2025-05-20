@@ -178,7 +178,7 @@ div.krokedil_settings__spacer {
 	display: none;
 	margin: 0 20px;
 	width: calc(100% - 40px);
-	max-width: 600px;
+	max-width: 450px;
     padding-bottom: 10px;
 }
 
@@ -193,7 +193,12 @@ div.krokedil_settings__spacer {
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table th.titledesc {
+    padding-bottom: 8px;
 	width: calc(100% - 20px);
+}
+
+.krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table th.titledesc .woocommerce-help-tip {
+    position: relative;
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp, .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp input:not([type="checkbox"]):not([type="radio"]):not(.colorpick), .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp select {
@@ -205,10 +210,6 @@ div.krokedil_settings__spacer {
 	display: flex;
 	flex-wrap: nowrap;
 	gap: 10px;
-}
-
-.krokedil_settings__gateway_page.styled {
-	max-width: 1700px;
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp input.colorpick {
@@ -237,6 +238,21 @@ div.krokedil_settings__spacer {
     width: 200px;
 }
 
-.krokedil_settings__gateway_page.styled .krokedil_settings__settings_navigation_link {
-    font-size: 1.1em;
+@media only screen and (min-width: 1186px) {
+    .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation {
+        max-height: 75vh;
+        position: sticky;
+        top: 92px;
+        left: 0;
+    }
+}
+
+.krokedil_settings__section_title {
+    margin-bottom: 0;
+}
+
+.krokedil_settings__gateway_page.styled .krokedil_settings__section_description p {
+    margin-top: 7px;
+    opacity: 0.8;
+    font-style: italic;
 }

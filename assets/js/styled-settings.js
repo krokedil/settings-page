@@ -1,5 +1,6 @@
 jQuery(function ($) {
     const krokedil_styled_settings = {
+        originalSubmitPlacement: null,
         /**
          * Toggles the Krokedil settings sections.
          */
@@ -9,15 +10,23 @@ jQuery(function ($) {
             });
         },
 
-        /**
-         * Moves the submit button to a new placement.
+       /**
+         * Moves the submit button to a new placement or restores it.
          */
         moveSubmitButton: function () {
             let $submitBtn = $('.krokedil_settings__gateway_page p.submit');
-            let $newPlacement = $('.krokedil_settings__settings_navigation');
+            let $newSubmitPlacement = $('.krokedil_settings__settings_navigation');
 
-            if ($submitBtn.length && $newPlacement.length) {
-                $newPlacement.append($submitBtn);
+            if(!krokedil_styled_settings.originalSubmitPlacement) {
+                krokedil_styled_settings.originalSubmitPlacement = $submitBtn.parent();
+            }
+
+            if (window.innerWidth >= 660) {
+                if ($newSubmitPlacement.length && $submitBtn.length && !$newSubmitPlacement.find($submitBtn).length) {
+                    $newSubmitPlacement.append($submitBtn);
+                }
+            } else {
+                krokedil_styled_settings.originalSubmitPlacement.append($submitBtn);
             }
         },
 
@@ -61,12 +70,33 @@ jQuery(function ($) {
          * Opens the settings section based on the URL hash.
          */
         openSettingsSection: function () {
-            // Check if the URL contains a hash
             let sectionId = window.location.hash ?? '';
             let $section = $('#krokedil_section_' + sectionId.replace('#', ''));
 
             if ($section.length) {
                 krokedil_styled_settings.toggleSectionContent($section);
+            }
+        },
+
+        toggleAdvancedSettings: function () {
+            // Loop through all.
+        },
+
+        toggleAdvancedSetting: function () {
+            $(this).closest('.krokedil_settings__section_content').css('background', 'red');
+
+            alert('click');
+            const $checkbox = $(this);
+            const $advancedFields = $checkbox.closest('.krokedil_settings__section_content').find('.krokedil_advanced_setting').closest('.forminp');
+
+            if ($advancedFields) {
+
+                if($checkbox.is(':checked')) {
+                    alert('checked');
+                } else {
+                    alert('unchecked');
+                }
+                $advancedFields.hide($checkbox.is(':checked'));
             }
         },
 
@@ -83,7 +113,11 @@ jQuery(function ($) {
                 .ready(this.toggleSettingsSection)
                 .ready(this.moveSubmitButton)
                 .ready(this.smoothScroll)
-                .ready(this.openSettingsSection);
+                .ready(this.openSettingsSection)
+                .ready(this.toggleAdvancedSettings);
+
+            $(window).on('resize', this.moveSubmitButton);
+            $(document).on('change', '.krokedil_advanced_settings', this.toggleAdvancedSetting.bind(this));
         },
     };
     krokedil_styled_settings.init();

@@ -50,7 +50,7 @@ class Gateway {
 	public function __construct( $gateway, $args = array() ) {
 		$this->gateway             = $gateway;
 		$this->args                = $args;
-		$this->icon                = $args['icon'] ?? '';
+		$this->icon                = $args['icon'] ?? 'img.png';
 		$this->sidebar             = $args['sidebar'] ?? array();
 		$this->settings_navigation = $args['settings_navigation'] ?? true;
 		$this->styled_output       = $args['styled_output'] ?? true;
@@ -109,6 +109,7 @@ class Gateway {
 	 */
 	public static function section_start( $html, $key, $section ) {
 		ob_start();
+		$always_open_sections = array( 'general' );
 		?>
 		</table>
 		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section">
@@ -122,7 +123,7 @@ class Gateway {
 				</div>
 			</div>
 
-			<div class="krokedil_settings__section_content">
+			<div class="krokedil_settings__section_content<?php echo esc_attr( in_array( $key, $always_open_sections, true ) ? ' active' : '' ); ?>">
 				<table class="form-table">
 		<?php
 		return ob_get_clean();
