@@ -26,7 +26,7 @@ trait Subsection {
 		$settings = array_filter(
 			$this->gateway->get_form_fields(),
 			function ( $field ) {
-				return isset( $field['type'] ) && 'section_start' === $field['type'];
+				return isset( $field['type'] ) && 'krokedil_section_start' === $field['type'];
 			}
 		);
 

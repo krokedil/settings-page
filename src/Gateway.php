@@ -56,8 +56,8 @@ class Gateway {
 		$this->styled_output       = $args['styled_output'] ?? true;
 
 		if ( $this->styled_output ) {
-			add_filter( 'woocommerce_generate_section_start_html', array( __CLASS__, 'section_start' ), 10, 3 );
-			add_filter( 'woocommerce_generate_section_end_html', array( __CLASS__, 'section_end' ), 10, 3 );
+			add_filter( 'woocommerce_generate_krokedil_section_start_html', array( __CLASS__, 'krokedil_section_start' ), 10, 3 );
+			add_filter( 'woocommerce_generate_krokedil_section_end_html', array( __CLASS__, 'krokedil_section_end' ), 10, 3 );
 		}
 	}
 
@@ -107,9 +107,9 @@ class Gateway {
 	 *
 	 * @return string
 	 */
-	public static function section_start( $html, $key, $section ) {
+	public static function krokedil_section_start( $html, $key, $section ) {
 		ob_start();
-		$always_open_sections = array( 'general' );
+		$always_open_sections = array( 'general', 'checkout_configuration', 'order_management' ); // This needs to be moved to the specific plugin.
 		?>
 		</table>
 		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section">
@@ -138,7 +138,7 @@ class Gateway {
 	 *
 	 * @return string
 	 */
-	public static function section_end( $html, $key, $section ) {
+	public static function krokedil_section_end( $html, $key, $section ) {
 		ob_start();
 		?>
 		</table>

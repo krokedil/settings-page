@@ -78,33 +78,80 @@ jQuery(function ($) {
             }
         },
 
-        toggleAdvancedSettings: function () {
-            // Loop through all.
+        ConditionalSettings: function () {
+            $conditionalTogglers = $('.krokedil_conditional_toggler');
+
+            if ($conditionalTogglers.length) {
+                $conditionalTogglers.each(function () {
+                    krokedil_styled_settings.toggleConditionalSettings($(this));
+                });
+            }
         },
 
-        toggleAdvancedSetting: function () {
-            $(this).closest('.krokedil_settings__section_content').css('background', 'red');
+        toggleConditionalSettings: function ($togglerSetting) {
+            const conditionalTarget = $togglerSetting.attr('class').match(/krokedil_toggler_([^\s]+)/)?.[1];
 
-            alert('click');
-            const $checkbox = $(this);
-            const $advancedFields = $checkbox.closest('.krokedil_settings__section_content').find('.krokedil_advanced_setting').closest('.forminp');
-
-            if ($advancedFields) {
-
-                if($checkbox.is(':checked')) {
-                    alert('checked');
-                } else {
-                    alert('unchecked');
-                }
-                $advancedFields.hide($checkbox.is(':checked'));
+            if (!conditionalTarget) {
+                return;
             }
+
+            const isToggleableVal = 'wc_shipping' === $togglerSetting.val(); // This needs to be moved to the specific plugin somehow.
+            const enabled = $togglerSetting.is('select') ? isToggleableVal : $togglerSetting.is(':checked');
+
+            let $conditionalSettings = $('.krokedil_conditional_' + conditionalTarget).closest('tr');
+
+            $conditionalSettings.toggle(enabled);
+
+            // Check any of the conditional settings has its own toggle.
+            if($conditionalSettings.find('.krokedil_conditional_toggler').length) {
+                const $conditionalSettingsTogglers = $conditionalSettings.filter(function() {
+                    return $(this).find('.krokedil_conditional_toggler').length > 0;
+                });
+
+                krokedil_styled_settings.toggleNestedConditionalSettings($conditionalSettingsTogglers, enabled);
+            }
+        },
+
+        /** 
+        * Check if there are any nested conditional togglers inside the conditional settings.
+        * They may need toggling depending on the parent. 
+        */
+        toggleNestedConditionalSettings: function ($conditionalSettingsTogglers, enabled) {
+            $conditionalSettingsTogglers.each(function () {
+                const $conditionalSetting = $(this).find('.krokedil_conditional_toggler');
+
+                if(!$conditionalSetting.length) {
+                    return;
+                }
+
+                const isToggleableVal = 'wc_shipping' === $(this).val(); // This needs to be moved to the specific plugin somehow.
+                const nestedEnabled = $(this).is('select') ? isToggleableVal : $(this).is(':checked') && enabled;
+
+                const conditionalTarget = $conditionalSetting.attr('class').match(/krokedil_toggler_([^\s]+)/)?.[1];
+
+                if (!conditionalTarget) {
+                    return;
+                }
+
+                let $conditionalSettingsTogglers = $('.krokedil_conditional_' + conditionalTarget).closest('tr');
+
+                $conditionalSettingsTogglers.toggle(nestedEnabled);
+            });
+        },
+
+        UpsellSettings: function () {
+             $('.krokedil_ppu_setting').closest('tr').addClass('krokedil_ppu_status');
+
+
+            const upsellPluginIsActive = $('.krokedil_ppu_setting').hasClass('active');
+            $('.krokedil_ppu_setting').closest('tr').toggleClass('active', upsellPluginIsActive);
+            $('.krokedil_ppu_setting__title').next('p').toggle(!upsellPluginIsActive);
         },
 
         /**
          * Initializes the events for this file.
          */
         init: function () {
-            // Check if the specific class exists in the DOM
             if ( ! $('.krokedil_settings__gateway_page.styled').length ) {
                 return;
             }
@@ -114,10 +161,14 @@ jQuery(function ($) {
                 .ready(this.moveSubmitButton)
                 .ready(this.smoothScroll)
                 .ready(this.openSettingsSection)
-                .ready(this.toggleAdvancedSettings);
+                .ready(this.ConditionalSettings)
+                .ready(this.UpsellSettings);
 
             $(window).on('resize', this.moveSubmitButton);
-            $(document).on('change', '.krokedil_advanced_settings', this.toggleAdvancedSetting.bind(this));
+            
+            $(document).on('change', '.krokedil_conditional_toggler', function() {
+                krokedil_styled_settings.toggleConditionalSettings($(this));
+            });
         },
     };
     krokedil_styled_settings.init();

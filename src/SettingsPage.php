@@ -42,11 +42,6 @@ class SettingsPage {
 	public function init() {
 		$this->load_textdomain();
 		$this->register_scripts();
-
-		/*
-		add_filter( 'woocommerce_generate_section_start_html', array( __CLASS__, 'section_start' ), 10, 3 );
-		add_filter( 'woocommerce_generate_section_end_html', array( __CLASS__, 'section_end' ), 10, 3 );
-		*/
 	}
 
 	/**
