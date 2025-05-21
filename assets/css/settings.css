@@ -254,7 +254,6 @@ div.krokedil_settings__spacer {
 .krokedil_settings__gateway_page.styled .krokedil_settings__section_description p {
     margin-top: 7px;
     opacity: 0.8;
-    font-style: italic;
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_ppu_status:not(.active) {
