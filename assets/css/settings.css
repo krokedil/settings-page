@@ -136,6 +136,7 @@
 
 .krokedil_settings__header_description {
     margin: 5px 0 0 0;
+    max-width: 800px;
 }
 
 .krokedil_addons__description {
