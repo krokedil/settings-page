@@ -124,8 +124,8 @@ jQuery(function ($) {
                     return;
                 }
 
-                const isToggleableVal = 'wc_shipping' === $(this).val(); // This needs to be moved to the specific plugin somehow.
-                const nestedEnabled = $(this).is('select') ? isToggleableVal : $(this).is(':checked') && enabled;
+                const isToggleableVal = 'wc_shipping' === $conditionalSetting.val(); // This needs to be moved to the specific plugin somehow.
+                const nestedEnabled = $conditionalSetting.is('select') ? isToggleableVal : $conditionalSetting.is(':checked') && enabled;
 
                 const conditionalTarget = $conditionalSetting.attr('class').match(/krokedil_toggler_([^\s]+)/)?.[1];
 
