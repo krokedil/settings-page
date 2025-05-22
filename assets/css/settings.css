@@ -233,6 +233,8 @@ div.krokedil_settings__spacer {
 .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__content {
 	flex: 1;
     flex-wrap: wrap;
+    max-width: 900px;
+    margin-right: auto;
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation {
