@@ -179,7 +179,6 @@ div.krokedil_settings__spacer {
 	display: none;
 	margin: 0 20px;
 	width: calc(100% - 40px);
-	max-width: 450px;
     padding-bottom: 10px;
 }
 
@@ -200,11 +199,6 @@ div.krokedil_settings__spacer {
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table th.titledesc .woocommerce-help-tip {
     position: relative;
-}
-
-.krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp, .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp input:not([type="checkbox"]):not([type="radio"]):not(.colorpick), .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp select {
-	width: 100%;
-	max-width: none;
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper, .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__content {
@@ -277,6 +271,7 @@ div.krokedil_settings__spacer {
 }
 
 .krokedil_settings__gateway_page.styled table.form-table textarea {
+    max-width: 400px;
     height: 3em;
 }
 
