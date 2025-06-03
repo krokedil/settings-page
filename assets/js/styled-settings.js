@@ -95,8 +95,10 @@ jQuery(function ($) {
                 return;
             }
 
-            const isToggleableVal = 'wc_shipping' === $togglerSetting.val(); // This needs to be moved to the specific plugin somehow.
+            const toggleableOptions = $togglerSetting.attr('class').split(' ').filter(c => c.startsWith('toggler_option_'));
+            const isToggleableVal = toggleableOptions.includes('toggler_option_' + $togglerSetting.val());
             const enabled = $togglerSetting.is('select') ? isToggleableVal : $togglerSetting.is(':checked');
+            
 
             let $conditionalSettings = $('.krokedil_conditional_' + conditionalTarget).closest('tr');
 
@@ -124,7 +126,8 @@ jQuery(function ($) {
                     return;
                 }
 
-                const isToggleableVal = 'wc_shipping' === $conditionalSetting.val(); // This needs to be moved to the specific plugin somehow.
+                const toggleableOptions = $conditionalSetting.attr('class').split(' ').filter(c => c.startsWith('toggler_option_'));
+                const isToggleableVal = toggleableOptions.includes('toggler_option_' + $conditionalSetting.val());
                 const nestedEnabled = $conditionalSetting.is('select') ? isToggleableVal : $conditionalSetting.is(':checked') && enabled;
 
                 const conditionalTarget = $conditionalSetting.attr('class').match(/krokedil_toggler_([^\s]+)/)?.[1];
