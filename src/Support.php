@@ -37,9 +37,14 @@ class Support {
 	/**
 	 * Return the Helpscout beacon script.
 	 *
-	 * @return string;
+	 * @param string $use_helpscout Whether to include the Helpscout beacon.
+	 * @return string|null
 	 */
-	public static function hs_beacon_script() {
+	public static function hs_beacon_script( $use_helpscout = 'no' ) {
+		if ( 'yes' !== $use_helpscout ) {
+			return;
+		}
+
 		return '!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});';
 	}
 
@@ -78,7 +83,7 @@ class Support {
 		// Load JS.
 		wp_add_inline_script(
 			'krokedil-support-page',
-			self::hs_beacon_script(),
+			self::hs_beacon_script( $this->support['use_helpscout'] ?? 'yes' ),
 			'before',
 		);
 		wp_enqueue_script( 'krokedil-support-page' );
@@ -95,7 +100,8 @@ class Support {
 
 		$this->enqueue_scripts();
 
-		$content = $this->support['content'];
+		$content    = $this->support['content'];
+		$include_hs = $this->support['use_helpscout'] ?? 'yes';
 
 		?>
 		<div class='krokedil_support'>
@@ -103,8 +109,15 @@ class Support {
 				<p><?php esc_html_e( 'Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem', 'krokedil-settings' ); ?>:</p>
 				<?php foreach ( $content as $item ) : ?>
 					<?php echo wp_kses_post( $this->print_content( $item ) ); ?>
-				<?php endforeach; ?>
-				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
+					<?php
+				endforeach;
+				if ( 'yes' === $include_hs ) :
+					?>
+					<p><?php esc_html_e( 'If you still need help, please open a support ticket with Krokedil.', 'krokedil-settings' ); ?></p>
+					<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
+					<?php
+				endif;
+				?>
 			</div>
 		</div>
 		<?php
