@@ -100,8 +100,8 @@ class Support {
 
 		$this->enqueue_scripts();
 
-		$content    = $this->support['content'];
-		$include_hs = $this->support['use_helpscout'] ?? 'yes';
+		$content       = $this->support['content'];
+		$use_helpscout = $this->support['use_helpscout'] ?? 'yes';
 
 		?>
 		<div class='krokedil_support'>
@@ -111,7 +111,7 @@ class Support {
 					<?php echo wp_kses_post( $this->print_content( $item ) ); ?>
 					<?php
 				endforeach;
-				if ( 'yes' === $include_hs ) :
+				if ( 'yes' === $use_helpscout ) :
 					?>
 					<p><?php esc_html_e( 'If you still need help, please open a support ticket with Krokedil.', 'krokedil-settings' ); ?></p>
 					<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
