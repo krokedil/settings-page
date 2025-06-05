@@ -10,6 +10,13 @@ trait Sidebar {
 	protected $sidebar = array();
 
 	/**
+	 * Locale of the site.
+	 *
+	 * @var string
+	 */
+	protected static $locale = '';
+
+	/**
 	 * Output the developed by text.
 	 *
 	 * @return void
@@ -31,8 +38,8 @@ trait Sidebar {
 			return;
 		}
 
-		$for  = $developed_by['for'] ?? 'Developed for';
-		$by   = $developed_by['by'] ?? 'by';
+		$for  = isset( $developed_by['for'] ) ? self::get_text( $developed_by['for'] ) : 'Developed for';
+		$by   = isset( $developed_by['by'] ) ? self::get_text( $developed_by['by'] ) : 'by';
 		$logo = $developed_by['logo'] ?? null;
 
 		?>
