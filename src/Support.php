@@ -108,15 +108,8 @@ class Support {
 			<div class="krokedil_support__info">
 				<?php foreach ( $content as $item ) : ?>
 					<?php echo wp_kses_post( self::print_content( $item ) ); ?>
-					<?php
-				endforeach;
-				if ( 'yes' === $use_helpscout ) :
-					?>
-					<p><?php esc_html_e( 'If you still need help, please open a support ticket with Krokedil.', 'krokedil-settings' ); ?></p>
-					<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
-					<?php
-				endif;
-				?>
+				<?php endforeach; ?>
+				<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
 			</div>
 		</div>
 		<?php
