@@ -42,7 +42,7 @@ jQuery(function ($) {
                     return;
                 }
 
-                history.pushState(null, null, $(this).attr('href'));
+                history.replaceState(null, null, $(this).attr('href'));
 
                 if (!$section.find('.krokedil_settings__section_content').hasClass('active')) {
                     krokedil_styled_settings.toggleSectionContent($section);
@@ -78,7 +78,7 @@ jQuery(function ($) {
             }
         },
 
-        ConditionalSettings: function () {
+        conditionalSettings: function () {
             $conditionalTogglers = $('.krokedil_conditional_toggler');
 
             if ($conditionalTogglers.length) {
@@ -142,7 +142,7 @@ jQuery(function ($) {
             });
         },
 
-        UpsellSettings: function () {
+        upsellSettings: function () {
              $('.krokedil_ppu_setting').closest('tr').addClass('krokedil_ppu_status');
 
 
@@ -164,8 +164,8 @@ jQuery(function ($) {
                 .ready(this.moveSubmitButton)
                 .ready(this.smoothScroll)
                 .ready(this.openSettingsSection)
-                .ready(this.ConditionalSettings)
-                .ready(this.UpsellSettings);
+                .ready(this.conditionalSettings)
+                .ready(this.upsellSettings);
 
             $(window).on('resize', this.moveSubmitButton);
             

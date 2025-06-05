@@ -52,8 +52,8 @@ class Gateway {
 		$this->args                = $args;
 		$this->icon                = $args['icon'] ?? 'img.png';
 		$this->sidebar             = $args['sidebar'] ?? array();
-		$this->settings_navigation = $args['settings_navigation'] ?? true;
-		$this->styled_output       = $args['styled_output'] ?? true;
+		$this->settings_navigation = $args['settings_navigation'] ?? false;
+		$this->styled_output       = $args['styled_output'] ?? false;
 
 		if ( $this->styled_output ) {
 			add_filter( 'woocommerce_generate_krokedil_section_start_html', array( __CLASS__, 'krokedil_section_start' ), 10, 3 );
