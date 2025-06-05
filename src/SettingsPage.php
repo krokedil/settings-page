@@ -91,6 +91,14 @@ class SettingsPage {
 			filemtime( __DIR__ . '/../assets/js/support.js' ),
 			false,
 		);
+
+		wp_register_script(
+			'krokedil-settings-page',
+			plugin_dir_url( __FILE__ ) . '../assets/js/styled-settings.js',
+			array( 'jquery' ),
+			filemtime( __DIR__ . '/../assets/js/styled-settings.js' ),
+			false,
+		);
 	}
 
 	/**
