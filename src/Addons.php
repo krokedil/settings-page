@@ -122,9 +122,16 @@ class Addons {
 		wp_enqueue_script( 'plugin-install' );
 		add_thickbox(); // Required for the plugin installer to work.
 
-		$addons = $this->addons['items'];
+		$addons  = $this->addons['items'];
+		$content = $this->addons['content'];
 		?>
 		<div class="krokedil_addons">
+		<div class="krokedil_addons__info">
+				<?php foreach ( $content as $item ) : ?>
+					<?php echo wp_kses_post( self::print_content( $item ) ); ?>
+				<?php endforeach; ?>
+			</div>
+
 			<?php // translators: %s is the plugin name. ?>
 			<div class='krokedil_addons__cards'>
 				<?php foreach ( $addons as $addon ) : ?>
@@ -132,21 +139,6 @@ class Addons {
 				<?php endforeach; ?>
 			</div>
 		</div>
-		<?php
-	}
-
-	/**
-	 * Output the description for the addons page.
-	 *
-	 * @return void
-	 */
-	public function output_description() {
-		$plugin_name = $this->plugin_name ?? __( 'the plugin', 'krokedil-settings' );
-
-		// translators: %s is the plugin name.
-		$description = sprintf( __( 'These are other plugins from Krokedil that work well together with %s.', 'krokedil-settings' ), $plugin_name );
-		?>
-		<p class="krokedil_addons__description"><?php echo esc_html( $description ); ?></p>
 		<?php
 	}
 
