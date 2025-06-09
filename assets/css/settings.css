@@ -270,6 +270,14 @@ div.krokedil_settings__spacer {
     tab-index: -1;
 }
 
+.krokedil_settings__gateway_page.styled table.form-table input[type="text"],
+.krokedil_settings__gateway_page.styled table.form-table input[type="password"],
+.krokedil_settings__gateway_page.styled table.form-table select
+{
+    width: 100%;
+    max-width: 400px;
+}
+
 .krokedil_settings__gateway_page.styled table.form-table textarea {
     max-width: 400px;
     height: 3em;
