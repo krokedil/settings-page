@@ -1,7 +1,7 @@
 {
     "name": "krokedil/settings-page",
     "description": "A package to help setup settings pages in WordPress and WooCommerce for Krokedil plugins to add the Addons and Support tabs",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "type": "library",
     "require-dev": {
         "wp-coding-standards/wpcs": "dev-develop",
