@@ -208,7 +208,7 @@ div.krokedil_settings__spacer {
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__section table.form-table td.forminp input.colorpick {
-	width: calc(100% - 40px);
+	width: 100px;
 }
 
 .krokedil_settings__gateway_page.styled .krokedil_settings__section .form-table .titledesc {
