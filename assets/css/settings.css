@@ -237,10 +237,21 @@ div.krokedil_settings__spacer {
 
 @media only screen and (min-width: 1186px) {
     .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation {
-        max-height: 75vh;
+        max-height: 89vh;
         position: sticky;
         top: 92px;
         left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation p {
+        margin: 7px;
+    }
+
+    .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation p.submit {
+        margin-top: auto;
     }
 }
 
