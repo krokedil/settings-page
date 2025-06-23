@@ -242,17 +242,11 @@ div.krokedil_settings__spacer {
         position: sticky;
         top: 92px;
         left: 0;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
     }
 
-    .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation p {
-        margin: 7px;
-    }
-
-    .krokedil_settings__gateway_page.styled .krokedil_settings__wrapper .krokedil_settings__settings_navigation p.submit {
-        margin-top: auto;
+    .krokedil_settings__gateway_page.styled p.submit {
+        position: sticky;
+        bottom: 1.5em;
     }
 }
 

@@ -15,7 +15,7 @@ jQuery(function ($) {
          */
         moveSubmitButton: function () {
             let $submitBtn = $('.krokedil_settings__gateway_page p.submit');
-            let $newSubmitPlacement = $('.krokedil_settings__settings_navigation');
+            let $newSubmitPlacement = $('.krokedil_settings__gateway_page.styled');
 
             if(!krokedil_styled_settings.originalSubmitPlacement) {
                 krokedil_styled_settings.originalSubmitPlacement = $submitBtn.parent();
