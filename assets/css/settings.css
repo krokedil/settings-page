@@ -11,7 +11,7 @@
     grid-template-columns: 1fr min-content;
     grid-template-rows: auto auto;
     justify-content: space-between;
-    margin: 20px;
+    padding: 20px;
     gap: 40px;
 }
 
@@ -305,4 +305,9 @@ div.krokedil_settings__spacer {
 
 .krokedil_settings__gateway_page.styled  .krokedil_ppu_setting__title.inactive + p + .form-table .titledesc {
    padding-top: 0;
+}
+
+.krokedil_nav_tabs {
+    background: none;
+    padding-left: 0;
 }
