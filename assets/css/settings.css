@@ -312,6 +312,7 @@ body.woocommerce_page_wc-settings .nav-tab-wrapper.krokedil_nav_tabs {
     margin: 0;
     padding-top: 9px;
     padding-bottom: 0;
+    padding-left: 0;
     line-height: inherit;
     background: none;
     gap: 0;
@@ -345,4 +346,10 @@ body.woocommerce_page_wc-settings .nav-tab-wrapper.krokedil_nav_tabs .nav-tab-ac
 body.woocommerce_page_wc-settings .nav-tab-wrapper.krokedil_nav_tabs .nav-tab-active {
     margin-bottom: -1px;
     color: #3c434a;
+}
+
+@media screen and (max-width: 600px) {
+    h1.nav-tab-wrapper.krokedil_nav_tabs, .wrap h2.nav-tab-wrapper.krokedil_nav_tabs, .nav-tab-wrapper.krokedil_nav_tabs {
+        border-bottom: 0;
+    }
 }
