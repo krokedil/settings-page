@@ -355,7 +355,7 @@ body.woocommerce_page_wc-settings .nav-tab-wrapper.krokedil_nav_tabs .nav-tab-ac
 }
 
 @media screen and (max-width: 600px) {
-    h1.nav-tab-wrapper.krokedil_nav_tabs .nav-tab, h2.nav-tab-wrapper.krokedil_nav_tabs .nav-tab, .nav-tab-wrapper.krokedil_nav_tabs h3 .nav-tab, .nav-tab-wrapper.krokedil_nav_tabs nav .nav-tab {
+    body.woocommerce_page_wc-settings .nav-tab-wrapper.krokedil_nav_tabs .nav-tab {
         margin: 10px 10px 0 0;
         border-bottom: 1px solid #c3c4c7;
     }
