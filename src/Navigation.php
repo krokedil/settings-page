@@ -68,7 +68,7 @@ class Navigation {
 		}
 
 		?>
-		<h2 class="nav-tab-wrapper">
+		<h2 class="nav-tab-wrapper krokedil_nav_tabs">
 			<?php foreach ( $tabs as $tab => $label ) : ?>
 				<a href="<?php echo esc_url( add_query_arg( 'subsection', $tab ) ); ?>" class="nav-tab <?php echo $current_subsection === $tab ? 'nav-tab-active' : ''; ?>"><?php echo esc_html( $label ); ?></a>
 			<?php endforeach; ?>
