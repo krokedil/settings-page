@@ -14,8 +14,8 @@ jQuery(function ($) {
          * Moves the submit button to a new placement or restores it.
          */
         moveSubmitButton: function () {
-            let $submitBtn = $('.krokedil_settings__gateway_page p.submit');
-            let $newSubmitPlacement = $('.krokedil_settings__gateway_page.styled');
+            let $submitBtn = $('.krokedil_settings_page p.submit');
+            let $newSubmitPlacement = $('.krokedil_settings_page.styled');
 
             if(!krokedil_styled_settings.originalSubmitPlacement) {
                 krokedil_styled_settings.originalSubmitPlacement = $submitBtn.parent();
@@ -155,7 +155,7 @@ jQuery(function ($) {
          * Initializes the events for this file.
          */
         init: function () {
-            if ( ! $('.krokedil_settings__gateway_page.styled').length ) {
+            if ( ! $('.krokedil_settings_page.styled').length ) {
                 return;
             }
 

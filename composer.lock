@@ -9,28 +9,28 @@
     "packages-dev": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
-            "version": "v1.0.0",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/composer-installer.git",
-                "reference": "4be43904336affa5c2f70744a348312336afd0da"
+                "reference": "e9cf5e4bbf7eeaf9ef5db34938942602838fc2b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/composer-installer/zipball/4be43904336affa5c2f70744a348312336afd0da",
-                "reference": "4be43904336affa5c2f70744a348312336afd0da",
+                "url": "https://api.github.com/repos/PHPCSStandards/composer-installer/zipball/e9cf5e4bbf7eeaf9ef5db34938942602838fc2b1",
+                "reference": "e9cf5e4bbf7eeaf9ef5db34938942602838fc2b1",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
+                "composer-plugin-api": "^2.2",
                 "php": ">=5.4",
                 "squizlabs/php_codesniffer": "^2.0 || ^3.1.0 || ^4.0"
             },
             "require-dev": {
-                "composer/composer": "*",
+                "composer/composer": "^2.2",
                 "ext-json": "*",
                 "ext-zip": "*",
-                "php-parallel-lint/php-parallel-lint": "^1.3.1",
+                "php-parallel-lint/php-parallel-lint": "^1.4.0",
                 "phpcompatibility/php-compatibility": "^9.0",
                 "yoast/phpunit-polyfills": "^1.0"
             },
@@ -50,9 +50,9 @@
             "authors": [
                 {
                     "name": "Franck Nijhof",
-                    "email": "franck.nijhof@dealerdirect.com",
-                    "homepage": "http://www.frenck.nl",
-                    "role": "Developer / IT Manager"
+                    "email": "opensource@frenck.dev",
+                    "homepage": "https://frenck.dev",
+                    "role": "Open source developer"
                 },
                 {
                     "name": "Contributors",
@@ -60,7 +60,6 @@
                 }
             ],
             "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
-            "homepage": "http://www.dealerdirect.com",
             "keywords": [
                 "PHPCodeSniffer",
                 "PHP_CodeSniffer",
@@ -81,9 +80,28 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPCSStandards/composer-installer/issues",
+                "security": "https://github.com/PHPCSStandards/composer-installer/security/policy",
                 "source": "https://github.com/PHPCSStandards/composer-installer"
             },
-            "time": "2023-01-05T11:28:13+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/PHPCSStandards",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/jrfnl",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/php_codesniffer",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/phpcsstandards",
+                    "type": "thanks_dev"
+                }
+            ],
+            "time": "2025-07-17T20:45:56+00:00"
         },
         {
             "name": "php-stubs/woocommerce-stubs",
@@ -91,12 +109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/woocommerce-stubs.git",
-                "reference": "2efd06960ebb0ea853c906d979298fc176eec8a9"
+                "reference": "f3c175017d45631548ace09bdc1f68ec4e6644a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/2efd06960ebb0ea853c906d979298fc176eec8a9",
-                "reference": "2efd06960ebb0ea853c906d979298fc176eec8a9",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/f3c175017d45631548ace09bdc1f68ec4e6644a0",
+                "reference": "f3c175017d45631548ace09bdc1f68ec4e6644a0",
                 "shasum": ""
             },
             "require": {
@@ -126,22 +144,22 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/woocommerce-stubs/issues",
-                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v9.9.4"
+                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v10.1.0"
             },
-            "time": "2025-06-16T19:18:36+00:00"
+            "time": "2025-08-12T16:44:45+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v6.8.1",
+            "version": "v6.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "92e444847d94f7c30f88c60004648f507688acd5"
+                "reference": "9c8e22e437463197c1ec0d5eaa9ddd4a0eb6d7f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/92e444847d94f7c30f88c60004648f507688acd5",
-                "reference": "92e444847d94f7c30f88c60004648f507688acd5",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/9c8e22e437463197c1ec0d5eaa9ddd4a0eb6d7f8",
+                "reference": "9c8e22e437463197c1ec0d5eaa9ddd4a0eb6d7f8",
                 "shasum": ""
             },
             "conflict": {
@@ -149,7 +167,7 @@
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-                "nikic/php-parser": "^5.4",
+                "nikic/php-parser": "^5.5",
                 "php": "^7.4 || ^8.0",
                 "php-stubs/generator": "^0.8.3",
                 "phpdocumentor/reflection-docblock": "^5.4.1",
@@ -177,9 +195,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.8.1"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.8.2"
             },
-            "time": "2025-05-02T12:33:34+00:00"
+            "time": "2025-07-16T06:41:00+00:00"
         },
         {
             "name": "phpcsstandards/phpcsextra",
@@ -187,12 +205,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHPCSExtra.git",
-                "reference": "fa4b8d051e278072928e32d817456a7fdb57b6ca"
+                "reference": "639d1625f6ff27c616052c8478dd06eb41fd43a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSExtra/zipball/fa4b8d051e278072928e32d817456a7fdb57b6ca",
-                "reference": "fa4b8d051e278072928e32d817456a7fdb57b6ca",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSExtra/zipball/639d1625f6ff27c616052c8478dd06eb41fd43a5",
+                "reference": "639d1625f6ff27c616052c8478dd06eb41fd43a5",
                 "shasum": ""
             },
             "require": {
@@ -262,7 +280,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-06-14T07:40:39+00:00"
+            "time": "2025-08-18T02:06:20+00:00"
         },
         {
             "name": "phpcsstandards/phpcsutils",
@@ -270,12 +288,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHPCSUtils.git",
-                "reference": "d3b4a634ca279dc06ca56a79df6414d542c25ffc"
+                "reference": "0c759085130ebf1cd7e79334fddf203a4e2d1aae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSUtils/zipball/d3b4a634ca279dc06ca56a79df6414d542c25ffc",
-                "reference": "d3b4a634ca279dc06ca56a79df6414d542c25ffc",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSUtils/zipball/0c759085130ebf1cd7e79334fddf203a4e2d1aae",
+                "reference": "0c759085130ebf1cd7e79334fddf203a4e2d1aae",
                 "shasum": ""
             },
             "require": {
@@ -356,7 +374,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-06-18T07:26:41+00:00"
+            "time": "2025-08-18T15:06:24+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -364,12 +382,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "611f7b1fa15e265c7b7b7b7ef0e4905bb5e1add8"
+                "reference": "38a40fdae10862df09ca2d803f12d1366aab3c2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/611f7b1fa15e265c7b7b7b7ef0e4905bb5e1add8",
-                "reference": "611f7b1fa15e265c7b7b7b7ef0e4905bb5e1add8",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/38a40fdae10862df09ca2d803f12d1366aab3c2c",
+                "reference": "38a40fdae10862df09ca2d803f12d1366aab3c2c",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +459,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-06-17T22:52:59+00:00"
+            "time": "2025-08-18T15:57:20+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -449,12 +467,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
-                "reference": "c84a0868b4db8102d7c23fa7f3b2edd5e188e1d8"
+                "reference": "298da73b337f2996aea4bb9f10fd69831f8fae71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/c84a0868b4db8102d7c23fa7f3b2edd5e188e1d8",
-                "reference": "c84a0868b4db8102d7c23fa7f3b2edd5e188e1d8",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/298da73b337f2996aea4bb9f10fd69831f8fae71",
+                "reference": "298da73b337f2996aea4bb9f10fd69831f8fae71",
                 "shasum": ""
             },
             "require": {
@@ -508,7 +526,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-06-23T15:14:44+00:00"
+            "time": "2025-08-18T15:16:50+00:00"
         }
     ],
     "aliases": [],

@@ -6,9 +6,9 @@ use Krokedil\SettingsPage\Traits\Layout;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class for extending a Gateways settings page.
+ * Class for extending a Shipping settings page.
  */
-class Gateway {
+class Shipping {
 	use Layout;
 
 	/**
@@ -19,7 +19,7 @@ class Gateway {
 	protected $args;
 
 	/**
-	 * Icon for the gateway.
+	 * Icon for the settings page.
 	 *
 	 * @var string $icon
 	 */
@@ -42,13 +42,11 @@ class Gateway {
 	/**
 	 * Class Constructor.
 	 *
-	 * @param \WC_Payment_Gateway $gateway The gateway object.
-	 * @param array               $args Arguments for the page.
+	 * @param array $args Arguments for the page.
 	 *
 	 * @return void
 	 */
-	public function __construct( $gateway, $args = array() ) {
-		$this->gateway             = $gateway;
+	public function __construct( $args = array() ) {
 		$this->args                = $args;
 		$this->icon                = $args['icon'] ?? 'img.png';
 		$this->sidebar             = $args['sidebar'] ?? array();
@@ -71,7 +69,7 @@ class Gateway {
 		wp_enqueue_script( 'krokedil-settings-page' );
 		?>
 		<?php $this->output_header(); ?>
-		<?php SettingsPage::get_instance()->navigation( $this->gateway->id )->output(); ?>
+		<?php SettingsPage::get_instance()->navigation( $this->id )->output(); ?>
 		<div class="krokedil_settings_page<?php echo esc_attr( $this->styled_output ? ' styled' : '' ); ?>">
 			<div class="krokedil_settings__wrapper">
 				<?php
@@ -93,7 +91,7 @@ class Gateway {
 	public function output_page_content() {
 		?>
 		<table class="form-table">
-			<?php echo $this->gateway->generate_settings_html( $this->gateway->get_form_fields(), false ); //phpcs:ignore ?>
+			<?php echo $this->generate_settings_html( $this->get_form_fields(), false ); //phpcs:ignore ?>
 		</table>
 		<?php
 	}
