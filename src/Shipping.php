@@ -55,7 +55,7 @@ class Shipping {
 	 * @return void
 	 */
 	public function __construct( $shipping, $args = array() ) {
-		$this->shipping            = $shipping;
+		$this->gateway             = $shipping;
 		$this->args                = $args;
 		$this->icon                = $args['icon'] ?? 'img.png';
 		$this->sidebar             = $args['sidebar'] ?? array();
@@ -78,7 +78,7 @@ class Shipping {
 		wp_enqueue_script( 'krokedil-settings-page' );
 		?>
 		<?php $this->output_header(); ?>
-		<?php SettingsPage::get_instance()->navigation( $this->shipping->instance_id )->output(); ?>
+		<?php SettingsPage::get_instance()->navigation( $this->gateway->id )->output(); ?>
 		<div class="krokedil_settings_page<?php echo esc_attr( $this->styled_output ? ' styled' : '' ); ?>">
 			<div class="krokedil_settings__wrapper">
 				<?php
@@ -100,7 +100,7 @@ class Shipping {
 	public function output_page_content() {
 		?>
 		<table class="form-table">
-			<?php echo $this->shipping->generate_settings_html( $this->shipping->get_form_fields(), false ); //phpcs:ignore ?>
+			<?php echo $this->gateway->generate_settings_html( $this->gateway->get_form_fields(), false ); //phpcs:ignore ?>
 		</table>
 		<?php
 	}
