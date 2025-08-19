@@ -101,50 +101,36 @@ class Shipping {
 	/**
 	 * Get the HTML as a string for a Klarna Payments section start.
 	 *
-	 * @param string $html The HTML to append the section start to.
-	 * @param string $key The key for the section.
-	 * @param array  $section The arguments for the section.
+	 * @param string $section The section data.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_section_start( $html, $key, $section ) {
-		ob_start();
-		$always_open_sections = array( 'general', 'checkout_configuration', 'order_management' ); // This needs to be moved to the specific plugin.
-		?>
-		</table>
-		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section">
-			<div class="krokedil_settings__section_header">
-				<span class="krokedil_settings__section_toggle dashicons<?php echo esc_attr( in_array( $key, $always_open_sections, true ) ? ' dashicons-arrow-up-alt2' : ' dashicons-arrow-down-alt2' ); ?>"></span>
-				<h3 class="krokedil_settings__section_title">
-					<?php echo esc_html( $section['title'] ); ?>
-				</h3>
-				<div class="krokedil_settings__section_description">
-					<p><?php echo esc_html( $section['description'] ?? '' ); ?></p>
-				</div>
-			</div>
-
-			<div class="krokedil_settings__section_content<?php echo esc_attr( in_array( $key, $always_open_sections, true ) ? ' active' : '' ); ?>">
-				<table class="form-table">
-		<?php
-		return ob_get_clean();
+	public static function krokedil_section_start( $section ) {
+		$always_open_sections = array();
+		$section_key          = $section['id'] ?? '';
+		echo '</table>';
+		echo '<div id="krokedil_section_' . esc_attr( $section_key ) . '" class="krokedil_settings__section">';
+		echo '<div class="krokedil_settings__section_header">';
+		echo '<span class="krokedil_settings__section_toggle dashicons' . esc_attr( in_array( $section_key, $always_open_sections, true ) ? ' dashicons-arrow-up-alt2' : ' dashicons-arrow-down-alt2' ) . '"></span>';
+		echo '<h3 class="krokedil_settings__section_title">' . esc_html( $section['name'] ) . '</h3>';
+		echo '<div class="krokedil_settings__section_description">';
+		echo '<p>' . esc_html( $section['description'] ?? '' ) . '</p>';
+		echo '</div>';
+		echo '</div>';
+		echo '<div class="krokedil_settings__section_content' . esc_attr( in_array( $section_key, $always_open_sections, true ) ? ' active' : '' ) . '">';
+		echo '<table class="form-table">';
 	}
 
 	/**
 	 * Get the HTML as a string for a Klarna Payments section end.
 	 *
-	 * @param string $html The HTML to append the section end to.
-	 * @param string $key The key for the section end.
-	 * @param array  $section The arguments for the section.
+	 * @param string $section The section data.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_section_end( $html, $key, $section ) {
-		ob_start();
-		?>
-		</table>
-			</div>
-				</div>
-		<?php
-		return ob_get_clean();
+	public static function krokedil_section_end( $section ) {
+		echo '</table>';
+		echo '</div>';
+		echo '</div>';
 	}
 }
