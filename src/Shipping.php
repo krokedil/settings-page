@@ -40,26 +40,20 @@ class Shipping {
 	protected $styled_output;
 
 	/**
-	 * Page ID for the settings page.
-	 *
-	 * @var string $page_id
-	 */
-	protected $page_id;
-
-	/**
 	 * Class Constructor.
 	 *
-	 * @param array $args Arguments for the page.
+	 * @param \WC_Shipping_Method $shipping The shipping method object.
+	 * @param array               $args Arguments for the page.
 	 *
 	 * @return void
 	 */
-	public function __construct( $args = array(), $page_id = '' ) {
+	public function __construct( $shipping, $args = array() ) {
+		$this->gateway             = $shipping;
 		$this->args                = $args;
 		$this->icon                = $args['icon'] ?? 'img.png';
 		$this->sidebar             = $args['sidebar'] ?? array();
 		$this->settings_navigation = $args['settings_navigation'] ?? false;
 		$this->styled_output       = $args['styled_output'] ?? false;
-		$this->page_id             = $page_id;
 
 		if ( $this->styled_output ) {
 			add_filter( 'woocommerce_admin_field_krokedil_section_start', array( __CLASS__, 'krokedil_section_start' ), 10, 3 );
@@ -77,7 +71,7 @@ class Shipping {
 		wp_enqueue_script( 'krokedil-settings-page' );
 		?>
 		<?php $this->output_header(); ?>
-		<?php SettingsPage::get_instance()->navigation( $this->page_id )->output(); ?>
+		<?php SettingsPage::get_instance()->navigation( $this->gateway->id )->output(); ?>
 		<div class="krokedil_settings_page<?php echo esc_attr( $this->styled_output ? ' styled' : '' ); ?>">
 			<div class="krokedil_settings__wrapper">
 				<?php
@@ -99,7 +93,7 @@ class Shipping {
 	public function output_page_content() {
 		?>
 		<table class="form-table">
-			<?php echo $this->generate_settings_html( $this->get_form_fields(), false ); //phpcs:ignore ?>
+			<?php echo $this->gateway->generate_settings_html( $this->gateway->get_form_fields(), false ); //phpcs:ignore ?>
 		</table>
 		<?php
 	}
