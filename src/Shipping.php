@@ -115,17 +115,18 @@ class Shipping {
 	public static function krokedil_section_start( $section ) {
 		$always_open_sections = array();
 		$section_key          = $section['id'] ?? '';
-		echo '</table>';
-		echo '<div id="krokedil_section_' . esc_attr( $section_key ) . '" class="krokedil_settings__section">';
-		echo '<div class="krokedil_settings__section_header">';
-		echo '<span class="krokedil_settings__section_toggle dashicons' . esc_attr( in_array( $section_key, $always_open_sections, true ) ? ' dashicons-arrow-up-alt2' : ' dashicons-arrow-down-alt2' ) . '"></span>';
-		echo '<h3 class="krokedil_settings__section_title">' . esc_html( $section['name'] ) . '</h3>';
-		echo '<div class="krokedil_settings__section_description">';
-		echo '<p>' . esc_html( $section['description'] ?? '' ) . '</p>';
-		echo '</div>';
-		echo '</div>';
-		echo '<div class="krokedil_settings__section_content' . esc_attr( in_array( $section_key, $always_open_sections, true ) ? ' active' : '' ) . '">';
-		echo '<table class="form-table">';
+		$html                 = '</table>';
+		$html                .= '<div id="krokedil_section_' . esc_attr( $section_key ) . '" class="krokedil_settings__section">';
+		$html                .= '<div class="krokedil_settings__section_header">';
+		$html                .= '<span class="krokedil_settings__section_toggle dashicons' . esc_attr( \in_array( $section_key, $always_open_sections, \true ) ? ' dashicons-arrow-up-alt2' : ' dashicons-arrow-down-alt2' ) . '"></span>';
+		$html                .= '<h3 class="krokedil_settings__section_title">' . esc_html( $section['name'] ) . '</h3>';
+		$html                .= '<div class="krokedil_settings__section_description">';
+		$html                .= '<p>' . esc_html( $section['description'] ?? '' ) . '</p>';
+		$html                .= '</div>';
+		$html                .= '</div>';
+		$html                .= '<div class="krokedil_settings__section_content' . esc_attr( \in_array( $section_key, $always_open_sections, \true ) ? ' active' : '' ) . '">';
+		$html                .= '<table class="form-table">';
+		return $html;
 	}
 
 	/**
@@ -136,9 +137,10 @@ class Shipping {
 	 * @return string
 	 */
 	public static function krokedil_section_end( $section ) {
-		echo '</table>';
-		echo '</div>';
-		echo '</div>';
+		$html  = '</table>';
+		$html .= '</div>';
+		$html .= '</div>';
+		return $html;
 	}
 
 	/**
