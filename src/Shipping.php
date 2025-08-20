@@ -100,7 +100,7 @@ class Shipping {
 	public function output_page_content() {
 		?>
 		<table class="form-table">
-			<?php echo $this->gateway->generate_settings_html( $this->gateway->get_form_fields(), false ); //phpcs:ignore ?>
+			<?php echo wp_kses_post( $this->generate_settings_html_shipping( $this->gateway->get_form_fields(), false ) ); ?>
 		</table>
 		<?php
 	}
@@ -139,5 +139,38 @@ class Shipping {
 		echo '</table>';
 		echo '</div>';
 		echo '</div>';
+	}
+
+	/**
+	 * Generate Settings HTML.
+	 *
+	 * Generate the HTML for the fields on the "settings" screen.
+	 *
+	 * @param array $form_fields (default: array()) Array of form fields.
+	 * @param bool  $echo Echo or return.
+	 * @return string the html for the settings
+	 * @since  1.0.0
+	 * @uses   method_exists()
+	 */
+	public function generate_settings_html_shipping( $form_fields = array(), $echo = true ) {
+		error_log( 'generate_settings_html_shipping called' );
+		if ( empty( $form_fields ) ) {
+			$form_fields = $this->gateway->get_form_fields();
+		}
+
+		$html = '';
+		foreach ( $form_fields as $k => $v ) {
+			$type = $this->gateway->get_field_type( $v );
+
+			if ( method_exists( $this->gateway, 'generate_' . $type . '_html' ) ) {
+				$html .= $this->gateway->{'generate_' . $type . '_html'}( $k, $v );
+			} elseif ( has_filter( 'woocommerce_admin_field_' . $type ) ) {
+				$html .= apply_filters( 'woocommerce_admin_field_' . $type, $v );
+			} else {
+				$html .= $this->gateway->generate_text_html( $k, $v );
+			}
+		}
+
+		return $html;
 	}
 }
