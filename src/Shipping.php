@@ -111,7 +111,7 @@ class Shipping {
 	public static function krokedil_button( $html, $key, $section ) {
 		ob_start();
 		?>
-		<tr valign="top" class="page-title-action <?php echo esc_attr( $section['alignment'] ? 'align-prev' : '' ); ?>">
+		<tr valign="top" class="<?php echo $section['alignment'] ? 'align-prev' : ''; ?>">
 			<td class="forminp">
 				<button type="button" id="krokedil_button_<?php echo esc_attr( $section['id'] ); ?>">
 					<?php echo esc_html( $section['title'] ?? 'No title' ); ?>
@@ -122,7 +122,7 @@ class Shipping {
 		return ob_get_clean();
 	}
 
-	public static function krokedil_divider( $section ) {
+	public static function krokedil_divider( $html, $key, $section ) {
 		ob_start();
 		?>
 		<tr valign="top" class="form-section form-section-<?php echo esc_attr( $section['id'] ); ?>-end">

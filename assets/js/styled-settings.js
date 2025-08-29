@@ -151,6 +151,10 @@ jQuery(function ($) {
             $('.krokedil_ppu_setting__title').next('p').toggle(!upsellPluginIsActive);
         },
 
+        styleCustomSettings: function () {
+            $('.krokedil_settings__section_content .align-prev').prev('tr').addClass('align-parent');
+        },
+
         /**
          * Initializes the events for this file.
          */
@@ -165,7 +169,8 @@ jQuery(function ($) {
                 .ready(this.smoothScroll)
                 .ready(this.openSettingsSection)
                 .ready(this.conditionalSettings)
-                .ready(this.upsellSettings);
+                .ready(this.upsellSettings)
+                .ready(this.styleCustomSettings);
 
             $(window).on('resize', this.moveSubmitButton);
             
