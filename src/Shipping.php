@@ -100,7 +100,7 @@ class Shipping {
 	public function output_page_content() {
 		?>
 		<table class="form-table">
-			<?php echo wp_kses_post( $this->generate_settings_html_shipping( $this->gateway->get_form_fields(), false ) ); ?>
+			<?php echo $this->generate_settings_html_shipping( $this->gateway->get_form_fields(), false ); ?>
 		</table>
 		<?php
 	}
@@ -144,6 +144,19 @@ class Shipping {
 	}
 
 	/**
+	 * Add a custom divider that works for
+	 *
+	 * @param array $section The section data.
+	 * @return string
+	 */
+	public static function krokedil_divider( $section ) {
+		$html  = '<tr valign="top" class="form-section form-section-' . esc_attr( $section['id'] ) . '-end">';
+		$html .= '<td colspan="2"></td>';
+		$html .= '</tr>';
+		return $html;
+	}
+
+	/**
 	 * Generate Settings HTML.
 	 *
 	 * Generate the HTML for the fields on the "settings" screen.
@@ -155,7 +168,6 @@ class Shipping {
 	 * @uses   method_exists()
 	 */
 	public function generate_settings_html_shipping( $form_fields = array(), $echo = true ) {
-		error_log( 'generate_settings_html_shipping called' );
 		if ( empty( $form_fields ) ) {
 			$form_fields = $this->gateway->get_form_fields();
 		}
