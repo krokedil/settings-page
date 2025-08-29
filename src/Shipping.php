@@ -65,6 +65,8 @@ class Shipping {
 		if ( $this->styled_output ) {
 			add_filter( 'woocommerce_generate_krokedil_section_start_html', array( Gateway::class, 'krokedil_section_start' ), 10, 3 );
 			add_filter( 'woocommerce_generate_krokedil_section_end_html', array( Gateway::class, 'krokedil_section_end' ), 10, 3 );
+			add_filter( 'woocommerce_generate_krokedil_button_html', array( __CLASS__, 'krokedil_button' ), 10, 3 );
+			add_filter( 'woocommerce_generate_krokedil_divider_html', array( __CLASS__, 'krokedil_divider' ), 10, 3 );
 
 		}
 	}
@@ -104,5 +106,29 @@ class Shipping {
 			<?php echo $this->gateway->generate_settings_html( $this->gateway->get_form_fields(), false ); //phpcs:ignore ?>
 		</table>
 		<?php
+	}
+
+	public static function krokedil_button( $html, $key, $section ) {
+		ob_start();
+		?>
+		<tr valign="top" class="page-title-action <?php echo esc_attr( $section['alignment'] ? 'align-prev' : '' ); ?>">
+			<td class="forminp">
+				<button type="button" id="krokedil_button_<?php echo esc_attr( $section['id'] ); ?>">
+					<?php echo esc_html( $section['title'] ?? 'No title' ); ?>
+				</button>
+			</td>
+		</tr>
+		<?php
+		return ob_get_clean();
+	}
+
+	public static function krokedil_divider( $section ) {
+		ob_start();
+		?>
+		<tr valign="top" class="form-section form-section-<?php echo esc_attr( $section['id'] ); ?>-end">
+			<td colspan="2"></td>
+		</tr>
+		<?php
+		return ob_get_clean();
 	}
 }
