@@ -67,6 +67,7 @@ class Shipping {
 			add_filter( 'woocommerce_generate_krokedil_section_end_html', array( Gateway::class, 'krokedil_section_end' ), 10, 3 );
 			add_filter( 'woocommerce_generate_krokedil_button_html', array( __CLASS__, 'krokedil_button' ), 10, 3 );
 			add_filter( 'woocommerce_generate_krokedil_divider_html', array( __CLASS__, 'krokedil_divider' ), 10, 3 );
+			add_filter( 'woocommerce_generate_krokedil_radio_html', array( __CLASS__, 'krokedil_radio' ), 10, 3 );
 
 		}
 	}
@@ -111,9 +112,14 @@ class Shipping {
 	public static function krokedil_button( $html, $key, $section ) {
 		ob_start();
 		?>
-		<tr valign="top" class="<?php echo $section['alignment'] ? 'align-prev' : ''; ?>">
-			<td class="forminp">
-				<button type="button" id="krokedil_button_<?php echo esc_attr( $section['id'] ); ?>">
+		<tr valign="top">
+			<td class="<?php echo esc_attr( $section['class'] ); ?><?php echo $section['alignment'] ? ' align-prev' : ' no-align'; ?>">
+				<?php
+				if ( $section['description'] ) {
+					?>
+					<p><?php echo esc_html( $section['description'] ); ?></p>
+				<?php } ?>
+				<button class="krokedil_button button" type="button" id="<?php echo esc_attr( 'krokedil_button_' . $section['id'] ); ?>">
 					<?php echo esc_html( $section['title'] ?? 'No title' ); ?>
 				</button>
 			</td>
@@ -126,7 +132,31 @@ class Shipping {
 		ob_start();
 		?>
 		<tr valign="top" class="form-section form-section-<?php echo esc_attr( $section['id'] ); ?>-end">
-			<td colspan="2"></td>
+			<td colspan="2"><hr></hr></td>
+		</tr>
+		<?php
+		return ob_get_clean();
+	}
+
+	public static function krokedil_radio( $html, $key, $section ) {
+		ob_start();
+		$options = $section['options'] ?? array();
+		$default = $section['default'] ?? '';
+		?>
+		<tr valign="top">
+			<td class="<?php echo ! empty( $section['alignment'] ) ? 'align-prev' : 'no-align'; ?>">
+				<?php foreach ( $options as $option_key => $option ) : ?>
+					<label style="margin-right:20px;">
+						<input
+							type="radio"
+							name="<?php echo esc_attr( $key ); ?>"
+							value="<?php echo esc_attr( $option['value'] ); ?>"
+							<?php checked( $option['value'], $default ); ?>
+						>
+						<?php echo esc_html( $option['title'] ?? '' ); ?>
+					</label>
+				<?php endforeach; ?>
+			</td>
 		</tr>
 		<?php
 		return ob_get_clean();

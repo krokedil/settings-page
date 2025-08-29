@@ -152,7 +152,10 @@ jQuery(function ($) {
         },
 
         styleCustomSettings: function () {
-            $('.krokedil_settings__section_content .align-prev').prev('tr').addClass('align-parent');
+             // Move custom buttons that should be aligned with the previous row.
+            $('.krokedil_settings__section_content .align-prev').each(function () {
+                $(this).closest('tr').prev('tr').append(this);
+            });
         },
 
         /**
