@@ -144,7 +144,7 @@ class Shipping {
 		$default = $section['default'] ?? '';
 		?>
 		<tr valign="top">
-			<td class="<?php echo ! empty( $section['alignment'] ) ? 'align-prev' : 'no-align'; ?>">
+			<td class="<?php echo esc_attr( $section['class'] ); ?> <?php echo ! empty( $section['alignment'] ) ? 'align-prev' : 'no-align'; ?>">
 				<?php foreach ( $options as $option_key => $option ) : ?>
 					<label style="margin-right:20px;">
 						<input
