@@ -65,6 +65,8 @@ class Shipping {
 		if ( $this->styled_output ) {
 			add_filter( 'woocommerce_admin_field_krokedil_section_start', array( __CLASS__, 'krokedil_section_start' ), 10, 3 );
 			add_filter( 'woocommerce_admin_field_krokedil_section_end', array( __CLASS__, 'krokedil_section_end' ), 10, 3 );
+			add_filter( 'woocommerce_admin_field_krokedil_divider', array( __CLASS__, 'krokedil_divider' ), 10, 3 );
+
 		}
 	}
 
