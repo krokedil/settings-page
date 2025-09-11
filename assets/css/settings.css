@@ -307,3 +307,15 @@ div.krokedil_settings__spacer {
 .krokedil_settings_page.styled  .krokedil_ppu_setting__title.inactive + p + .form-table .titledesc {
    padding-top: 0;
 }
+
+.krokedil_settings_page.styled .krokedil_settings__section:not(#krokedil_section_0) .krokedil_settings__section_content .form-table tr.krokedil_settings__section_subtitle th {
+    font-size: 1.1em;
+    color: #1d2327;
+    margin: 1em 0;
+    font-weight: 600;
+    padding: 0;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__section:not(#krokedil_section_0) .krokedil_settings__section_content .form-table tr.krokedil_settings__section_subtitle td {
+    display: none;
+}
