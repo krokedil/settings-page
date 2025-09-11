@@ -6,13 +6,6 @@ trait Layout {
 	use Subsection;
 
 	/**
-	 * The gateway object.
-	 *
-	 * @var \WC_Payment_Gateway|null $gateway
-	 */
-	protected $gateway;
-
-	/**
 	 * The icon for the page.
 	 *
 	 * @var string $icon
@@ -25,6 +18,27 @@ trait Layout {
 	 * @var string|null $plugin_name
 	 */
 	protected $plugin_name = null;
+
+	/**
+	 * Page title.
+	 *
+	 * @var string $page_title
+	 */
+	protected $page_title = 'Settings';
+
+	/**
+	 * Page description.
+	 *
+	 * @var string $page_description
+	 */
+	protected $page_description = '';
+
+	/**
+	 * Form fields for the settings page.
+	 *
+	 * @var array $form_fields
+	 */
+	protected $form_fields = array();
 
 	/**
 	 * Set the icon url.
@@ -47,26 +61,40 @@ trait Layout {
 	}
 
 	/**
+	 * Get the page title.
+	 *
+	 * @return string
+	 */
+	public function get_page_title() {
+		return $this->page_title;
+	}
+
+	/**
+	 * Get the page description.
+	 *
+	 * @return string
+	 */
+	public function get_page_description() {
+		return $this->page_description;
+	}
+
+	/**
 	 * Print the header for the page.
 	 *
 	 * @return void
 	 */
 	public function output_header() {
-		if ( empty( $this->gateway ) ) {
-			return;
-		}
-
 		?>
 		<div class="krokedil_settings__header">
 			<?php if ( ! empty( $this->icon ) ) : ?>
-				<img height="64px" class="kp_settings__header_logo" src="<?php echo esc_attr( $this->icon ); ?>" alt="<?php echo esc_html( $this->gateway->get_method_title() ); ?>" />
+				<img height="64px" class="kp_settings__header_logo" src="<?php echo esc_attr( $this->icon ); ?>" alt="<?php echo esc_html( $this->get_page_title() ); ?>" />
 			<?php endif; ?>
 			<div class="krokedil_settings__header_text">
 				<h2 class="krokedil_settings__header_title">
-					<?php echo esc_html( $this->gateway->get_method_title() ); ?>
+					<?php echo esc_html( $this->get_page_title() ); ?>
 					<?php wc_back_link( __( 'Return to payments', 'woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ); //phpcs:ignore ?>
 				</h2>
-				<p class="krokedil_settings__header_description"><?php echo esc_html( $this->gateway->get_method_description() ); ?></p>
+				<p class="krokedil_settings__header_description"><?php echo esc_html( $this->get_page_description() ); ?></p>
 			</div>
 		</div>
 		<?php

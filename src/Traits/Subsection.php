@@ -24,7 +24,7 @@ trait Subsection {
 	 */
 	public function output_subsection( $show_settings_navigation = false ) {
 		$settings = array_filter(
-			$this->gateway->get_form_fields(),
+			$this->form_fields,
 			function ( $field ) {
 				return isset( $field['type'] ) && 'krokedil_section_start' === $field['type'];
 			}
