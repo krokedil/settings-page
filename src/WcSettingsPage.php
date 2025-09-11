@@ -188,7 +188,7 @@ class WcSettingsPage {
 					?>
 					<p><?php echo esc_html( $section['description'] ); ?></p>
 				<?php } ?>
-				<button class="krokedil_button button <?php echo $section['alignment'] ? ' align-' . esc_attr( $section['alignment'] ) : ' no-align'; ?>" type="button" id="<?php echo esc_attr( 'krokedil_button_' . $section['id'] ); ?>">
+				<button class="krokedil_button button<?php echo $section['alignment'] ? ' align-' . esc_attr( $section['alignment'] ) : ' no-align'; ?>" type="button" id="<?php echo esc_attr( 'krokedil_button_' . $section['id'] ); ?>">
 					<?php echo esc_html( $section['title'] ?? 'No title' ); ?>
 				</button>
 			</td>
