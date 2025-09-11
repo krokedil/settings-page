@@ -153,8 +153,13 @@ jQuery(function ($) {
 
         styleCustomSettings: function () {
              // Move custom buttons that should be aligned with the previous row.
-            $('.krokedil_settings__section_content .align-prev').each(function () {
+            $('.krokedil_settings__section_content .krokedil_button:not(.no-align)').each(function () {
                 $(this).closest('tr').prev('tr').append(this);
+
+                const alignmentClass = $(this).attr('class').split(' ').find(c => c.startsWith('align-'));
+                if (alignmentClass) {
+                    $('.' + alignmentClass.replace('align-', '')).after(this);
+                }
             });
         },
 

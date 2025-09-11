@@ -112,7 +112,7 @@ class WcSettingsPage {
 	public function output_page_content() {
 		?>
 		<table class="form-table">
-			<?php \WC_Admin_Settings::output_fields( $this->form_fields ) ?>
+			<?php \WC_Admin_Settings::output_fields( $this->form_fields ); ?>
 		</table>
 		<?php
 	}
@@ -182,13 +182,13 @@ class WcSettingsPage {
 		ob_start();
 		?>
 		<tr valign="top">
-			<td class="<?php echo esc_attr( $section['class'] ); ?><?php echo $section['alignment'] ? ' align-prev' : ' no-align'; ?>">
+			<td class="<?php echo esc_attr( $section['class'] ); ?>">
 				<?php
 				if ( $section['description'] ) {
 					?>
 					<p><?php echo esc_html( $section['description'] ); ?></p>
 				<?php } ?>
-				<button class="krokedil_button button" type="button" id="<?php echo esc_attr( 'krokedil_button_' . $section['id'] ); ?>">
+				<button class="krokedil_button button <?php echo $section['alignment'] ? ' align-' . esc_attr( $section['alignment'] ) : ' no-align'; ?>" type="button" id="<?php echo esc_attr( 'krokedil_button_' . $section['id'] ); ?>">
 					<?php echo esc_html( $section['title'] ?? 'No title' ); ?>
 				</button>
 			</td>
