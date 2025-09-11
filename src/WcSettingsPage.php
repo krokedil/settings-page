@@ -49,8 +49,8 @@ class WcSettingsPage {
 	 * Class constructor.
 	 *
 	 * @param string $id The ID for the page.
-	 * @param array $args Arguments for the page.
-	 * @param array $form_fields The form fields for the settings page.
+	 * @param array  $args Arguments for the page.
+	 * @param array  $form_fields The form fields for the settings page.
 	 *
 	 * @return void
 	 */
@@ -61,8 +61,8 @@ class WcSettingsPage {
 		$this->sidebar             = $args['sidebar'] ?? array();
 		$this->settings_navigation = $args['settings_navigation'] ?? false;
 		$this->styled_output       = $args['styled_output'] ?? false;
-		$this->page_title		   = $args['page_title'] ?? 'Settings';
-		$this->page_description	   = $args['page_description'] ?? '';
+		$this->page_title          = $args['page_title'] ?? 'Settings';
+		$this->page_description    = $args['page_description'] ?? '';
 		$this->form_fields         = $form_fields;
 
 		if ( $this->styled_output ) {
@@ -127,7 +127,6 @@ class WcSettingsPage {
 	 * @return string
 	 */
 	public static function krokedil_section_start_html( $html, $key, $section ) {
-		error_log('printing section start for key: ' . $key );
 		ob_start();
 		$always_open_sections = array( 'general', 'checkout_configuration', 'order_management' ); // This needs to be moved to the specific plugin.
 		?>
@@ -159,7 +158,6 @@ class WcSettingsPage {
 	 * @return string
 	 */
 	public static function krokedil_section_end_html( $html, $key, $section ) {
-		error_log('printing section start for key: ' . $key );
 		ob_start();
 		?>
 		</table>
