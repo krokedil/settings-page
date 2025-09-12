@@ -131,7 +131,7 @@ class WcSettingsPage {
 		$always_open_sections = array( 'general', 'checkout_configuration', 'order_management' ); // This needs to be moved to the specific plugin.
 		?>
 		</table>
-		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section">
+		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section<?php echo esc_attr( ' ' . $section['class'] ?? '' ); ?>">
 			<div class="krokedil_settings__section_header">
 				<span class="krokedil_settings__section_toggle dashicons<?php echo esc_attr( in_array( $key, $always_open_sections, true ) ? ' dashicons-arrow-up-alt2' : ' dashicons-arrow-down-alt2' ); ?>"></span>
 				<h3 class="krokedil_settings__section_title">
