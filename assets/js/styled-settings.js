@@ -152,14 +152,19 @@ jQuery(function ($) {
         },
 
         styleCustomSettings: function () {
-             // Move custom buttons that should be aligned with the previous row.
+            // Move custom buttons that should be aligned with the previous row.
             $('.krokedil_settings__section_content .krokedil_button:not(.no-align)').each(function () {
-                $(this).closest('tr').prev('tr').append(this);
+            const $currentTr = $(this).closest('tr');
+            $currentTr.prev('tr').append(this);
 
-                const alignmentClass = $(this).attr('class').split(' ').find(c => c.startsWith('align-'));
-                if (alignmentClass) {
-                    $('.' + alignmentClass.replace('align-', '')).after(this);
-                }
+            const alignmentClass = $(this).attr('class').split(' ').find(c => c.startsWith('align-'));
+            if (alignmentClass) {
+                $('.' + alignmentClass.replace('align-', '')).after(this);
+            }
+
+            $(this).after('<div class="lcfwc-validation-message ' + alignmentClass.replace('align-', 'message-') + '"></div>');
+
+            $currentTr.remove();
             });
         },
 
