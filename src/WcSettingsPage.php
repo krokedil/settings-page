@@ -91,7 +91,7 @@ class WcSettingsPage {
 		?>
 		<?php $this->output_header(); ?>
 		<?php SettingsPage::get_instance()->navigation( $this->id )->output(); ?>
-		<div class="krokedil_settings_page<?php echo esc_attr( $this->styled_output ? ' styled' : '' ); ?>">
+		<div id="krokedil_settings_<?php echo esc_attr( $this->id ); ?>" class="krokedil_settings_page<?php echo esc_attr( $this->styled_output ? ' styled' : '' ); ?>">
 			<div class="krokedil_settings__wrapper">
 				<?php
 				$this->output_subsection( ( $this->styled_output && $this->settings_navigation ) ? true : false );
