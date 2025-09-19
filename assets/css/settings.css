@@ -319,3 +319,21 @@ div.krokedil_settings__spacer {
 .krokedil_settings_page.styled .krokedil_settings__section:not(#krokedil_section_0) .krokedil_settings__section_content .form-table tr.krokedil_settings__section_subtitle td {
     display: none;
 }
+
+.krokedil_settings_page.styled .krokedil_settings__section_content .krokedil_button.no-align {
+  margin: 15px 0;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__section_content .krokedil_button:not(.no-align) {
+  margin-left: 10px;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__content .krokedil_settings__section_content input[type="radio"] {
+  width: 10px;
+}
+
+.krokedil_settings_page.styled .krokedil_button.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
