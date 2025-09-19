@@ -33,6 +33,13 @@ class Addons {
 	protected $active_plugins = array();
 
 	/**
+	 * The gateway object.
+	 *
+	 * @var \WC_Payment_Gateway|null
+	 */
+	protected $gateway;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param array                    $addons Addons for the page.

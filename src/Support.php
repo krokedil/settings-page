@@ -19,6 +19,13 @@ class Support {
 	protected $support = array();
 
 	/**
+	 * The gateway object.
+	 *
+	 * @var \WC_Payment_Gateway|null
+	 */
+	protected $gateway = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param array                    $support Support for the page.
