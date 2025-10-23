@@ -128,9 +128,10 @@ class WcSettingsPage {
 	 */
 	public static function krokedil_section_start_html( $html, $key, $section ) {
 		ob_start();
+		$classes = $section['class'] ? ' ' . $section['class'] : '';
 		?>
 		</table>
-		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section<?php echo esc_attr( ' ' . $section['class'] ?? '' ); ?>">
+		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section<?php echo esc_attr( $classes ); ?>">
 			<div class="krokedil_settings__section_header">
 				<span class="krokedil_settings__section_toggle dashicons dashicons-arrow-down-alt2"></span>
 				<h3 class="krokedil_settings__section_title">
@@ -177,9 +178,10 @@ class WcSettingsPage {
 	 */
 	public static function krokedil_button_html( $html, $key, $section ) {
 		ob_start();
+		$classes = $section['class'] ?? '';
 		?>
 		<tr valign="top">
-			<td class="<?php echo esc_attr( $section['class'] ); ?>">
+			<td class="<?php echo esc_attr( $classes ); ?>">
 				<?php
 				if ( $section['description'] ) {
 					?>
@@ -226,9 +228,10 @@ class WcSettingsPage {
 		ob_start();
 		$options = $section['options'] ?? array();
 		$default = $section['default'] ?? '';
+		$classes = $section['class'] ?? '';
 		?>
 		<tr valign="top">
-			<td class="<?php echo esc_attr( $section['class'] ); ?> <?php echo ! empty( $section['alignment'] ) ? 'align-prev' : 'no-align'; ?>">
+			<td class="<?php echo esc_attr( $classes ); ?> <?php echo ! empty( $section['alignment'] ) ? 'align-prev' : 'no-align'; ?>">
 				<?php foreach ( $options as $option_key => $option ) : ?>
 					<label style="margin-right:20px;">
 						<input

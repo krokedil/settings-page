@@ -9,7 +9,6 @@ defined( 'ABSPATH' ) || exit;
  * Class for extending a Gateways settings page.
  */
 class Gateway extends WcSettingsPage {
-	use Layout;
 
 	/**
 	 * The gateway object.
