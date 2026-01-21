@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Fixed an issue where the `system-report.json` file was not correctly attached when submitting support requests via the HelpScout beacon.
+
 ------------------
 ## [1.3.1] - 2025-12-11
 ### Changed
