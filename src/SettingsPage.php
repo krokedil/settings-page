@@ -209,9 +209,8 @@ class SettingsPage {
 
 			do_action( 'krokedil_settings_page_render_error', $id, $exception, $page );
 
-			if ( ! empty( $error_notice ) ) {
-				echo '<div class="notice notice-error"><p>' . esc_html( $error_notice ) . '</p></div>';
-			}
+			$notice_message = ! empty( $error_notice ) ? $error_notice : __( 'An error occurred while rendering this settings page.', 'krokedil-settings' );
+			echo '<div class="notice notice-error"><p>' . esc_html( $notice_message ) . '</p></div>';
 
 			if ( is_callable( $fallback_content ) ) {
 				call_user_func( $fallback_content );
