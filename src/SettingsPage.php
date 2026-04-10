@@ -161,37 +161,53 @@ class SettingsPage {
 
 		$page               = $this->pages[ $id ];
 		$general_content    = $page['args']['general_content'] ?? '';
+		$fallback_content   = $page['args']['fallback_content'] ?? null;
+		$error_notice       = $page['args']['error_notice'] ?? '';
 		$icon               = $page['args']['icon'] ?? '';
 		$support            = $page['support'];
 		$addons             = $page['addons'];
 		$navigation         = $page['navigation'];
 		$current_subsection = $navigation->get_current_subsection();
 
-		switch ( $current_subsection ) {
-			case 'support':
-				// If we are on the support tab. Print the support content.
-				$support->set_icon( $icon );
-				$support->set_plugin_name( $this->plugin_name );
-				$support->output_header();
-				$navigation->output();
-				$support->output();
-				break;
-			case 'addons':
-				// If we are on the addons tab. Print the addons content.
-				$addons->set_icon( $icon );
-				$addons->set_plugin_name( $this->plugin_name );
-				$addons->output_header();
-				$navigation->output();
-				$addons->output();
-				break;
-			default:
-				if ( is_string( $general_content ) ) {
-					echo wp_kses_post( $general_content );
-				} else {
-					// If the general content is a callback. Call the callback.
-					call_user_func( $general_content );
-				}
-				break;
+		try {
+			switch ( $current_subsection ) {
+				case 'support':
+					// If we are on the support tab. Print the support content.
+					$support->set_icon( $icon );
+					$support->set_plugin_name( $this->plugin_name );
+					$support->output_header();
+					$navigation->output();
+					$support->output();
+					break;
+				case 'addons':
+					// If we are on the addons tab. Print the addons content.
+					$addons->set_icon( $icon );
+					$addons->set_plugin_name( $this->plugin_name );
+					$addons->output_header();
+					$navigation->output();
+					$addons->output();
+					break;
+				default:
+					if ( is_string( $general_content ) ) {
+						echo wp_kses_post( $general_content );
+					} else {
+						// If the general content is a callback. Call the callback.
+						call_user_func( $general_content );
+					}
+					break;
+			}
+		} catch ( \Throwable $exception ) {
+			do_action( 'krokedil_settings_page_render_error', $id, $exception, $page );
+
+			if ( ! empty( $error_notice ) ) {
+				echo '<div class="notice notice-error"><p>' . esc_html( $error_notice ) . '</p></div>';
+			}
+
+			if ( is_callable( $fallback_content ) ) {
+				call_user_func( $fallback_content );
+			} elseif ( is_string( $fallback_content ) ) {
+				echo wp_kses_post( $fallback_content );
+			}
 		}
 
 		return $this;
