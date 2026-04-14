@@ -163,7 +163,7 @@ class SettingsPage {
 
 		$page               = $this->pages[ $id ];
 		$general_content    = $page['args']['general_content'] ?? '';
-		$fallback_content   = $page['args']['fallback_content'] ?? null;
+		$fallback_content   = $page['args']['fallback_content'] ?? 'Something went wrong while loading this page. Please try again later.';
 		$error_notice       = $page['args']['error_notice'] ?? '';
 		$icon               = $page['args']['icon'] ?? '';
 		$support            = $page['support'];
