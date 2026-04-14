@@ -210,9 +210,7 @@ class SettingsPage {
 			}
 
 			do_action( 'krokedil_settings_page_render_error', $id, $exception, $page );
-
 			$notice_message = ! empty( $error_notice ) ? $error_notice : __( 'An error occurred while rendering this settings page.', 'krokedil-settings' );
-			echo '<div class="notice notice-error"><p>' . esc_html( $notice_message ) . '</p></div>';
 
 			if ( is_callable( $fallback_content ) ) {
 				$fallback_buffer_level = ob_get_level();
@@ -225,10 +223,14 @@ class SettingsPage {
 					while ( ob_get_level() > $fallback_buffer_level ) {
 						ob_end_clean();
 					}
+					$notice_message .= ' ' . __( 'Additionally, an error occurred while rendering the fallback content.', 'krokedil-settings' );
+					do_action( 'krokedil_settings_page_fallback_render_error', $id, $fallback_exception, $page );
 				}
 			} elseif ( is_string( $fallback_content ) ) {
 				echo wp_kses_post( $fallback_content );
 			}
+
+			echo '<div class="notice notice-error"><p>' . esc_html( $notice_message ) . '</p></div>';
 		}
 
 		return $this;
