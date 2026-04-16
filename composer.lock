@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c54b874eec21087d2fa3d9054c35ebc7",
+    "content-hash": "632c00e4a0a916de44ffe712ea36f886",
     "packages": [],
     "packages-dev": [
         {
@@ -109,12 +109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/woocommerce-stubs.git",
-                "reference": "b1222d510f791a92bf89905708c2995854de85b6"
+                "reference": "7251902ebc048626aff04855c333afa9f3bae2d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/b1222d510f791a92bf89905708c2995854de85b6",
-                "reference": "b1222d510f791a92bf89905708c2995854de85b6",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/7251902ebc048626aff04855c333afa9f3bae2d5",
+                "reference": "7251902ebc048626aff04855c333afa9f3bae2d5",
                 "shasum": ""
             },
             "require": {
@@ -144,22 +144,22 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/woocommerce-stubs/issues",
-                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/master"
+                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v10.7.0"
             },
-            "time": "2025-12-14T04:41:11+00:00"
+            "time": "2026-04-14T15:19:28+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v6.9.0",
+            "version": "v6.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "5171cb6650e6c583a96943fd6ea0dfa3e1089a8a"
+                "reference": "f12220f303e0d7c0844c0e5e957b0c3cee48d2f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/5171cb6650e6c583a96943fd6ea0dfa3e1089a8a",
-                "reference": "5171cb6650e6c583a96943fd6ea0dfa3e1089a8a",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/f12220f303e0d7c0844c0e5e957b0c3cee48d2f7",
+                "reference": "f12220f303e0d7c0844c0e5e957b0c3cee48d2f7",
                 "shasum": ""
             },
             "conflict": {
@@ -170,9 +170,10 @@
                 "nikic/php-parser": "^5.5",
                 "php": "^7.4 || ^8.0",
                 "php-stubs/generator": "^0.8.3",
-                "phpdocumentor/reflection-docblock": "^5.4.1",
+                "phpdocumentor/reflection-docblock": "^6.0",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^9.5",
+                "symfony/polyfill-php80": "*",
                 "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^1.1.1",
                 "wp-coding-standards/wpcs": "3.1.0 as 2.3.0"
             },
@@ -195,9 +196,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.9.0"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.9.1"
             },
-            "time": "2025-12-03T23:06:24+00:00"
+            "time": "2026-02-03T19:29:21+00:00"
         },
         {
             "name": "phpcsstandards/phpcsextra",
@@ -205,12 +206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHPCSExtra.git",
-                "reference": "71f58f2306fb6e0f20814c703debd0a9efd0b569"
+                "reference": "7490cf849d1d68b75705e8eb000e3e89b2eea526"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSExtra/zipball/71f58f2306fb6e0f20814c703debd0a9efd0b569",
-                "reference": "71f58f2306fb6e0f20814c703debd0a9efd0b569",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSExtra/zipball/7490cf849d1d68b75705e8eb000e3e89b2eea526",
+                "reference": "7490cf849d1d68b75705e8eb000e3e89b2eea526",
                 "shasum": ""
             },
             "require": {
@@ -280,7 +281,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-01-22T04:37:47+00:00"
+            "time": "2026-04-06T00:54:57+00:00"
         },
         {
             "name": "phpcsstandards/phpcsutils",
@@ -288,12 +289,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHPCSUtils.git",
-                "reference": "b07179c57aa78e3bc717b8d6db004c16a78c4c44"
+                "reference": "3a726c3d50cbbfe1c5e2cd877df0df39e0295a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSUtils/zipball/b07179c57aa78e3bc717b8d6db004c16a78c4c44",
-                "reference": "b07179c57aa78e3bc717b8d6db004c16a78c4c44",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSUtils/zipball/3a726c3d50cbbfe1c5e2cd877df0df39e0295a38",
+                "reference": "3a726c3d50cbbfe1c5e2cd877df0df39e0295a38",
                 "shasum": ""
             },
             "require": {
@@ -374,7 +375,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-01-06T14:40:06+00:00"
+            "time": "2026-04-06T00:53:44+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -382,12 +383,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "5153a1301feefd5461f82fd7973e5967bf0ed73b"
+                "reference": "42687919b65b7542282d315c451702639d58bb72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5153a1301feefd5461f82fd7973e5967bf0ed73b",
-                "reference": "5153a1301feefd5461f82fd7973e5967bf0ed73b",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/42687919b65b7542282d315c451702639d58bb72",
+                "reference": "42687919b65b7542282d315c451702639d58bb72",
                 "shasum": ""
             },
             "require": {
@@ -453,7 +454,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-01-21T02:27:18+00:00"
+            "time": "2026-04-06T01:04:07+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -461,12 +462,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
-                "reference": "8e14560fc2363fff275838ef129147ffbc1f0a82"
+                "reference": "8643436ede79f08033abebc62d9f84ecac119ff2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/8e14560fc2363fff275838ef129147ffbc1f0a82",
-                "reference": "8e14560fc2363fff275838ef129147ffbc1f0a82",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/8643436ede79f08033abebc62d9f84ecac119ff2",
+                "reference": "8643436ede79f08033abebc62d9f84ecac119ff2",
                 "shasum": ""
             },
             "require": {
@@ -520,7 +521,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-01-21T02:21:44+00:00"
+            "time": "2026-04-06T00:15:02+00:00"
         }
     ],
     "aliases": [],
