@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+
+* Fixed a PHP 8.1+ deprecation warning (`stripos(): Passing null to parameter #1`) caused by passing `null` to `wp_add_inline_script` when the HelpScout beacon is disabled.
 
 ------------------
 ## [1.3.4] - 2026-04-23
