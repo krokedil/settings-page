@@ -6,11 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+
+* Fixed a PHP 8.1+ deprecation warning (`stripos(): Passing null to parameter #1`) caused by passing `null` to `wp_add_inline_script` when the HelpScout beacon is disabled.
+
+------------------
+## [1.3.4] - 2026-04-23
+### Fixed
+
+* Fixed an issue causing settings page fields to not display correctly.
+
+## [1.3.3] - 2026-04-16
+### Changed
+
+* Enhanced error handling to ensure more robust and reliable settings output.
+
+## [1.3.2] - 2026-01-23
+### Fixed
+
+* Fixed an issue where the `system-report.json` file was not correctly attached when submitting support requests via the HelpScout beacon.
+
+## [1.3.1] - 2025-12-11
 ### Changed
 
 * Tweaked the styling of the settings tabs.
 
-------------------
+### Fixed
+
+* Fixed a fatal error that could occur when the 'Addons' tab was excluded from the settings page.
+
 ## [1.3.0] - 2025-06-24
 ### Added
 
