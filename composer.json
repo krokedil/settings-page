@@ -4,8 +4,9 @@
     "version": "1.3.4",
     "type": "library",
     "require-dev": {
-        "wp-coding-standards/wpcs": "dev-develop",
-        "php-stubs/woocommerce-stubs": "dev-master"
+        "wp-coding-standards/wpcs": "^3.0",
+        "php-stubs/woocommerce-stubs": "^8.4",
+        "szepeviktor/phpstan-wordpress": "^2.0"
     },
     "license": "GPL-V2",
     "autoload": {
@@ -20,7 +21,6 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
     "config": {
         "platform": {
             "php": "7.4"
@@ -30,6 +30,7 @@
         }
     },
     "scripts": {
-        "makepot": "wp --allow-root i18n make-pot ./src ./languages/krokedil-settings.pot --domain=krokedil-settings"
+        "makepot": "wp --allow-root i18n make-pot ./src ./languages/krokedil-settings.pot --domain=krokedil-settings",
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit=2G"
     }
 }
