@@ -21,7 +21,7 @@ class SettingsPage {
 	/**
 	 * Array of pages to extend.
 	 *
-	 * @var array $pages
+	 * @var array<string, array<string, mixed>> $pages
 	 */
 	protected $pages = array();
 
@@ -39,7 +39,7 @@ class SettingsPage {
 	 *
 	 * @return void
 	 */
-	public function init() {
+	public function init(): void {
 		$this->load_textdomain();
 		$this->register_scripts();
 	}
@@ -49,7 +49,7 @@ class SettingsPage {
 	 *
 	 * @return void
 	 */
-	public function load_textdomain() {
+	public function load_textdomain(): void {
 		$filename = dirname( __DIR__ ) . '/languages/krokedil-settings-' . get_locale() . '.mo';
 
 		if ( file_exists( $filename ) ) {
@@ -62,33 +62,33 @@ class SettingsPage {
 	 *
 	 * @return void
 	 */
-	public function register_scripts() {
+	public function register_scripts(): void {
 		wp_register_style(
 			'krokedil-settings-page',
 			plugin_dir_url( __FILE__ ) . '../assets/css/settings.css',
 			array(),
-			filemtime( __DIR__ . '/../assets/css/settings.css' ),
+			(string) filemtime( __DIR__ . '/../assets/css/settings.css' ),
 		);
 
 		wp_register_style(
 			'krokedil-support-page',
 			plugin_dir_url( __FILE__ ) . '../assets/css/support.css',
 			array( 'krokedil-settings-page' ),
-			filemtime( __DIR__ . '/../assets/css/support.css' ),
+			(string) filemtime( __DIR__ . '/../assets/css/support.css' ),
 		);
 
 		wp_register_style(
 			'krokedil-addons-page',
 			plugin_dir_url( __FILE__ ) . '../assets/css/addons.css',
 			array( 'krokedil-settings-page' ),
-			filemtime( __DIR__ . '/../assets/css/addons.css' ),
+			(string) filemtime( __DIR__ . '/../assets/css/addons.css' ),
 		);
 
 		wp_register_script(
 			'krokedil-support-page',
 			plugin_dir_url( __FILE__ ) . '../assets/js/support.js',
 			array( 'jquery' ),
-			filemtime( __DIR__ . '/../assets/js/support.js' ),
+			(string) filemtime( __DIR__ . '/../assets/js/support.js' ),
 			false,
 		);
 
@@ -96,7 +96,7 @@ class SettingsPage {
 			'krokedil-settings-page',
 			plugin_dir_url( __FILE__ ) . '../assets/js/styled-settings.js',
 			array( 'jquery' ),
-			filemtime( __DIR__ . '/../assets/js/styled-settings.js' ),
+			(string) filemtime( __DIR__ . '/../assets/js/styled-settings.js' ),
 			false,
 		);
 	}
@@ -108,7 +108,7 @@ class SettingsPage {
 	 *
 	 * @return self
 	 */
-	public function set_plugin_name( $plugin_name ) {
+	public function set_plugin_name( ?string $plugin_name ): self {
 		$this->plugin_name = $plugin_name;
 
 		return $this;
@@ -118,12 +118,12 @@ class SettingsPage {
 	 * Register a page for extension.
 	 *
 	 * @param string                   $id   ID of the page.
-	 * @param array                    $args Arguments for the page.
+	 * @param array<string, mixed>     $args Arguments for the page.
 	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
 	 *
 	 * @return self
 	 */
-	public function register_page( $id, $args, $gateway = null ) {
+	public function register_page( string $id, array $args, $gateway = null ): self {
 		$default_args = array(
 			'page'              => '',
 			'tab'               => '',
@@ -155,7 +155,7 @@ class SettingsPage {
 	 *
 	 * @return self
 	 */
-	public function output( $id ) {
+	public function output( string $id ): self {
 		// Get the registered page.
 		if ( ! isset( $this->pages[ $id ] ) ) {
 			return $this;
@@ -243,7 +243,7 @@ class SettingsPage {
 	 *
 	 * @return Navigation|null
 	 */
-	public function navigation( $id ) {
+	public function navigation( string $id ): ?Navigation {
 		if ( ! isset( $this->pages[ $id ] ) ) {
 			return null;
 		}
@@ -258,7 +258,7 @@ class SettingsPage {
 	 *
 	 * @return Support|null
 	 */
-	public function support( $id ) {
+	public function support( string $id ): ?Support {
 		if ( ! isset( $this->pages[ $id ] ) ) {
 			return null;
 		}
@@ -273,7 +273,7 @@ class SettingsPage {
 	 *
 	 * @return Addons|null
 	 */
-	public function addons( $id ) {
+	public function addons( string $id ): ?Addons {
 		if ( ! isset( $this->pages[ $id ] ) ) {
 			return null;
 		}

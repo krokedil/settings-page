@@ -36,7 +36,7 @@ trait Layout {
 	/**
 	 * Form fields for the settings page.
 	 *
-	 * @var array $form_fields
+	 * @var array<string, mixed> $form_fields
 	 */
 	protected $form_fields = array();
 
@@ -47,16 +47,18 @@ trait Layout {
 	 *
 	 * @return void
 	 */
-	public function set_icon( $icon ) {
+	public function set_icon( string $icon ): void {
 		$this->icon = $icon;
 	}
 
 	/**
 	 * Set the plugin name.
 	 *
-	 * @param string $plugin_name The plugin name.
+	 * @param string|null $plugin_name The plugin name.
+	 *
+	 * @return void
 	 */
-	public function set_plugin_name( $plugin_name ) {
+	public function set_plugin_name( ?string $plugin_name ): void {
 		$this->plugin_name = $plugin_name;
 	}
 
@@ -65,7 +67,7 @@ trait Layout {
 	 *
 	 * @return string
 	 */
-	public function get_page_title() {
+	public function get_page_title(): string {
 		return $this->page_title;
 	}
 
@@ -74,7 +76,7 @@ trait Layout {
 	 *
 	 * @return string
 	 */
-	public function get_page_description() {
+	public function get_page_description(): string {
 		return $this->page_description;
 	}
 
@@ -83,7 +85,7 @@ trait Layout {
 	 *
 	 * @return void
 	 */
-	public function output_header() {
+	public function output_header(): void {
 		?>
 		<div class="krokedil_settings__header">
 			<?php if ( ! empty( $this->icon ) ) : ?>
@@ -105,7 +107,7 @@ trait Layout {
 	 *
 	 * @return void
 	 */
-	public function output() {
+	public function output(): void {
 		wp_enqueue_style( 'krokedil-settings-page' );
 
 		?>

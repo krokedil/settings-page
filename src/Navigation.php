@@ -10,18 +10,18 @@ class Navigation {
 	/**
 	 * The arguments for the page.
 	 *
-	 * @var array $args
+	 * @var array<string, mixed> $args
 	 */
 	protected $args = array();
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param array $args Arguments for the page.
+	 * @param array<string, mixed> $args Arguments for the page.
 	 *
 	 * @return void
 	 */
-	public function __construct( $args ) {
+	public function __construct( array $args ) {
 		$this->args = $args;
 	}
 
@@ -30,7 +30,7 @@ class Navigation {
 	 *
 	 * @return string
 	 */
-	public function get_current_subsection() {
+	public function get_current_subsection(): string {
 		// Verify the nonce.
 		wp_verify_nonce( '__nonce' );
 
@@ -48,7 +48,7 @@ class Navigation {
 	 *
 	 * @return void
 	 */
-	public function output() {
+	public function output(): void {
 		$current_subsection = $this->get_current_subsection();
 		$extra_subsections  = $this->args['extra_subsections'] ?? array();
 		$tabs               = array(

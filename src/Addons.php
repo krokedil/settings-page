@@ -7,6 +7,8 @@ use Krokedil\SettingsPage\Traits\Layout;
 
 /**
  * Addons class to handle the addons section of the settings page.
+ *
+ * @phpstan-type Addon array<string, mixed>
  */
 class Addons {
 	use Layout;
@@ -14,21 +16,21 @@ class Addons {
 	/**
 	 * The addons for the page.
 	 *
-	 * @var array $addons
+	 * @var array<string, mixed> $addons
 	 */
 	protected $addons = array();
 
 	/**
 	 * Installed plugins on the site to check if the addons are installed.
 	 *
-	 * @var array $installed_plugins
+	 * @var string[] $installed_plugins
 	 */
 	protected $installed_plugins = array();
 
 	/**
 	 * List of active plugins on the site to check if the addons are active.
 	 *
-	 * @var array $active_plugins
+	 * @var string[] $active_plugins
 	 */
 	protected $active_plugins = array();
 
@@ -42,13 +44,13 @@ class Addons {
 	/**
 	 * Class constructor.
 	 *
-	 * @param array                    $addons Addons for the page.
-	 * @param array                    $sidebar Sidebar content.
+	 * @param array<string, mixed>     $addons Addons for the page.
+	 * @param array<string, mixed>     $sidebar Sidebar content.
 	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
 
 	 * @return void
 	 */
-	public function __construct( $addons, $sidebar, $gateway = null ) {
+	public function __construct( array $addons, array $sidebar, $gateway = null ) {
 		$this->gateway = $gateway;
 		$this->title   = __( 'Addons', 'krokedil-settings' );
 		$this->addons  = $addons;
@@ -61,9 +63,10 @@ class Addons {
 	/**
 	 * Parse the list of installed plugins and store the slug only.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	private static function get_installed_plugins() {
+	private static function get_installed_plugins(): array {
+		$installed_plugins = array();
 		$plugins = get_plugins();
 
 		foreach ( $plugins as $plugin => $data ) {
@@ -78,9 +81,9 @@ class Addons {
 	/**
 	 * Parse the list of active plugins and get the slug only.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	private static function get_active_plugins() {
+	private static function get_active_plugins(): array {
 		$active_plugins = get_option( 'active_plugins' );
 
 		foreach ( $active_plugins as $plugin ) {
@@ -99,7 +102,7 @@ class Addons {
 	 *
 	 * @return bool
 	 */
-	private function is_plugin_installed( $slug ) {
+	private function is_plugin_installed( string $slug ): bool {
 		return in_array( $slug, $this->installed_plugins, true );
 	}
 
@@ -110,7 +113,7 @@ class Addons {
 	 *
 	 * @return bool
 	 */
-	private function is_plugin_active( $slug ) {
+	private function is_plugin_active( string $slug ): bool {
 		return in_array( $slug, $this->active_plugins, true );
 	}
 
@@ -119,7 +122,7 @@ class Addons {
 	 *
 	 * @return void
 	 */
-	public function output_page_content() {
+	public function output_page_content(): void {
 		global $hide_save_button;
 		$hide_save_button = true;
 
@@ -152,11 +155,11 @@ class Addons {
 	/**
 	 * Print the output for a single addon card.
 	 *
-	 * @param array $addon Addon data.
+	 * @param Addon $addon Addon data.
 	 *
 	 * @return void
 	 */
-	public function print_addon_card( $addon ) {
+	public function print_addon_card( array $addon ): void {
 		$title     = $addon['title'];
 		$read_more = $addon['links']['read_more'] ?? array();
 
@@ -185,11 +188,11 @@ class Addons {
 	/**
 	 * Print the action buttons/links for the addon card.
 	 *
-	 * @param array $addon Addon data.
+	 * @param Addon $addon Addon data.
 	 *
 	 * @return void
 	 */
-	public function print_addon_actions( $addon ) {
+	public function print_addon_actions( array $addon ): void {
 		$buy_now = $addon['links']['buy_now'] ?? array();
 		$price   = $addon['price'] ?? array();
 		$source  = $addon['source'] ?? '';
@@ -221,14 +224,14 @@ class Addons {
 	/**
 	 * Get the action button for the plugin based on the status.
 	 *
-	 * @param array  $link The link resource.
+	 * @param array<string, mixed> $link The link resource.
 	 * @param string $status The status of the plugin.
 	 * @param string $source The plugin source.
 	 * @param string $slug The plugin slug.
 	 *
 	 * @return void
 	 */
-	protected static function get_action_button( $link, $status, $source, $slug ) {
+	protected static function get_action_button( array $link, string $status, string $source, string $slug ): void {
 		$plugin_page_url = add_query_arg( 's', $slug, home_url( '/wp-admin/plugins.php' ) );
 		$text            = $link['text'] ?? '';
 

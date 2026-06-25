@@ -6,6 +6,8 @@ use Krokedil\SettingsPage\Traits\Layout;
 /**
  * Class for adding the settings page styling and functionality to a WooCommerce settings page.
  * Can be extended to create custom settings pages for specific things, like gateways or shipping.
+ *
+ * @phpstan-type KrokedilField array<string, mixed>
  */
 class WcSettingsPage {
 	use Layout;
@@ -20,7 +22,7 @@ class WcSettingsPage {
 	/**
 	 * Arguments for the page.
 	 *
-	 * @var array $args
+	 * @var array<string, mixed> $args
 	 */
 	protected $args;
 
@@ -49,12 +51,12 @@ class WcSettingsPage {
 	 * Class constructor.
 	 *
 	 * @param string $id The ID for the page.
-	 * @param array  $args Arguments for the page.
-	 * @param array  $form_fields The form fields for the settings page.
+	 * @param array<string, mixed> $args Arguments for the page.
+	 * @param array<string, mixed> $form_fields The form fields for the settings page.
 	 *
 	 * @return void
 	 */
-	public function __construct( $id, $args = array(), $form_fields = array() ) {
+	public function __construct( string $id, array $args = array(), array $form_fields = array() ) {
 		$this->id                  = $id;
 		$this->args                = $args;
 		$this->icon                = $args['icon'] ?? 'img.png';
@@ -85,12 +87,15 @@ class WcSettingsPage {
 	 *
 	 * @return void
 	 */
-	public function output() {
+	public function output(): void {
+		$navigation = SettingsPage::get_instance()->navigation( $this->id );
 		wp_enqueue_style( 'krokedil-settings-page' );
 		wp_enqueue_script( 'krokedil-settings-page' );
 		?>
 		<?php $this->output_header(); ?>
-		<?php SettingsPage::get_instance()->navigation( $this->id )->output(); ?>
+		<?php if ( $navigation ) : ?>
+			<?php $navigation->output(); ?>
+		<?php endif; ?>
 		<div id="krokedil_settings_<?php echo esc_attr( $this->id ); ?>" class="krokedil_settings_page<?php echo esc_attr( $this->styled_output ? ' styled' : '' ); ?>">
 			<div class="krokedil_settings__wrapper">
 				<?php
@@ -125,7 +130,7 @@ class WcSettingsPage {
 	 *
 	 * @return void
 	 */
-	protected function output_subsection_safe( $show_settings_navigation = false ) {
+	protected function output_subsection_safe( bool $show_settings_navigation = false ): void {
 		$fallback_content = $this->args['fallback_content'] ?? null;
 		$error_notice     = $this->args['error_notice'] ?? '';
 		$buffer_level     = ob_get_level();
@@ -171,7 +176,7 @@ class WcSettingsPage {
 	 *
 	 * @return void
 	 */
-	public function output_page_content() {
+	public function output_page_content(): void {
 		$this->output_default_fields();
 	}
 
@@ -183,7 +188,7 @@ class WcSettingsPage {
 	 *
 	 * @return void
 	 */
-	protected function output_default_fields() {
+	protected function output_default_fields(): void {
 		?>
 		<table class="form-table">
 			<?php woocommerce_admin_fields( $this->form_fields ); ?>
@@ -196,11 +201,11 @@ class WcSettingsPage {
 	 *
 	 * @param string $html The HTML to append the section start to.
 	 * @param string $key The key for the section.
-	 * @param array  $section The arguments for the section.
+	 * @param KrokedilField $section The arguments for the section.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_section_start_html( $html, $key, $section ) {
+	public static function krokedil_section_start_html( string $html, string $key, array $section ): string {
 		ob_start();
 		$classes = $section['class'] ? ' ' . $section['class'] : '';
 		?>
@@ -227,11 +232,11 @@ class WcSettingsPage {
 	 *
 	 * @param string $html The HTML to append the section end to.
 	 * @param string $key The key for the section end.
-	 * @param array  $section The arguments for the section.
+	 * @param KrokedilField $section The arguments for the section.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_section_end_html( $html, $key, $section ) {
+	public static function krokedil_section_end_html( string $html, string $key, array $section ): string {
 		ob_start();
 		?>
 		</table>
@@ -246,11 +251,11 @@ class WcSettingsPage {
 	 *
 	 * @param string $html The HTML for the field.
 	 * @param string $key The key for the field.
-	 * @param array  $section The section for the field.
+	 * @param KrokedilField $section The section for the field.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_button_html( $html, $key, $section ) {
+	public static function krokedil_button_html( string $html, string $key, array $section ): string {
 		ob_start();
 		$classes = $section['class'] ?? '';
 		?>
@@ -275,11 +280,11 @@ class WcSettingsPage {
 	 *
 	 * @param string $html The HTML for the field.
 	 * @param string $key The key for the field.
-	 * @param array  $section The section for the field.
+	 * @param KrokedilField $section The section for the field.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_divider_html( $html, $key, $section ) {
+	public static function krokedil_divider_html( string $html, string $key, array $section ): string {
 		ob_start();
 		?>
 		<tr valign="top" class="form-section form-section-<?php echo esc_attr( $section['id'] ); ?>-end">
@@ -294,11 +299,11 @@ class WcSettingsPage {
 	 *
 	 * @param string $html The HTML for the field.
 	 * @param string $key The key for the field.
-	 * @param array  $section The section for the field.
+	 * @param KrokedilField $section The section for the field.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_radio_html( $html, $key, $section ) {
+	public static function krokedil_radio_html( string $html, string $key, array $section ): string {
 		ob_start();
 		$options = $section['options'] ?? array();
 		$default = $section['default'] ?? '';
@@ -326,55 +331,55 @@ class WcSettingsPage {
 	/**
 	 * Print the krokedil_section_start field html.
 	 *
-	 * @param array $section The section arguments.
+	 * @param KrokedilField $section The section arguments.
 	 *
 	 * @return void
 	 */
-	public static function krokedil_section_start( $section ) {
+	public static function krokedil_section_start( array $section ): void {
 		echo self::krokedil_section_start_html( '', $section['id'], $section ); // phpcs:ignore
 	}
 
 	/**
 	 * Print the krokedil_section_end field html.
 	 *
-	 * @param array $section The section arguments.
+	 * @param KrokedilField $section The section arguments.
 	 *
 	 * @return void
 	 */
-	public static function krokedil_section_end( $section ) {
+	public static function krokedil_section_end( array $section ): void {
 		echo self::krokedil_section_end_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
 	}
 
 	/**
 	 * Print the krokedil_button field html.
 	 *
-	 * @param array $section The section arguments.
+	 * @param KrokedilField $section The section arguments.
 	 *
 	 * @return void
 	 */
-	public static function krokedil_button( $section ) {
+	public static function krokedil_button( array $section ): void {
 		echo self::krokedil_button_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
 	}
 
 	/**
 	 * Print the krokedil_divider field html.
 	 *
-	 * @param array $section The section arguments.
+	 * @param KrokedilField $section The section arguments.
 	 *
 	 * @return void
 	 */
-	public static function krokedil_divider( $section ) {
+	public static function krokedil_divider( array $section ): void {
 		echo self::krokedil_divider_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
 	}
 
 	/**
 	 * Print the krokedil_radio field html.
 	 *
-	 * @param array $section The section arguments.
+	 * @param KrokedilField $section The section arguments.
 	 *
 	 * @return void
 	 */
-	public static function krokedil_radio( $section ) {
+	public static function krokedil_radio( array $section ): void {
 		echo self::krokedil_radio_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
 	}
 }

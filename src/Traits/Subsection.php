@@ -1,6 +1,16 @@
 <?php
 namespace Krokedil\SettingsPage\Traits;
 
+/**
+ * Shared array shapes used across the settings-page config.
+ *
+ * These are intentionally loose (`mixed` values): the structures are
+ * caller-supplied config arrays with many optional keys, so a named alias
+ * documents intent and keeps things DRY without enumerating every key.
+ *
+ * @phpstan-type SidebarLink array<string, mixed>
+ * @phpstan-type ContentItem array<string, mixed>
+ */
 trait Subsection {
 	/**
 	 * Title of the Subsection.
@@ -22,7 +32,7 @@ trait Subsection {
 	 * @param bool $show_settings_navigation Whether to display the settings navigation.
 	 * @return void
 	 */
-	public function output_subsection( $show_settings_navigation = false ) {
+	public function output_subsection( bool $show_settings_navigation = false ): void {
 		$settings = array_filter(
 			$this->form_fields,
 			function ( $field ) {
@@ -62,7 +72,7 @@ trait Subsection {
 	 *
 	 * @return string
 	 */
-	protected static function get_locale() {
+	protected static function get_locale(): string {
 		if ( ! empty( self::$locale ) ) {
 			return self::$locale;
 		}
@@ -78,11 +88,11 @@ trait Subsection {
 	/**
 	 * Get the sidebar link output.
 	 *
-	 * @param array $link The resource to output.
+	 * @param SidebarLink $link The resource to output.
 	 *
 	 * @return string
 	 */
-	protected static function get_link( $link ) {
+	protected static function get_link( array $link ): string {
 		$href = $link['href'] ?? '';
 		$text = $link['text'] ?? '';
 
@@ -104,7 +114,7 @@ trait Subsection {
 			esc_url( $href ),
 			esc_attr( $link['class'] ?? '' ),
 			esc_attr( $link['target'] ?? '' ),
-			esc_attr( $text ?? '' ),
+			esc_attr( $text ),
 			esc_html( $text )
 		);
 	}
@@ -112,11 +122,11 @@ trait Subsection {
 	/**
 	 * Get the link text output.
 	 *
-	 * @param array $link_text The link text to output.
+	 * @param array<string, mixed> $link_text The link text to output.
 	 *
 	 * @return string
 	 */
-	protected static function get_link_text( $link_text ) {
+	protected static function get_link_text( array $link_text ): string {
 		$link = $link_text['link'] ?? array();
 		$text = $link_text['text'][ self::get_locale() ] ?? $link_text['text']['en'] ?? '';
 
@@ -134,26 +144,25 @@ trait Subsection {
 	/**
 	 * Get a description based on locale.
 	 *
-	 * @param array $description Description to output.
+	 * @param array<string, string> $description Description to output.
 	 *
 	 * @return string
 	 */
-	protected static function get_description( $description ) {
+	protected static function get_description( array $description ): string {
 		return $description[ self::get_locale() ] ?? $description['en'] ?? '';
 	}
 
 	/**
 	 * Get an image based on the type, either a base64 encoded string or URL.
 	 *
-	 * @param array $image Image to output.
+	 * @param array{src?: string} $image Image to output.
 	 *
 	 * @return string
 	 */
-	protected static function get_image( $image ) {
+	protected static function get_image( array $image ): string {
 		$src = $image['src'] ?? '';
 		return sprintf(
 			'<div style="background-image:url(\'%s\')"></div>',
-			$src,
 			$src
 		);
 	}
@@ -161,23 +170,23 @@ trait Subsection {
 	/**
 	 * Get a text based on locale.
 	 *
-	 * @param array $text Text to output.
+	 * @param array<string, string> $text Text to output.
 	 *
 	 * @return string
 	 */
-	protected static function get_text( $text ) {
+	protected static function get_text( array $text ): string {
 		return $text[ self::get_locale() ] ?? $text['en'] ?? '';
 	}
 
 	/**
 	 * Print the content.
 	 *
-	 * @param array $item The item to print.
-	 * @param bool  $ignore_p_tag Whether to ignore the p tag.
+	 * @param ContentItem $item The item to print.
+	 * @param bool        $ignore_p_tag Whether to ignore the p tag.
 	 *
 	 * @return string
 	 */
-	public static function print_content( $item, $ignore_p_tag = false ) {
+	public static function print_content( array $item, bool $ignore_p_tag = false ): string {
 		$type = $item['type'];
 
 		$text = '';

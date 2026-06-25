@@ -17,12 +17,12 @@ class Shipping extends WcSettingsPage {
 	/**
 	 * Class Constructor.
 	 *
-	 * @param \WC_Shipping_Method $shipping The shipping method object.
-	 * @param array               $args Arguments for the page.
+	 * @param \WC_Shipping_Method  $shipping The shipping method object.
+	 * @param array<string, mixed> $args Arguments for the page.
 	 *
 	 * @return void
 	 */
-	public function __construct( $shipping, $args = array() ) {
+	public function __construct( \WC_Shipping_Method $shipping, array $args = array() ) {
 		$this->shipping = $shipping;
 		$this->id       = $shipping->id;
 		parent::__construct( $this->id, $args, $shipping->get_form_fields() );
@@ -36,7 +36,7 @@ class Shipping extends WcSettingsPage {
 	 *
 	 * @return void
 	 */
-	public function output_page_content() {
+	public function output_page_content(): void {
 		?>
 		<table class="form-table">
 			<?php echo $this->shipping->generate_settings_html( $this->shipping->get_form_fields(), false ); //phpcs:ignore ?>
