@@ -7,8 +7,6 @@ use Krokedil\SettingsPage\Traits\Layout;
 
 /**
  * Addons class to handle the addons section of the settings page.
- *
- * @phpstan-type Addon array<string, mixed>
  */
 class Addons {
 	use Layout;
@@ -67,7 +65,7 @@ class Addons {
 	 */
 	private static function get_installed_plugins(): array {
 		$installed_plugins = array();
-		$plugins = get_plugins();
+		$plugins           = get_plugins();
 
 		foreach ( $plugins as $plugin => $data ) {
 			$slug                = explode( '/', $plugin );
@@ -155,7 +153,7 @@ class Addons {
 	/**
 	 * Print the output for a single addon card.
 	 *
-	 * @param Addon $addon Addon data.
+	 * @param array<string, mixed> $addon Addon data.
 	 *
 	 * @return void
 	 */
@@ -188,7 +186,7 @@ class Addons {
 	/**
 	 * Print the action buttons/links for the addon card.
 	 *
-	 * @param Addon $addon Addon data.
+	 * @param array<string, mixed> $addon Addon data.
 	 *
 	 * @return void
 	 */
@@ -225,9 +223,9 @@ class Addons {
 	 * Get the action button for the plugin based on the status.
 	 *
 	 * @param array<string, mixed> $link The link resource.
-	 * @param string $status The status of the plugin.
-	 * @param string $source The plugin source.
-	 * @param string $slug The plugin slug.
+	 * @param string               $status The status of the plugin.
+	 * @param string               $source The plugin source.
+	 * @param string               $slug The plugin slug.
 	 *
 	 * @return void
 	 */

@@ -24,3 +24,6 @@
 /composer.lock export-ignore
 .gitignore export-ignore
 .gitattributes export-ignore
+codeception.yml export-ignore
+plugin.php export-ignore
+phpstan.neon export-ignore

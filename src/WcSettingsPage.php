@@ -6,8 +6,6 @@ use Krokedil\SettingsPage\Traits\Layout;
 /**
  * Class for adding the settings page styling and functionality to a WooCommerce settings page.
  * Can be extended to create custom settings pages for specific things, like gateways or shipping.
- *
- * @phpstan-type KrokedilField array<string, mixed>
  */
 class WcSettingsPage {
 	use Layout;
@@ -50,7 +48,7 @@ class WcSettingsPage {
 	/**
 	 * Class constructor.
 	 *
-	 * @param string $id The ID for the page.
+	 * @param string               $id The ID for the page.
 	 * @param array<string, mixed> $args Arguments for the page.
 	 * @param array<string, mixed> $form_fields The form fields for the settings page.
 	 *
@@ -199,9 +197,9 @@ class WcSettingsPage {
 	/**
 	 * Get the HTML as a string for a Klarna Payments section start.
 	 *
-	 * @param string $html The HTML to append the section start to.
-	 * @param string $key The key for the section.
-	 * @param KrokedilField $section The arguments for the section.
+	 * @param string               $html The HTML to append the section start to.
+	 * @param string               $key The key for the section.
+	 * @param array<string, mixed> $section The arguments for the section.
 	 *
 	 * @return string
 	 */
@@ -224,38 +222,38 @@ class WcSettingsPage {
 			<div class="krokedil_settings__section_content">
 				<table class="form-table">
 		<?php
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
 	 * Get the HTML as a string for a Klarna Payments section end.
 	 *
-	 * @param string $html The HTML to append the section end to.
-	 * @param string $key The key for the section end.
-	 * @param KrokedilField $section The arguments for the section.
+	 * @param string               $html The HTML to append the section end to.
+	 * @param string               $key The key for the section end.
+	 * @param array<string, mixed> $section The arguments for the section.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_section_end_html( string $html, string $key, array $section ): string {
+	public static function krokedil_section_end_html( string $html, string $key, array $section ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Comes from the filter signature.
 		ob_start();
 		?>
 		</table>
 			</div>
 				</div>
 		<?php
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
 	 * Custom rendering for a button field type.
 	 *
-	 * @param string $html The HTML for the field.
-	 * @param string $key The key for the field.
-	 * @param KrokedilField $section The section for the field.
+	 * @param string               $html The HTML for the field.
+	 * @param string               $key The key for the field.
+	 * @param array<string, mixed> $section The section for the field.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_button_html( string $html, string $key, array $section ): string {
+	public static function krokedil_button_html( string $html, string $key, array $section ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Comes from the filter signature.
 		ob_start();
 		$classes = $section['class'] ?? '';
 		?>
@@ -272,38 +270,38 @@ class WcSettingsPage {
 			</td>
 		</tr>
 		<?php
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
 	 * Custom rendering for a divider field type.
 	 *
-	 * @param string $html The HTML for the field.
-	 * @param string $key The key for the field.
-	 * @param KrokedilField $section The section for the field.
+	 * @param string               $html The HTML for the field.
+	 * @param string               $key The key for the field.
+	 * @param array<string, mixed> $section The section for the field.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_divider_html( string $html, string $key, array $section ): string {
+	public static function krokedil_divider_html( string $html, string $key, array $section ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Comes from the filter signature.
 		ob_start();
 		?>
 		<tr valign="top" class="form-section form-section-<?php echo esc_attr( $section['id'] ); ?>-end">
 			<td colspan="2"><hr></hr></td>
 		</tr>
 		<?php
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
 	 * Custom rendering for a radio field type.
 	 *
-	 * @param string $html The HTML for the field.
-	 * @param string $key The key for the field.
-	 * @param KrokedilField $section The section for the field.
+	 * @param string               $html The HTML for the field.
+	 * @param string               $key The key for the field.
+	 * @param array<string, mixed> $section The section for the field.
 	 *
 	 * @return string
 	 */
-	public static function krokedil_radio_html( string $html, string $key, array $section ): string {
+	public static function krokedil_radio_html( string $html, string $key, array $section ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Comes from the filter signature.
 		ob_start();
 		$options = $section['options'] ?? array();
 		$default = $section['default'] ?? '';
@@ -325,61 +323,61 @@ class WcSettingsPage {
 			</td>
 		</tr>
 		<?php
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
 	 * Print the krokedil_section_start field html.
 	 *
-	 * @param KrokedilField $section The section arguments.
+	 * @param array<string, mixed> $section The section arguments.
 	 *
 	 * @return void
 	 */
 	public static function krokedil_section_start( array $section ): void {
-		echo self::krokedil_section_start_html( '', $section['id'], $section ); // phpcs:ignore
+		echo self::krokedil_section_start_html( '', $section['id'], $section ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in krokedil_section_start_html().
 	}
 
 	/**
 	 * Print the krokedil_section_end field html.
 	 *
-	 * @param KrokedilField $section The section arguments.
+	 * @param array<string, mixed> $section The section arguments.
 	 *
 	 * @return void
 	 */
 	public static function krokedil_section_end( array $section ): void {
-		echo self::krokedil_section_end_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
+		echo self::krokedil_section_end_html( '', $section['id'], $section ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in krokedil_section_end_html().
 	}
 
 	/**
 	 * Print the krokedil_button field html.
 	 *
-	 * @param KrokedilField $section The section arguments.
+	 * @param array<string, mixed> $section The section arguments.
 	 *
 	 * @return void
 	 */
 	public static function krokedil_button( array $section ): void {
-		echo self::krokedil_button_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
+		echo self::krokedil_button_html( '', $section['id'], $section ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in krokedil_button_html().
 	}
 
 	/**
 	 * Print the krokedil_divider field html.
 	 *
-	 * @param KrokedilField $section The section arguments.
+	 * @param array<string, mixed> $section The section arguments.
 	 *
 	 * @return void
 	 */
 	public static function krokedil_divider( array $section ): void {
-		echo self::krokedil_divider_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
+		echo self::krokedil_divider_html( '', $section['id'], $section ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in krokedil_divider_html().
 	}
 
 	/**
 	 * Print the krokedil_radio field html.
 	 *
-	 * @param KrokedilField $section The section arguments.
+	 * @param array<string, mixed> $section The section arguments.
 	 *
 	 * @return void
 	 */
 	public static function krokedil_radio( array $section ): void {
-		echo self::krokedil_radio_html( '', $section['id'], $section ); // phpcs:ignore_user_abort
+		echo self::krokedil_radio_html( '', $section['id'], $section ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in krokedil_radio_html().
 	}
 }

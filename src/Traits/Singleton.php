@@ -1,7 +1,6 @@
 <?php
 namespace Krokedil\SettingsPage\Traits;
 
-
 trait Singleton {
 	/**
 	 * Instance of the class.

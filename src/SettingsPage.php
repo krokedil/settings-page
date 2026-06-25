@@ -153,6 +153,7 @@ class SettingsPage {
 	 *
 	 * @param string $id ID of the page.
 	 *
+	 * @throws \InvalidArgumentException If the content for the default subsection is not a string or callable.
 	 * @return self
 	 */
 	public function output( string $id ): self {

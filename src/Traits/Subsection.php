@@ -1,16 +1,6 @@
 <?php
 namespace Krokedil\SettingsPage\Traits;
 
-/**
- * Shared array shapes used across the settings-page config.
- *
- * These are intentionally loose (`mixed` values): the structures are
- * caller-supplied config arrays with many optional keys, so a named alias
- * documents intent and keeps things DRY without enumerating every key.
- *
- * @phpstan-type SidebarLink array<string, mixed>
- * @phpstan-type ContentItem array<string, mixed>
- */
 trait Subsection {
 	/**
 	 * Title of the Subsection.
@@ -88,7 +78,7 @@ trait Subsection {
 	/**
 	 * Get the sidebar link output.
 	 *
-	 * @param SidebarLink $link The resource to output.
+	 * @param array<string, mixed> $link The resource to output.
 	 *
 	 * @return string
 	 */
@@ -181,8 +171,8 @@ trait Subsection {
 	/**
 	 * Print the content.
 	 *
-	 * @param ContentItem $item The item to print.
-	 * @param bool        $ignore_p_tag Whether to ignore the p tag.
+	 * @param array<string, mixed> $item The item to print.
+	 * @param bool                 $ignore_p_tag Whether to ignore the p tag.
 	 *
 	 * @return string
 	 */
