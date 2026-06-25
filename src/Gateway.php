@@ -1,8 +1,6 @@
 <?php
 namespace Krokedil\SettingsPage;
 
-use Krokedil\SettingsPage\Traits\Layout;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
