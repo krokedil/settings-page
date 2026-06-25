@@ -160,11 +160,15 @@ trait Subsection {
 	/**
 	 * Get a text based on locale.
 	 *
-	 * @param array<string, string> $text Text to output.
+	 * @param array<string, string>|string $text Text to output.
 	 *
 	 * @return string
 	 */
-	protected static function get_text( array $text ): string {
+	protected static function get_text( $text ): string {
+		if(\is_string($text)) {
+			return $text;
+		}
+
 		return $text[ self::get_locale() ] ?? $text['en'] ?? '';
 	}
 
