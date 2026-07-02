@@ -29,6 +29,13 @@ class Shipping extends WcSettingsPage {
 
 		$this->page_title       = $args['page_title'] ?? $shipping->get_method_title();
 		$this->page_description = $args['page_description'] ?? $shipping->get_method_description();
+
+		if ( empty( $args['back_link_label'] ) ) {
+			$this->back_link_label = __( 'Return to shipping', 'woocommerce' );
+		}
+		if ( empty( $args['back_link_url'] ) ) {
+			$this->back_link_url = admin_url( 'admin.php?page=wc-settings&tab=shipping' );
+		}
 	}
 
 	/**

@@ -65,6 +65,8 @@ class WcSettingsPage {
 		$this->styled_output       = $args['styled_output'] ?? false;
 		$this->page_title          = $args['page_title'] ?? 'Settings';
 		$this->page_description    = $args['page_description'] ?? '';
+		$this->back_link_label     = $args['back_link_label'] ?? '';
+		$this->back_link_url       = $args['back_link_url'] ?? '';
 		$this->form_fields         = $form_fields;
 
 		if ( $this->styled_output ) {
