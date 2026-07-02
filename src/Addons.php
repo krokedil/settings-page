@@ -33,23 +33,23 @@ class Addons {
 	protected $active_plugins = array();
 
 	/**
-	 * The gateway object.
+	 * The object the page belongs to.
 	 *
-	 * @var \WC_Payment_Gateway|null
+	 * @var object|null
 	 */
-	protected $gateway;
+	protected $owner;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param array<string, mixed>     $addons Addons for the page.
-	 * @param array<string, mixed>     $sidebar Sidebar content.
-	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
+	 * @param array<string, mixed> $addons  Addons for the page.
+	 * @param array<string, mixed> $sidebar Sidebar content.
+	 * @param object|null          $owner   The object the page belongs to, e.g. a WC_Payment_Gateway, WC_Shipping_Method, or a plugin's own settings class.
 
 	 * @return void
 	 */
-	public function __construct( array $addons, array $sidebar, $gateway = null ) {
-		$this->gateway = $gateway;
+	public function __construct( array $addons, array $sidebar, $owner = null ) {
+		$this->owner   = $owner;
 		$this->title   = __( 'Addons', 'krokedil-settings' );
 		$this->addons  = $addons;
 		$this->sidebar = $sidebar;

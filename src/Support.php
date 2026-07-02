@@ -19,24 +19,24 @@ class Support {
 	protected $support = array();
 
 	/**
-	 * The gateway object.
+	 * The object the page belongs to.
 	 *
-	 * @var \WC_Payment_Gateway|null
+	 * @var object|null
 	 */
-	protected $gateway = null;
+	protected $owner = null;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param array<string, mixed>     $support Support for the page.
-	 * @param array<string, mixed>     $sidebar Sidebar content.
-	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
+	 * @param array<string, mixed> $support Support for the page.
+	 * @param array<string, mixed> $sidebar Sidebar content.
+	 * @param object|null          $owner   The object the page belongs to, e.g. a WC_Payment_Gateway, WC_Shipping_Method, or a plugin's own settings class.
 	 *
 	 * @return void
 	 */
-	public function __construct( array $support, array $sidebar, $gateway = null ) {
+	public function __construct( array $support, array $sidebar, $owner = null ) {
 		$this->title   = __( 'Support', 'krokedil-settings' );
-		$this->gateway = $gateway;
+		$this->owner   = $owner;
 		$this->support = $support;
 		$this->sidebar = $sidebar;
 	}

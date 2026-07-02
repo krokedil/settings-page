@@ -117,13 +117,13 @@ class SettingsPage {
 	/**
 	 * Register a page for extension.
 	 *
-	 * @param string                   $id   ID of the page.
-	 * @param array<string, mixed>     $args Arguments for the page.
-	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
+	 * @param string               $id    ID of the page.
+	 * @param array<string, mixed> $args  Arguments for the page.
+	 * @param object|null          $owner The object the page belongs to, e.g. a WC_Payment_Gateway, WC_Shipping_Method, or a plugin's own settings class.
 	 *
 	 * @return self
 	 */
-	public function register_page( string $id, array $args, $gateway = null ): self {
+	public function register_page( string $id, array $args, $owner = null ): self {
 		$default_args = array(
 			'page'              => '',
 			'tab'               => '',
@@ -140,8 +140,8 @@ class SettingsPage {
 
 		$this->pages[ $id ] = array(
 			'navigation' => new Navigation( $args ),
-			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $gateway ) : null,
-			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $gateway ) : null,
+			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $owner ) : null,
+			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $owner ) : null,
 			'args'       => $args,
 		);
 
