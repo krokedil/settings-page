@@ -94,7 +94,13 @@ class WcSettingsPage {
 		<?php if ( $navigation ) : ?>
 			<?php $navigation->output(); ?>
 		<?php endif; ?>
-		<div id="krokedil_settings_<?php echo esc_attr( $this->id ); ?>" class="krokedil_settings_page<?php echo esc_attr( $this->styled_output ? ' styled' : '' ); ?>">
+		<?php
+		printf(
+			'<div id="krokedil_settings_%s" class="krokedil_settings_page%s">',
+			esc_attr( $this->id ),
+			esc_attr( $this->styled_output ? ' styled' : '' )
+		);
+		?>
 			<div class="krokedil_settings__wrapper">
 				<?php
 				$this->output_subsection_safe( ( $this->styled_output && $this->settings_navigation ) ? true : false );
@@ -208,7 +214,13 @@ class WcSettingsPage {
 		$classes = $section['class'] ? ' ' . $section['class'] : '';
 		?>
 		</table>
-		<div id="krokedil_section_<?php echo esc_attr( $key ); ?>" class="krokedil_settings__section<?php echo esc_attr( $classes ); ?>">
+		<?php
+		printf(
+			'<div id="krokedil_section_%s" class="krokedil_settings__section%s">',
+			esc_attr( $key ),
+			esc_attr( $classes )
+		);
+		?>
 			<div class="krokedil_settings__section_header">
 				<span class="krokedil_settings__section_toggle dashicons dashicons-arrow-down-alt2"></span>
 				<h3 class="krokedil_settings__section_title">
@@ -258,13 +270,17 @@ class WcSettingsPage {
 		$classes = $section['class'] ?? '';
 		?>
 		<tr valign="top">
-			<td class="<?php echo esc_attr( $classes ); ?>">
+			<?php printf( '<td class="%s">', esc_attr( $classes ) ); ?>
 				<?php
 				if ( $section['description'] ) {
-					?>
-					<p><?php echo esc_html( $section['description'] ); ?></p>
-				<?php } ?>
-				<button class="krokedil_button button<?php echo $section['alignment'] ? ' align-' . esc_attr( $section['alignment'] ) : ' no-align'; ?>" type="button" id="<?php echo esc_attr( 'krokedil_button_' . $section['id'] ); ?>">
+					printf( '<p>%s</p>', esc_html( $section['description'] ) );
+				}
+				printf(
+					'<button class="krokedil_button button%s" type="button" id="%s">',
+					$section['alignment'] ? ' align-' . esc_attr( $section['alignment'] ) : ' no-align',
+					esc_attr( 'krokedil_button_' . $section['id'] )
+				);
+				?>
 					<?php echo esc_html( $section['title'] ?? 'No title' ); ?>
 				</button>
 			</td>
@@ -285,7 +301,7 @@ class WcSettingsPage {
 	public static function krokedil_divider_html( string $html, string $key, array $section ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Comes from the filter signature.
 		ob_start();
 		?>
-		<tr valign="top" class="form-section form-section-<?php echo esc_attr( $section['id'] ); ?>-end">
+		<?php printf( '<tr valign="top" class="form-section form-section-%s-end">', esc_attr( $section['id'] ) ); ?>
 			<td colspan="2"><hr></hr></td>
 		</tr>
 		<?php
@@ -308,15 +324,23 @@ class WcSettingsPage {
 		$classes = $section['class'] ?? '';
 		?>
 		<tr valign="top">
-			<td class="<?php echo esc_attr( $classes ); ?> <?php echo ! empty( $section['alignment'] ) ? 'align-prev' : 'no-align'; ?>">
+			<?php
+			printf(
+				'<td class="%s %s">',
+				esc_attr( $classes ),
+				! empty( $section['alignment'] ) ? 'align-prev' : 'no-align'
+			);
+			?>
 				<?php foreach ( $options as $option_key => $option ) : ?>
 					<label style="margin-right:20px;">
-						<input
-							type="radio"
-							name="<?php echo esc_attr( $key ); ?>"
-							value="<?php echo esc_attr( $option['value'] ); ?>"
-							<?php checked( $option['value'], $default ); ?>
-						>
+						<?php
+						printf(
+							'<input type="radio" name="%s" value="%s" %s>',
+							esc_attr( $key ),
+							esc_attr( $option['value'] ),
+							checked( $option['value'], $default, false )
+						);
+						?>
 						<?php echo esc_html( $option['title'] ?? '' ); ?>
 					</label>
 				<?php endforeach; ?>
