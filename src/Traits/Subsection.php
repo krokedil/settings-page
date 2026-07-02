@@ -40,7 +40,7 @@ trait Subsection {
 							<span>
 								&raquo;
 								<a href="#<?php echo esc_attr( $setting['id'] ); ?>" class="krokedil_settings__settings_navigation_link">
-									<?php echo esc_html( $setting['title'] ?? $setting['name'] ); ?>
+									<?php echo esc_html( $setting['title'] ?? $setting['name'] ?? '' ); ?>
 								</a>
 							</span>
 						</p>
@@ -165,7 +165,7 @@ trait Subsection {
 	 * @return string
 	 */
 	protected static function get_text( $text ): string {
-		if(\is_string($text)) {
+		if ( \is_string( $text ) ) {
 			return $text;
 		}
 

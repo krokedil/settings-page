@@ -1,6 +1,8 @@
 <?php
 namespace Krokedil\SettingsPage;
 
+defined( 'ABSPATH' ) || exit;
+
 use Krokedil\SettingsPage\Traits\Layout;
 
 /**
@@ -211,7 +213,7 @@ class WcSettingsPage {
 	 */
 	public static function krokedil_section_start_html( string $html, string $key, array $section ): string {
 		ob_start();
-		$classes = $section['class'] ? ' ' . $section['class'] : '';
+		$classes = ! empty( $section['class'] ) ? ' ' . $section['class'] : '';
 		?>
 		</table>
 		<?php
@@ -272,13 +274,14 @@ class WcSettingsPage {
 		<tr valign="top">
 			<?php printf( '<td class="%s">', esc_attr( $classes ) ); ?>
 				<?php
-				if ( $section['description'] ) {
+				if ( ! empty( $section['description'] ) ) {
 					printf( '<p>%s</p>', esc_html( $section['description'] ) );
 				}
+				$alignment = $section['alignment'] ?? '';
 				printf(
 					'<button class="krokedil_button button%s" type="button" id="%s">',
-					$section['alignment'] ? ' align-' . esc_attr( $section['alignment'] ) : ' no-align',
-					esc_attr( 'krokedil_button_' . $section['id'] )
+					! empty( $alignment ) ? ' align-' . esc_attr( $alignment ) : ' no-align',
+					esc_attr( 'krokedil_button_' . ( $section['id'] ?? $key ) )
 				);
 				?>
 					<?php echo esc_html( $section['title'] ?? 'No title' ); ?>
@@ -302,7 +305,7 @@ class WcSettingsPage {
 		ob_start();
 		?>
 		<?php printf( '<tr valign="top" class="form-section form-section-%s-end">', esc_attr( $section['id'] ) ); ?>
-			<td colspan="2"><hr></hr></td>
+			<td colspan="2"><hr /></td>
 		</tr>
 		<?php
 		return (string) ob_get_clean();

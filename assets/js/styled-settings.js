@@ -157,12 +157,13 @@ jQuery(function ($) {
                 const $currentTr = $(this).closest('tr');
                 $currentTr.prev('tr').append(this);
 
-                const alignmentClass = $(this).attr('class').split(' ').find(c => c.startsWith('align-'));
+                const alignmentClass = (($(this).attr('class') || '').split(' ').find(c => c.startsWith('align-')));
                 if (alignmentClass) {
                     $('.' + alignmentClass.replace('align-', '')).after(this);
                 }
 
-                $(this).after('<div class="krokedil_button_message ' + alignmentClass.replace('align-', 'message-') + '"></div>');
+                const messageClass = alignmentClass ? alignmentClass.replace('align-', 'message-') : '';
+                $(this).after('<div class="krokedil_button_message ' + messageClass + '"></div>');
 
                 $currentTr.remove();
             });
