@@ -38,11 +38,11 @@ class Support {
 	 * Return the Helpscout beacon script.
 	 *
 	 * @param string $use_helpscout Whether to include the Helpscout beacon.
-	 * @return string|null
+	 * @return string
 	 */
 	public static function hs_beacon_script( $use_helpscout = 'no' ) {
 		if ( 'yes' !== $use_helpscout ) {
-			return;
+			return '';
 		}
 
 		return '!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});';
@@ -80,12 +80,15 @@ class Support {
 			)
 		);
 
-		// Load JS.
-		wp_add_inline_script(
-			'krokedil-support-page',
-			self::hs_beacon_script( $this->support['use_helpscout'] ?? 'yes' ),
-			'before',
-		);
+		// Load JS. Only add the inline script if there is one, since wp_add_inline_script does not accept empty data.
+		$beacon_script = self::hs_beacon_script( $this->support['use_helpscout'] ?? 'yes' );
+		if ( ! empty( $beacon_script ) ) {
+			wp_add_inline_script(
+				'krokedil-support-page',
+				$beacon_script,
+				'before',
+			);
+		}
 		wp_enqueue_script( 'krokedil-support-page' );
 	}
 
