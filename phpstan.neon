@@ -1,0 +1,27 @@
+includes:
+  #- phpstan-baseline.neon
+
+# `phpstan-baseline.neon` captures the snapshot of pre-existing issues.
+# New violations fail the build; baseline shrinks as code is fixed.
+
+parameters:
+  level: 8
+  phpVersion: 80000
+  treatPhpDocTypesAsCertain: false
+
+  paths:
+    - src
+
+  excludePaths:
+    - vendor
+    - tests
+
+  bootstrapFiles:
+    - vendor/autoload.php
+
+  scanFiles:
+    - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+    - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
+
+  ignoreErrors:
