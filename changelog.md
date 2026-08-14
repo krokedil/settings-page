@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+------------------
+## [1.3.6] - 2026-08-14
 ### Fixed
 
 * Restored the `Shipping` settings page rendering. The refactor to the `WcSettingsPage` base class dropped the shipping-specific `output_page_content()`, which made shipping pages render through WooCommerce's generic field display instead of the shipping method's own `generate_settings_html()`, so saved values were not populated.
@@ -13,8 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Extended the robust settings output error handling (output buffering, `try/catch`, `fallback_content` and `error_notice` support) to the `WcSettingsPage` base class, so gateway and shipping settings pages also degrade gracefully when a renderer throws. When no `fallback_content` is provided, the form fields are re-rendered using WooCommerce's default field display.
-
-------------------
 
 ## [1.3.5] - 2026-07-13
 ### Fixed
