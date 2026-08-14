@@ -14,22 +14,29 @@ class Support {
 	/**
 	 * The Support for the page.
 	 *
-	 * @var array $support
+	 * @var array<string, mixed> $support
 	 */
 	protected $support = array();
 
 	/**
+	 * The object the page belongs to.
+	 *
+	 * @var object|null
+	 */
+	protected $owner = null;
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param array                    $support Support for the page.
-	 * @param array                    $sidebar Sidebar content.
-	 * @param \WC_Payment_Gateway|null $gateway The gateway object.
+	 * @param array<string, mixed> $support Support for the page.
+	 * @param array<string, mixed> $sidebar Sidebar content.
+	 * @param object|null          $owner   The object the page belongs to, e.g. a WC_Payment_Gateway, WC_Shipping_Method, or a plugin's own settings class.
 	 *
 	 * @return void
 	 */
-	public function __construct( $support, $sidebar, $gateway = null ) {
+	public function __construct( array $support, array $sidebar, $owner = null ) {
 		$this->title   = __( 'Support', 'krokedil-settings' );
-		$this->gateway = $gateway;
+		$this->owner   = $owner;
 		$this->support = $support;
 		$this->sidebar = $sidebar;
 	}
@@ -40,7 +47,7 @@ class Support {
 	 * @param string $use_helpscout Whether to include the Helpscout beacon.
 	 * @return string
 	 */
-	public static function hs_beacon_script( $use_helpscout = 'no' ) {
+	public static function hs_beacon_script( string $use_helpscout = 'no' ): string {
 		if ( 'yes' !== $use_helpscout ) {
 			return '';
 		}
@@ -53,7 +60,7 @@ class Support {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 		// Load CSS.
 		wp_enqueue_style( 'krokedil-support-page' );
 
@@ -97,7 +104,7 @@ class Support {
 	 *
 	 * @return void
 	 */
-	public function output_page_content() {
+	public function output_page_content(): void {
 		global $hide_save_button;
 		$hide_save_button = true;
 
