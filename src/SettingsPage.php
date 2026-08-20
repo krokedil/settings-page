@@ -134,6 +134,7 @@ class SettingsPage {
 			'general_content'   => null,
 			'fallback_content'  => null,
 			'error_notice'      => '',
+			'sidebar'           => array(),
 		);
 
 		$args = wp_parse_args( $args, $default_args );
