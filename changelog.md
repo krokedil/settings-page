@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ------------------
+## [1.3.7] - 2026-09-28
+### Fixed
+
+* Fixed an "Undefined array key" PHP warning that could occur with certain settings configurations.
+
 ## [1.3.6] - 2026-08-14
 ### Fixed
 
