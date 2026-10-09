@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Filter callback return statement is missing\.$#'
+			identifier: return.missing
+			count: 5
+			path: src/WcSettingsPage.php
