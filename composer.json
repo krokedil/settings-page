@@ -62,9 +62,14 @@
         "test:reset-db": "@php -r \"is_file('tests/_wordpress/data/db.sqlite') && unlink('tests/_wordpress/data/db.sqlite');\"",
         "makepot": "wp --allow-root i18n make-pot ./src ./languages/krokedil-settings.pot --domain=krokedil-settings",
         "phpstan": "./vendor/bin/phpstan analyse --memory-limit=2G",
+        "phpstan:baseline": "./vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline",
         "lint": "vendor/bin/phpcs . --standard=phpcs.xml --extensions=php -q -s",
         "lint:fix": "vendor/bin/phpcbf . --standard=phpcs.xml --extensions=php -q -s",
         "lint:changes": "git diff --name-only HEAD~1 | grep '\\.php$' | xargs vendor/bin/phpcs --standard=phpcs.xml --extensions=php -q -s",
         "lint:fix:changes": "git diff --name-only HEAD~1 | grep '\\.php$' | xargs vendor/bin/phpcbf --standard=phpcs.xml --extensions=php -q -s"
+    },
+    "scripts-descriptions": {
+        "phpstan": "Run PHPStan static analysis at the level set in phpstan.neon. Findings that predate the analysis are suppressed by phpstan-baseline.neon, so a failure means new code introduced it.",
+        "phpstan:baseline": "Regenerate phpstan-baseline.neon from the current findings. Only run this when intentionally accepting new suppressions, otherwise fix the reported errors instead."
     }
 }
