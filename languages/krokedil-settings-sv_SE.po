@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06T13:27:21+00:00\n"
-"PO-Revision-Date: 2024-09-06 15:30+0200\n"
+"Report-Msgid-Bugs-To: info@krokedil.se\n"
+"POT-Creation-Date: 2026-06-16 13:10+0200\n"
+"PO-Revision-Date: 2026-06-16 13:10+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -17,29 +17,19 @@ msgstr ""
 msgid "Addons"
 msgstr "Tillägg"
 
-#: Addons.php:144
-msgid "the plugin"
-msgstr "pluginet"
-
-#. translators: %s is the plugin name.
-#: Addons.php:147
-msgid "These are other plugins from Krokedil that work well together with %s."
-msgstr ""
-"Här är andra tillägg från Krokedil som fungerar bra tillsammans med %s."
-
-#: Addons.php:207
+#: Addons.php:199
 msgid "Free"
 msgstr "Gratis"
 
-#: Addons.php:238
+#: Addons.php:230
 msgid "Active"
 msgstr "Aktiv"
 
-#: Addons.php:242
+#: Addons.php:234
 msgid "Activate"
 msgstr "Aktivera"
 
-#: Addons.php:247
+#: Addons.php:239
 msgid "Install Now"
 msgstr "Installera nu"
 
@@ -51,22 +41,43 @@ msgstr "Allmänt"
 msgid "Support"
 msgstr "Support"
 
-#: Support.php:96
-msgid ""
-"Before opening a support ticket, please make sure you have read the relevant "
-"plugin resources for a solution to your problem"
-msgstr ""
-"Före du öppnar en supportärende, var vänlig se till att du har läst det "
-"relevanta tilläggets resursers för en lösning på ditt problem"
+#: SettingsPage.php:213
+msgid "An error occurred while rendering this settings page."
+msgstr "Ett fel uppstod när inställningssidan skulle visas."
 
-#: Support.php:100
+#: SettingsPage.php:226
+msgid "Additionally, an error occurred while rendering the fallback content."
+msgstr "Dessutom uppstod ett fel när reservinnehållet skulle visas."
+
+#: Support.php:118
+msgid "If you still need help, please open a support ticket with Krokedil."
+msgstr "Om du fortfarande behöver hjälp, vänligen öppna ett supportärende hos Krokedil."
+
+#: Support.php:119
 msgid "Open support ticket with Krokedil"
 msgstr "Öppna supportärende med Krokedil"
 
-#: Traits/Sidebar.php:27
+#: Traits/Layout.php:67
+msgid "Return to payments"
+msgstr "Återgå till betalningar"
+
+#: Traits/Sidebar.php:74
 msgid "Plugin resources"
 msgstr "Pluginresurser"
 
-#: Traits/Sidebar.php:36
+#: Traits/Sidebar.php:86
 msgid "Additional resources"
 msgstr "Ytterligare resurser"
+
+#: Traits/Subsection.php:35
+msgid "Sections"
+msgstr "Sektioner"
+
+#~ msgid "the plugin"
+#~ msgstr "pluginet"
+
+#~ msgid "These are other plugins from Krokedil that work well together with %s."
+#~ msgstr "Här är andra tillägg från Krokedil som fungerar bra tillsammans med %s."
+
+#~ msgid "Before opening a support ticket, please make sure you have read the relevant plugin resources for a solution to your problem"
+#~ msgstr "Före du öppnar en supportärende, var vänlig se till att du har läst det relevanta tilläggets resursers för en lösning på ditt problem"
