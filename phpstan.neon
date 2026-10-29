@@ -1,12 +1,13 @@
 includes:
-  #- phpstan-baseline.neon
+  - vendor/szepeviktor/phpstan-wordpress/extension.neon
+  - phpstan-baseline.neon
 
 # `phpstan-baseline.neon` captures the snapshot of pre-existing issues.
 # New violations fail the build; baseline shrinks as code is fixed.
 
 parameters:
   level: 8
-  phpVersion: 80000
+  phpVersion: 70400
   treatPhpDocTypesAsCertain: false
 
   paths:

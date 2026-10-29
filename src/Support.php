@@ -64,17 +64,6 @@ class Support {
 		// Load CSS.
 		wp_enqueue_style( 'krokedil-support-page' );
 
-		// If the WC Version is 9.0 or above, get the container for the RestAPiUtil, else us the WC()->api class property.
-		// The deprecation notice says 9.1.0, but the WC()->api property is not set in 9.0.0.
-		// @see https://github.com/woocommerce/woocommerce/blob/5690850e47284b3a9afd4e61dec01121159ca9e8/plugins/woocommerce/src/Internal/Utilities/LegacyRestApiStub.php#L183-L187.
-		$legacy_wc     = version_compare( WC_VERSION, '9.0', '<=' );
-		$system_report = '';
-		if ( $legacy_wc ) {
-			$system_report = WC()->api->get_endpoint_data( '/wc/v3/system_status' );
-		} elseif ( class_exists( \Automattic\WooCommerce\Utilities\RestApiUtil::class ) ) {
-			$system_report = wc_get_container()->get( \Automattic\WooCommerce\Utilities\RestApiUtil::class )->get_endpoint_data( '/wc/v3/system_status' );
-		}
-
 		$beacon_id = '9c22f83e-3611-42aa-a148-1ca06de53566';
 
 		// Localize the support scrip.
@@ -82,8 +71,7 @@ class Support {
 			'krokedil-support-page',
 			'krokedil_support_params',
 			array(
-				'systemReport' => $system_report,
-				'beaconId'     => $beacon_id,
+				'beaconId' => $beacon_id,
 			)
 		);
 
@@ -124,6 +112,14 @@ class Support {
 					?>
 					<p><?php esc_html_e( 'If you still need help, please open a support ticket with Krokedil.', 'krokedil-settings' ); ?></p>
 					<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
+					<?php // Hidden WooCommerce status report, turned into the text report by support.js and attached to the Beacon. ?>
+					<div id="krokedil-status-report" hidden>
+						<?php
+						if ( class_exists( \WC_Admin_Status::class ) ) {
+							\WC_Admin_Status::status_report();
+						}
+						?>
+					</div>
 					<?php
 				endif;
 				?>
