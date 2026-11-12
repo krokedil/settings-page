@@ -20,6 +20,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Moved the sidebar card styling (background, border and padding) from the sidebar container to the sections inside it, so multiple sidebar cards can stack with a gap. A sidebar without custom boxes renders visually unchanged.
 
 ------------------
+## [1.3.8] - 2026-10-29
+### Changed
+
+* The support ticket now attaches the WooCommerce system status report as text (`system-report.txt`), the same report as WooCommerce's "Get system report" button, including sections added by other plugins. It replaces the JSON export from the `/wc/v3/system_status` REST endpoint.
+
+## [1.3.7] - 2026-09-28
+### Fixed
+
+* Fixed an "Undefined array key" PHP warning that could occur with certain settings configurations.
+
 ## [1.3.6] - 2026-08-14
 ### Fixed
 

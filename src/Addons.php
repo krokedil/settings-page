@@ -130,22 +130,26 @@ class Addons {
 		wp_enqueue_script( 'plugin-install' );
 		add_thickbox(); // Required for the plugin installer to work.
 
-		$addons  = $this->addons['items'];
-		$content = $this->addons['content'];
+		$addons  = $this->addons['items'] ?? array();
+		$content = $this->addons['content'] ?? array();
 		?>
 		<div class="krokedil_addons">
-		<div class="krokedil_addons__info">
+			<?php if ( ! empty( $content ) ) : ?>
+			<div class="krokedil_addons__info">
 				<?php foreach ( $content as $item ) : ?>
 					<?php echo wp_kses_post( self::print_content( $item ) ); ?>
 				<?php endforeach; ?>
 			</div>
+			<?php endif; ?>
 
 			<?php // translators: %s is the plugin name. ?>
+			<?php if ( ! empty( $addons ) ) : ?>
 			<div class='krokedil_addons__cards'>
 				<?php foreach ( $addons as $addon ) : ?>
 					<?php $this->print_addon_card( $addon ); ?>
 				<?php endforeach; ?>
 			</div>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
