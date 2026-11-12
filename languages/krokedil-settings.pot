@@ -66,3 +66,114 @@ msgstr ""
 #: Traits/Sidebar.php:36
 msgid "Additional resources"
 msgstr ""
+
+msgid "Store setup"
+msgstr ""
+
+msgid "%1$d of %2$d checks passed"
+msgstr ""
+
+msgid "Fix this"
+msgstr ""
+
+msgid "This check could not be run."
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "Recommended"
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "Terms and conditions page"
+msgstr ""
+
+msgid "Select a terms and conditions page in the WooCommerce settings."
+msgstr ""
+
+msgid "Select page"
+msgstr ""
+
+msgid "Checkout page"
+msgstr ""
+
+msgid "Select a checkout page in the WooCommerce settings."
+msgstr ""
+
+msgid "Secure connection (HTTPS)"
+msgstr ""
+
+msgid "The store address does not use HTTPS. Install an SSL certificate and change the site address to https."
+msgstr ""
+
+msgid "Change address"
+msgstr ""
+
+msgid "Permalinks"
+msgstr ""
+
+msgid "Plain permalinks are not supported. Select another permalink structure."
+msgstr ""
+
+msgid "Change permalinks"
+msgstr ""
+
+msgid "Number of decimals"
+msgstr ""
+
+msgid "Set the number of decimals for prices to %d to avoid rounding differences."
+msgstr ""
+
+msgid "Change decimals"
+msgstr ""
+
+msgid "Store currency"
+msgstr ""
+
+msgid "The store currency is not supported. Supported currencies: %s."
+msgstr ""
+
+msgid "Change currency"
+msgstr ""
+
+msgid "Store country"
+msgstr ""
+
+msgid "The store country is not supported. Supported countries: %s."
+msgstr ""
+
+msgid "Change country"
+msgstr ""
+
+msgid "API credentials"
+msgstr ""
+
+msgid "Enter your API credentials in the plugin settings."
+msgstr ""
+
+msgid "Enabled in the store"
+msgstr ""
+
+msgid "The plugin is not enabled, so customers cannot use it yet."
+msgstr ""
+
+msgid "Live mode"
+msgstr ""
+
+msgid "Test mode is active. Turn it off before you take real orders."
+msgstr ""
+
+msgid "The selected page \"%s\" is not published, so customers cannot open it."
+msgstr ""
+
+msgid "Edit page"
+msgstr ""

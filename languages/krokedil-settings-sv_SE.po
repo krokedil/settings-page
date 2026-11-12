@@ -70,3 +70,114 @@ msgstr "Pluginresurser"
 #: Traits/Sidebar.php:36
 msgid "Additional resources"
 msgstr "Ytterligare resurser"
+
+msgid "Store setup"
+msgstr "Butikens inställningar"
+
+msgid "%1$d of %2$d checks passed"
+msgstr "%1$d av %2$d kontroller godkända"
+
+msgid "Fix this"
+msgstr "Åtgärda"
+
+msgid "This check could not be run."
+msgstr "Kontrollen kunde inte köras."
+
+msgid "Done"
+msgstr "Klar"
+
+msgid "Required"
+msgstr "Krävs"
+
+msgid "Recommended"
+msgstr "Rekommenderas"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Unknown"
+msgstr "Okänd"
+
+msgid "Terms and conditions page"
+msgstr "Sida för köpvillkor"
+
+msgid "Select a terms and conditions page in the WooCommerce settings."
+msgstr "Välj en sida för köpvillkor i WooCommerce-inställningarna."
+
+msgid "Select page"
+msgstr "Välj sida"
+
+msgid "Checkout page"
+msgstr "Kassasida"
+
+msgid "Select a checkout page in the WooCommerce settings."
+msgstr "Välj en kassasida i WooCommerce-inställningarna."
+
+msgid "Secure connection (HTTPS)"
+msgstr "Säker anslutning (HTTPS)"
+
+msgid "The store address does not use HTTPS. Install an SSL certificate and change the site address to https."
+msgstr "Butikens adress använder inte HTTPS. Installera ett SSL-certifikat och ändra webbplatsens adress till https."
+
+msgid "Change address"
+msgstr "Ändra adress"
+
+msgid "Permalinks"
+msgstr "Permalänkar"
+
+msgid "Plain permalinks are not supported. Select another permalink structure."
+msgstr "Enkla permalänkar stöds inte. Välj en annan permalänkstruktur."
+
+msgid "Change permalinks"
+msgstr "Ändra permalänkar"
+
+msgid "Number of decimals"
+msgstr "Antal decimaler"
+
+msgid "Set the number of decimals for prices to %d to avoid rounding differences."
+msgstr "Ställ in antalet decimaler för priser till %d för att undvika avrundningsdifferenser."
+
+msgid "Change decimals"
+msgstr "Ändra decimaler"
+
+msgid "Store currency"
+msgstr "Butikens valuta"
+
+msgid "The store currency is not supported. Supported currencies: %s."
+msgstr "Butikens valuta stöds inte. Valutor som stöds: %s."
+
+msgid "Change currency"
+msgstr "Ändra valuta"
+
+msgid "Store country"
+msgstr "Butikens land"
+
+msgid "The store country is not supported. Supported countries: %s."
+msgstr "Butikens land stöds inte. Länder som stöds: %s."
+
+msgid "Change country"
+msgstr "Ändra land"
+
+msgid "API credentials"
+msgstr "API-uppgifter"
+
+msgid "Enter your API credentials in the plugin settings."
+msgstr "Ange dina API-uppgifter i pluginets inställningar."
+
+msgid "Enabled in the store"
+msgstr "Aktiverad i butiken"
+
+msgid "The plugin is not enabled, so customers cannot use it yet."
+msgstr "Pluginet är inte aktiverat, så kunder kan inte använda det ännu."
+
+msgid "Live mode"
+msgstr "Skarpt läge"
+
+msgid "Test mode is active. Turn it off before you take real orders."
+msgstr "Testläget är aktivt. Stäng av det innan du tar emot riktiga ordrar."
+
+msgid "The selected page \"%s\" is not published, so customers cannot open it."
+msgstr "Den valda sidan \"%s\" är inte publicerad, så kunder kan inte öppna den."
+
+msgid "Edit page"
+msgstr "Redigera sida"

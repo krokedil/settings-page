@@ -57,6 +57,30 @@ trait Sidebar {
 	}
 
 	/**
+	 * Add a box to the sidebar, after the boxes that are already there. A box with the same id is replaced.
+	 *
+	 * @param array<string, mixed> $box The box configuration, see output_sidebar_boxes().
+	 *
+	 * @return void
+	 */
+	public function add_sidebar_box( array $box ): void {
+		$boxes = $this->sidebar['boxes'] ?? array();
+		$boxes = is_array( $boxes ) ? array_values( $boxes ) : array();
+		$id    = $box['id'] ?? '';
+
+		foreach ( $boxes as $index => $existing ) {
+			if ( '' !== $id && is_array( $existing ) && ( $existing['id'] ?? '' ) === $id ) {
+				$boxes[ $index ]        = $box;
+				$this->sidebar['boxes'] = $boxes;
+				return;
+			}
+		}
+
+		$boxes[]                = $box;
+		$this->sidebar['boxes'] = $boxes;
+	}
+
+	/**
 	 * Output any registered sidebar boxes.
 	 *
 	 * Boxes are registered through the `boxes` key of the sidebar args. Each box renders

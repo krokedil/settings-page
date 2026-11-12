@@ -3,6 +3,7 @@ namespace Krokedil\SettingsPage;
 
 defined( 'ABSPATH' ) || exit;
 
+use Krokedil\SettingsPage\SetupChecks\Registry;
 use Krokedil\SettingsPage\Traits\Singleton;
 
 /**
@@ -24,6 +25,20 @@ class SettingsPage {
 	 * @var array<string, array<string, mixed>> $pages
 	 */
 	protected $pages = array();
+
+	/**
+	 * The setup checks of each page, keyed by page id.
+	 *
+	 * @var array<string, Registry> $setup_checks
+	 */
+	protected $setup_checks = array();
+
+	/**
+	 * The arguments for the setup checks box of each page, keyed by page id.
+	 *
+	 * @var array<string, array<string, mixed>> $setup_checks_args
+	 */
+	protected $setup_checks_args = array();
 
 	/**
 	 * Initialize the class.
@@ -144,9 +159,87 @@ class SettingsPage {
 			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $owner ) : null,
 			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $owner ) : null,
 			'args'       => $args,
+			'owner'      => $owner,
 		);
 
 		return $this;
+	}
+
+	/**
+	 * Add store setup checks to a page. They are shown as a check list in a sidebar box, after any other boxes.
+	 *
+	 * @param string                   $id     ID of the page.
+	 * @param array<int|string, mixed> $checks List of SetupCheck instances and check argument arrays, see docs/setup-checks.md.
+	 * @param array<string, mixed>     $args   Optional box arguments, supports 'title' and 'class'.
+	 *
+	 * @return self
+	 */
+	public function add_setup_checks( string $id, array $checks, array $args = array() ): self {
+		if ( ! isset( $this->setup_checks[ $id ] ) ) {
+			$this->setup_checks[ $id ] = new Registry( $id );
+		}
+
+		$this->setup_checks[ $id ]->add( $checks );
+		$this->setup_checks_args[ $id ] = array_merge( $this->setup_checks_args[ $id ] ?? array(), $args );
+
+		return $this;
+	}
+
+	/**
+	 * Get the results of the setup checks of a page, e.g. to add them to a system report.
+	 *
+	 * @param string $id ID of the page.
+	 *
+	 * @return array<int, array<string, string>> One array per check, with the keys 'id', 'label', 'severity', 'status', 'message', 'fix_url' and 'fix_label'.
+	 */
+	public function get_setup_check_results( string $id ): array {
+		$registry = $this->setup_checks( $id );
+
+		return $registry ? $registry->get_results() : array();
+	}
+
+	/**
+	 * Get the setup checks for a page.
+	 *
+	 * @param string $id ID of the page.
+	 *
+	 * @return Registry|null
+	 */
+	public function setup_checks( string $id ): ?Registry {
+		if ( ! isset( $this->setup_checks[ $id ] ) ) {
+			return null;
+		}
+
+		return $this->setup_checks[ $id ]->set_owner( $this->pages[ $id ]['owner'] ?? null );
+	}
+
+	/**
+	 * Add the setup checks box to the sidebars of a page.
+	 *
+	 * @param string $id ID of the page.
+	 *
+	 * @return void
+	 */
+	protected function add_setup_checks_box( string $id ): void {
+		$registry = $this->setup_checks( $id );
+
+		if ( ! $registry || ! $registry->has_checks() ) {
+			return;
+		}
+
+		$args = $this->setup_checks_args[ $id ] ?? array();
+		$box  = array(
+			'id'      => 'krokedil_setup_checks',
+			'title'   => $args['title'] ?? __( 'Store setup', 'krokedil-settings' ),
+			'content' => array( $registry, 'output' ),
+			'class'   => trim( 'krokedil_settings__setup_checks_box ' . ( is_string( $args['class'] ?? null ) ? $args['class'] : '' ) ),
+		);
+
+		foreach ( array( 'support', 'addons' ) as $subsection ) {
+			if ( $this->pages[ $id ][ $subsection ] ) {
+				$this->pages[ $id ][ $subsection ]->add_sidebar_box( $box );
+			}
+		}
 	}
 
 	/**
@@ -176,6 +269,8 @@ class SettingsPage {
 
 		ob_start();
 		try {
+			$this->add_setup_checks_box( $id );
+
 			switch ( $current_subsection ) {
 				case 'support':
 					// If we are on the support tab. Print the support content.

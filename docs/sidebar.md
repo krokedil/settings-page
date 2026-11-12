@@ -65,3 +65,5 @@ array(
 ```
 
 If a box `content` callable throws, the box is skipped, the rest of the page renders as usual, and the `krokedil_settings_page_render_error` action is fired with the box id, the throwable, and the box configuration.
+
+For a check list of the store setup, use [Store setup checks](./setup-checks.md) instead of a custom box.

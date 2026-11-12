@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Added support for custom sidebar boxes. Boxes are registered through the `boxes` key of the `sidebar` args and render as separate sidebar cards above the plugin resources, each with an `id`, `title` (plain string or locale array), `content` (string or callable) and optional `class`. A box whose rendering throws is skipped and the `krokedil_settings_page_render_error` action is fired, so a broken box cannot blank the settings page. See `docs/sidebar.md`.
+* Added store setup checks. `SettingsPage::add_setup_checks()` registers checks for a page, and the package shows them as a check list in a sidebar box, after any other sidebar boxes. A check is `required`, `recommended` or `info`, and can be a built-in check from `SetupChecks\Checks` (terms page, checkout page, HTTPS, permalinks, currency, country, credentials, price decimals, enabled, test mode), an array that checks a WordPress option or a plugin setting, or a class implementing `SetupChecks\SetupCheck`. `SettingsPage::get_setup_check_results()` returns the results as data. See `docs/setup-checks.md`.
 
 ### Fixed
 
