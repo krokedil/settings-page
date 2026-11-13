@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * Ready-made setup checks that plugins can reuse.
  *
  * Every factory takes an `$args` array that overrides the defaults of the check, e.g. its
- * 'severity', 'label', 'message' or 'fix_url'. See Check for the supported arguments.
+ * 'severity', 'label', 'message' or 'docs_url'. The arguments are listed in docs/setup-checks.md.
  */
 class Checks {
 	/**
@@ -21,13 +21,14 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'        => 'terms_page',
-				'label'     => __( 'Terms and conditions page', 'krokedil-settings' ),
-				'severity'  => SetupCheck::SEVERITY_REQUIRED,
-				'message'   => __( 'Select a terms and conditions page in the WooCommerce settings.', 'krokedil-settings' ),
-				'fix_url'   => admin_url( 'admin.php?page=wc-settings&tab=advanced' ),
-				'fix_label' => __( 'Select page', 'krokedil-settings' ),
-				'callback'  => function () {
+				'id'          => 'terms_page',
+				'label'       => __( 'Terms and conditions page set', 'krokedil-settings' ),
+				'description' => __( 'Customers must be able to read your terms and conditions in the checkout.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_REQUIRED,
+				'message'     => __( 'No terms and conditions page is set.', 'krokedil-settings' ),
+				'fix_url'     => admin_url( 'admin.php?page=wc-settings&tab=advanced' ),
+				'fix_label'   => __( 'Select a terms and conditions page', 'krokedil-settings' ),
+				'callback'    => function () {
 					return self::check_page( (int) wc_terms_and_conditions_page_id() );
 				},
 			)
@@ -45,13 +46,14 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'        => 'checkout_page',
-				'label'     => __( 'Checkout page', 'krokedil-settings' ),
-				'severity'  => SetupCheck::SEVERITY_REQUIRED,
-				'message'   => __( 'Select a checkout page in the WooCommerce settings.', 'krokedil-settings' ),
-				'fix_url'   => admin_url( 'admin.php?page=wc-settings&tab=advanced' ),
-				'fix_label' => __( 'Select page', 'krokedil-settings' ),
-				'callback'  => function () {
+				'id'          => 'checkout_page',
+				'label'       => __( 'Checkout page set', 'krokedil-settings' ),
+				'description' => __( 'The checkout is shown on the checkout page selected in WooCommerce.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_REQUIRED,
+				'message'     => __( 'No checkout page is set.', 'krokedil-settings' ),
+				'fix_url'     => admin_url( 'admin.php?page=wc-settings&tab=advanced' ),
+				'fix_label'   => __( 'Select a checkout page', 'krokedil-settings' ),
+				'callback'    => function () {
 					return self::check_page( (int) wc_get_page_id( 'checkout' ) );
 				},
 			)
@@ -69,13 +71,14 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'        => 'https',
-				'label'     => __( 'Secure connection (HTTPS)', 'krokedil-settings' ),
-				'severity'  => SetupCheck::SEVERITY_REQUIRED,
-				'message'   => __( 'The store address does not use HTTPS. Install an SSL certificate and change the site address to https.', 'krokedil-settings' ),
-				'fix_url'   => admin_url( 'options-general.php' ),
-				'fix_label' => __( 'Change address', 'krokedil-settings' ),
-				'callback'  => function () {
+				'id'          => 'https',
+				'label'       => __( 'Store served over HTTPS', 'krokedil-settings' ),
+				'description' => __( 'Personal and payment details are sent in the checkout, which requires a secure connection.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_REQUIRED,
+				'message'     => __( 'Your store address does not use HTTPS. Install an SSL certificate and change the site address to https.', 'krokedil-settings' ),
+				'fix_url'     => admin_url( 'options-general.php' ),
+				'fix_label'   => __( 'Change the site address', 'krokedil-settings' ),
+				'callback'    => function () {
 					return wc_site_is_https();
 				},
 			)
@@ -83,7 +86,7 @@ class Checks {
 	}
 
 	/**
-	 * WordPress uses pretty permalinks, which callbacks and the REST API routes rely on.
+	 * WordPress uses pretty permalinks.
 	 *
 	 * @param array<string, mixed> $args Overrides for the check arguments.
 	 *
@@ -93,19 +96,20 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'        => 'pretty_permalinks',
-				'label'     => __( 'Permalinks', 'krokedil-settings' ),
-				'severity'  => SetupCheck::SEVERITY_REQUIRED,
-				'message'   => __( 'Plain permalinks are not supported. Select another permalink structure.', 'krokedil-settings' ),
-				'fix_url'   => admin_url( 'options-permalink.php' ),
-				'fix_label' => __( 'Change permalinks', 'krokedil-settings' ),
-				'option'    => 'permalink_structure',
+				'id'          => 'pretty_permalinks',
+				'label'       => __( 'Pretty permalinks configured', 'krokedil-settings' ),
+				'description' => __( 'Callbacks from the payment provider rely on WordPress using pretty permalinks.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_REQUIRED,
+				'message'     => __( 'The permalink structure is set to "Plain", which is not supported.', 'krokedil-settings' ),
+				'fix_url'     => admin_url( 'options-permalink.php' ),
+				'fix_label'   => __( 'Change the permalink structure', 'krokedil-settings' ),
+				'option'      => 'permalink_structure',
 			)
 		);
 	}
 
 	/**
-	 * Prices use the given number of decimals. Fewer decimals cause rounding differences.
+	 * Prices use the given number of decimals.
 	 *
 	 * @param int                  $decimals The number of decimals to expect.
 	 * @param array<string, mixed> $args     Overrides for the check arguments.
@@ -116,14 +120,16 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'        => 'price_decimals',
-				'label'     => __( 'Number of decimals', 'krokedil-settings' ),
-				'severity'  => SetupCheck::SEVERITY_RECOMMENDED,
+				'id'          => 'price_decimals',
 				/* translators: %d: number of decimals. */
-				'message'   => sprintf( __( 'Set the number of decimals for prices to %d to avoid rounding differences.', 'krokedil-settings' ), $decimals ),
-				'fix_url'   => admin_url( 'admin.php?page=wc-settings&tab=general' ),
-				'fix_label' => __( 'Change decimals', 'krokedil-settings' ),
-				'callback'  => function () use ( $decimals ) {
+				'label'       => sprintf( __( 'Number of decimals set to %d', 'krokedil-settings' ), $decimals ),
+				'description' => __( 'Fewer decimals make WooCommerce round prices and taxes, which can make the order total differ from the amount the customer pays.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_RECOMMENDED,
+				/* translators: %d: number of decimals. */
+				'message'     => sprintf( __( 'Currently set to %d.', 'krokedil-settings' ), wc_get_price_decimals() ),
+				'fix_url'     => admin_url( 'admin.php?page=wc-settings&tab=general' ),
+				'fix_label'   => __( 'Change the number of decimals', 'krokedil-settings' ),
+				'callback'    => function () use ( $decimals ) {
 					return wc_get_price_decimals() === $decimals;
 				},
 			)
@@ -142,14 +148,15 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'        => 'currency',
-				'label'     => __( 'Store currency', 'krokedil-settings' ),
-				'severity'  => SetupCheck::SEVERITY_REQUIRED,
-				/* translators: %s: comma separated list of currency codes. */
-				'message'   => sprintf( __( 'The store currency is not supported. Supported currencies: %s.', 'krokedil-settings' ), implode( ', ', $currencies ) ),
-				'fix_url'   => admin_url( 'admin.php?page=wc-settings&tab=general' ),
-				'fix_label' => __( 'Change currency', 'krokedil-settings' ),
-				'callback'  => function () use ( $currencies ) {
+				'id'          => 'currency',
+				'label'       => __( 'Store currency supported', 'krokedil-settings' ),
+				'description' => __( 'Payments can only be made in the currencies that the payment provider supports.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_REQUIRED,
+				/* translators: 1: the store currency code, 2: comma separated list of currency codes. */
+				'message'     => sprintf( __( 'The store currency %1$s is not supported. Supported currencies: %2$s.', 'krokedil-settings' ), get_woocommerce_currency(), implode( ', ', $currencies ) ),
+				'fix_url'     => admin_url( 'admin.php?page=wc-settings&tab=general' ),
+				'fix_label'   => __( 'Change the store currency', 'krokedil-settings' ),
+				'callback'    => function () use ( $currencies ) {
 					return in_array( get_woocommerce_currency(), $currencies, true );
 				},
 			)
@@ -168,14 +175,15 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'        => 'base_country',
-				'label'     => __( 'Store country', 'krokedil-settings' ),
-				'severity'  => SetupCheck::SEVERITY_REQUIRED,
+				'id'          => 'base_country',
+				'label'       => __( 'Store country supported', 'krokedil-settings' ),
+				'description' => __( 'The payment provider only serves stores in certain countries.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_REQUIRED,
 				/* translators: %s: comma separated list of country codes. */
-				'message'   => sprintf( __( 'The store country is not supported. Supported countries: %s.', 'krokedil-settings' ), implode( ', ', $countries ) ),
-				'fix_url'   => admin_url( 'admin.php?page=wc-settings&tab=general' ),
-				'fix_label' => __( 'Change country', 'krokedil-settings' ),
-				'callback'  => function () use ( $countries ) {
+				'message'     => sprintf( __( 'The store country is not supported. Supported countries: %s.', 'krokedil-settings' ), implode( ', ', $countries ) ),
+				'fix_url'     => admin_url( 'admin.php?page=wc-settings&tab=general' ),
+				'fix_label'   => __( 'Change the store country', 'krokedil-settings' ),
+				'callback'    => function () use ( $countries ) {
 					return in_array( WC()->countries->get_base_country(), $countries, true );
 				},
 			)
@@ -183,10 +191,7 @@ class Checks {
 	}
 
 	/**
-	 * Credentials are entered.
-	 *
-	 * Only checks that they exist. Do not verify them against an API here, the checks run
-	 * on every load of the settings page.
+	 * Credentials are entered. Only checks that they exist, since the checks run on every page load.
 	 *
 	 * @param callable|array<int, string> $credentials A callable that receives the page owner and returns whether credentials are entered,
 	 *                                                 or a list of setting keys on the page owner that all have to be filled in.
@@ -216,11 +221,12 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'       => 'credentials',
-				'label'    => __( 'API credentials', 'krokedil-settings' ),
-				'severity' => SetupCheck::SEVERITY_REQUIRED,
-				'message'  => __( 'Enter your API credentials in the plugin settings.', 'krokedil-settings' ),
-				'callback' => $callback,
+				'id'          => 'credentials',
+				'label'       => __( 'API credentials entered', 'krokedil-settings' ),
+				'description' => __( 'The plugin needs your API credentials to connect to the payment provider.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_REQUIRED,
+				'message'     => __( 'No API credentials are entered in the plugin settings.', 'krokedil-settings' ),
+				'callback'    => $callback,
 			)
 		);
 	}
@@ -237,12 +243,13 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'       => 'enabled',
-				'label'    => __( 'Enabled in the store', 'krokedil-settings' ),
-				'severity' => SetupCheck::SEVERITY_RECOMMENDED,
-				'message'  => __( 'The plugin is not enabled, so customers cannot use it yet.', 'krokedil-settings' ),
-				'setting'  => $setting,
-				'valid'    => array( 'yes' ),
+				'id'          => 'enabled',
+				'label'       => __( 'Enabled in the store', 'krokedil-settings' ),
+				'description' => __( 'Customers can only use the plugin when it is enabled.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_RECOMMENDED,
+				'message'     => __( 'The plugin is not enabled, so customers cannot use it yet.', 'krokedil-settings' ),
+				'setting'     => $setting,
+				'valid'       => array( 'yes' ),
 			)
 		);
 	}
@@ -259,12 +266,13 @@ class Checks {
 		return self::make(
 			$args,
 			array(
-				'id'       => 'test_mode',
-				'label'    => __( 'Live mode', 'krokedil-settings' ),
-				'severity' => SetupCheck::SEVERITY_INFO,
-				'message'  => __( 'Test mode is active. Turn it off before you take real orders.', 'krokedil-settings' ),
-				'setting'  => $setting,
-				'invalid'  => array( 'yes' ),
+				'id'          => 'test_mode',
+				'label'       => __( 'Test mode turned off', 'krokedil-settings' ),
+				'description' => __( 'No real payments are made while test mode is active.', 'krokedil-settings' ),
+				'severity'    => SetupCheck::SEVERITY_INFO,
+				'message'     => __( 'Test mode is active. Turn it off before you take real orders.', 'krokedil-settings' ),
+				'setting'     => $setting,
+				'invalid'     => array( 'yes' ),
 			)
 		);
 	}
@@ -305,7 +313,7 @@ class Checks {
 			/* translators: %s: page title. */
 			sprintf( __( 'The selected page "%s" is not published, so customers cannot open it.', 'krokedil-settings' ), get_the_title( $page_id ) ),
 			(string) get_edit_post_link( $page_id, 'raw' ),
-			__( 'Edit page', 'krokedil-settings' )
+			__( 'Edit the page', 'krokedil-settings' )
 		);
 	}
 }

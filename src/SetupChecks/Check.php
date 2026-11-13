@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * A setup check built from an array of arguments. The arguments are listed in docs/setup-checks.md.
  */
-class Check implements SetupCheck {
+class Check implements DetailedSetupCheck {
 	/**
 	 * The check arguments.
 	 *
@@ -75,6 +75,24 @@ class Check implements SetupCheck {
 		$allowed  = array( self::SEVERITY_REQUIRED, self::SEVERITY_RECOMMENDED, self::SEVERITY_INFO );
 
 		return in_array( $severity, $allowed, true ) ? $severity : self::SEVERITY_REQUIRED;
+	}
+
+	/**
+	 * Get the help text shown in the help tip of the check.
+	 *
+	 * @return string
+	 */
+	public function get_description(): string {
+		return $this->get_string_arg( 'description' );
+	}
+
+	/**
+	 * Get the URL of the documentation for the check.
+	 *
+	 * @return string
+	 */
+	public function get_docs_url(): string {
+		return $this->get_string_arg( 'docs_url' );
 	}
 
 	/**
