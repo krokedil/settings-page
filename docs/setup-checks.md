@@ -5,7 +5,7 @@ Setup checks tell the merchant which store settings have to be fixed and which w
 - A **Store setup check** box in the sidebar. It has a summary banner (all passed, required checks fail, or recommended checks fail) and lists only the checks that did not pass. The box is added after any boxes passed in the `sidebar` args, see [Sidebar](./sidebar.md), and shows wherever the sidebar shows, which is the Support and Addons tabs.
 - A section in the WooCommerce system report (WooCommerce → Status) with every check. The box links to it with "View full report", and it is part of the system report that the support form attaches.
 - An admin notice on every admin page, listing the failed required checks. It only shows while the payment or shipping method is enabled, and it cannot be dismissed. It is left out on the Support and Addons tabs of the plugin's own settings page, where the box already shows the same checks. Recommended and info checks never cause a notice.
-- The same notice above the list of payment methods (WooCommerce → Settings → Payments), for checks that belong to a payment gateway. Here it also shows while the gateway is disabled, since this is where it gets enabled. WooCommerce removes the admin notices of other plugins on that page and has no way to add content to the row of a payment method, so the notice is printed above the list.
+- The same notice in the row of the payment method in the list of payment methods (WooCommerce → Settings → Payments), for checks that belong to a payment gateway. Here it also shows while the gateway is disabled, since this is where it gets enabled. See [The payment methods list](#the-payment-methods-list).
 
 ## Registering checks
 
@@ -163,6 +163,15 @@ All of them live in `Krokedil\SettingsPage\SetupChecks\Checks`. The last argumen
 | `price_decimals( $decimals = 2 )` | recommended | WooCommerce prices use that number of decimals. |
 | `enabled( $setting = 'enabled' )` | recommended | The setting of the page owner is `yes`. |
 | `test_mode_off( $setting = 'testmode' )` | info | The setting of the page owner is not `yes`. |
+
+## The payment methods list
+
+WooCommerce renders the list of payment methods with React. It removes the admin notices of other plugins on that page, and the list has no hook or filter for adding content to a row. The package therefore prints the notice hidden, before the list, and a small script (`assets/js/setup-checks-payments.js`) moves it into the row of the gateway.
+
+- The row is found by the id of the gateway, so the owner of the checks has to be the `WC_Payment_Gateway`.
+- If the row is rendered again and the notice is dropped, the script puts it back.
+- If the row cannot be found within 5 seconds, for example after WooCommerce changes its markup, the notice is shown where it was printed, above the list.
+- The script is printed inline directly after the notices and only handles those. Several plugins that ship the package each print their own copy, without sharing a script handle or a global variable, so they do not affect each other.
 
 ## Reading the results
 
