@@ -34,13 +34,6 @@ class SettingsPage {
 	protected $setup_checks = array();
 
 	/**
-	 * The arguments for the setup checks box of each page, keyed by page id.
-	 *
-	 * @var array<string, array<string, mixed>> $setup_checks_args
-	 */
-	protected $setup_checks_args = array();
-
-	/**
 	 * Initialize the class.
 	 *
 	 * @return void
@@ -166,11 +159,11 @@ class SettingsPage {
 	}
 
 	/**
-	 * Add store setup checks to a page. They are shown as a check list in a sidebar box, after any other boxes.
+	 * Add store setup checks to a page. Call it early, e.g. on admin_init, so the checks are also in the system report.
 	 *
 	 * @param string                   $id     ID of the page.
 	 * @param array<int|string, mixed> $checks List of SetupCheck instances and check argument arrays, see docs/setup-checks.md.
-	 * @param array<string, mixed>     $args   Optional box arguments, supports 'title' and 'class'.
+	 * @param array<string, mixed>     $args   Optional arguments, see docs/setup-checks.md.
 	 *
 	 * @return self
 	 */
@@ -179,18 +172,21 @@ class SettingsPage {
 			$this->setup_checks[ $id ] = new Registry( $id );
 		}
 
-		$this->setup_checks[ $id ]->add( $checks );
-		$this->setup_checks_args[ $id ] = array_merge( $this->setup_checks_args[ $id ] ?? array(), $args );
+		$this->setup_checks[ $id ]->add( $checks )->set_args( $args );
+
+		if ( ! has_action( 'woocommerce_system_status_report', array( $this, 'output_setup_checks_report' ) ) ) {
+			add_action( 'woocommerce_system_status_report', array( $this, 'output_setup_checks_report' ) );
+		}
 
 		return $this;
 	}
 
 	/**
-	 * Get the results of the setup checks of a page, e.g. to add them to a system report.
+	 * Get the results of the setup checks of a page, e.g. to decide whether to show a notice.
 	 *
 	 * @param string $id ID of the page.
 	 *
-	 * @return array<int, array<string, string>> One array per check, with the keys 'id', 'label', 'severity', 'status', 'message', 'fix_url' and 'fix_label'.
+	 * @return array<int, array<string, string>> One array per check, the keys are listed in docs/setup-checks.md.
 	 */
 	public function get_setup_check_results( string $id ): array {
 		$registry = $this->setup_checks( $id );
@@ -210,7 +206,54 @@ class SettingsPage {
 			return null;
 		}
 
-		return $this->setup_checks[ $id ]->set_owner( $this->pages[ $id ]['owner'] ?? null );
+		return $this->setup_checks[ $id ]->set_defaults(
+			array(
+				'plugin_name' => $this->plugin_name,
+				'owner'       => $this->pages[ $id ]['owner'] ?? null,
+			)
+		);
+	}
+
+	/**
+	 * Output the setup checks of every page as sections of the WooCommerce system report.
+	 *
+	 * @return void
+	 */
+	public function output_setup_checks_report(): void {
+		$this->render_setup_checks(
+			function ( Registry $registry ) {
+				$registry->output_system_report();
+			}
+		);
+	}
+
+	/**
+	 * Render something for the setup checks of every page. A page that throws is skipped, so it cannot break the admin.
+	 *
+	 * @param callable $render Receives the Registry of a page and prints its output.
+	 *
+	 * @return void
+	 */
+	protected function render_setup_checks( callable $render ): void {
+		foreach ( array_keys( $this->setup_checks ) as $id ) {
+			$registry     = $this->setup_checks( $id );
+			$buffer_level = ob_get_level();
+
+			ob_start();
+			try {
+				if ( $registry ) {
+					call_user_func( $render, $registry );
+				}
+
+				echo (string) ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Buffered output is escaped by the renderer above.
+			} catch ( \Throwable $exception ) {
+				while ( ob_get_level() > $buffer_level ) {
+					ob_end_clean();
+				}
+
+				do_action( 'krokedil_settings_page_render_error', $id, $exception, array( 'page_id' => $id ) );
+			}
+		}
 	}
 
 	/**
@@ -227,12 +270,11 @@ class SettingsPage {
 			return;
 		}
 
-		$args = $this->setup_checks_args[ $id ] ?? array();
-		$box  = array(
+		$box = array(
 			'id'      => 'krokedil_setup_checks',
-			'title'   => $args['title'] ?? __( 'Store setup', 'krokedil-settings' ),
+			'title'   => $registry->get_title(),
 			'content' => array( $registry, 'output' ),
-			'class'   => trim( 'krokedil_settings__setup_checks_box ' . ( is_string( $args['class'] ?? null ) ? $args['class'] : '' ) ),
+			'class'   => 'krokedil_settings__setup_checks_box',
 		);
 
 		foreach ( array( 'support', 'addons' ) as $subsection ) {
