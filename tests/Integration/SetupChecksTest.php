@@ -511,14 +511,20 @@ class SetupChecksTest extends WPTestCase {
 		$this->assertStringNotContainsString( 'krokedil-setup-checks-notice', $html );
 	}
 
-	public function test_payments_list_notice_is_shown_for_a_disabled_gateway_but_not_on_a_gateway_section(): void {
+	public function test_payments_list_gets_a_hidden_row_notice_and_the_script_that_moves_it(): void {
 		global $current_section;
 
 		$current_section = '';
 		$html            = $this->render_notice( 'payments_list_page', 'no', 'output_setup_checks_payments_notices' );
 
+		// Shown for a disabled gateway too, hidden until the script has moved it into the row of the gateway.
+		$this->assertSame( 1, preg_match( '/<div class="krokedil-setup-checks-row-notice" data-gateway-id="krokedil_test_gateway" data-page-id="payments_list_page"[^>]* hidden>/', $html ) );
 		$this->assertStringContainsString( 'Label of payments_list_page (required)', $html );
-		$this->assertStringContainsString( 'krokedil-setup-checks-notice inline', $html );
+
+		// One container, directly followed by the script that works on it.
+		$this->assertSame( 1, substr_count( $html, '<div class="krokedil-setup-checks-row-notices">' ) );
+		$this->assertSame( 1, preg_match( '/<\/div>\s*<\/div>\s*<script[^>]*>/', $html ) );
+		$this->assertStringContainsString( 'krokedil_setup_checks_payments.init();', $html );
 
 		$current_section = 'krokedil_test_gateway';
 		ob_start();
@@ -526,10 +532,25 @@ class SetupChecksTest extends WPTestCase {
 		$section_html    = (string) ob_get_clean();
 		$current_section = '';
 
+		$this->assertSame( '', $section_html );
 		$this->assertSame( 10, has_action( 'admin_notices', array( SettingsPage::get_instance(), 'output_setup_checks_notices' ) ) );
 		$this->assertSame( 5, has_action( 'woocommerce_settings_checkout', array( SettingsPage::get_instance(), 'output_setup_checks_payments_notices' ) ) );
+	}
 
-		$this->assertStringNotContainsString( 'krokedil-setup-checks-notice', $section_html );
+	public function test_row_notice_is_only_printed_for_payment_gateways(): void {
+		$registry = ( new Registry( 'no_gateway_page' ) )->add(
+			array(
+				array(
+					'id'       => 'failing',
+					'callback' => '__return_false',
+				),
+			)
+		);
+
+		ob_start();
+		$registry->output_row_notice();
+
+		$this->assertSame( '', (string) ob_get_clean() );
 	}
 
 	public function test_notice_can_be_turned_off(): void {
