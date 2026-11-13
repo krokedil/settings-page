@@ -4,7 +4,7 @@ namespace Krokedil\SettingsPage\SetupChecks;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Holds the setup checks of one settings page, runs them and renders the sidebar box content.
+ * Holds the setup checks of one settings page, runs them and renders the sidebar box and the system report section.
  */
 class Registry {
 	/**
@@ -22,11 +22,18 @@ class Registry {
 	protected $checks = array();
 
 	/**
-	 * The object the settings page belongs to, e.g. a WC_Payment_Gateway.
+	 * The arguments passed by the plugin, see docs/setup-checks.md.
 	 *
-	 * @var object|null
+	 * @var array<string, mixed>
 	 */
-	protected $owner = null;
+	protected $args = array();
+
+	/**
+	 * Values used for the arguments that the plugin did not pass.
+	 *
+	 * @var array<string, mixed>
+	 */
+	protected $defaults = array();
 
 	/**
 	 * The results of the last run. Null until the checks have been run.
@@ -47,7 +54,7 @@ class Registry {
 	/**
 	 * Add checks.
 	 *
-	 * @param array<int|string, mixed> $checks List of SetupCheck instances and check argument arrays, see Check.
+	 * @param array<int|string, mixed> $checks List of SetupCheck instances and check argument arrays, see docs/setup-checks.md.
 	 *
 	 * @return self
 	 */
@@ -64,18 +71,32 @@ class Registry {
 	}
 
 	/**
-	 * Set the object the settings page belongs to.
+	 * Set arguments, on top of the ones that are already set.
 	 *
-	 * @param object|null $owner The page owner.
+	 * @param array<string, mixed> $args The arguments, see docs/setup-checks.md.
 	 *
 	 * @return self
 	 */
-	public function set_owner( $owner ): self {
-		$owner = is_object( $owner ) ? $owner : null;
-
-		if ( $owner !== $this->owner ) {
-			$this->owner   = $owner;
+	public function set_args( array $args ): self {
+		if ( ! empty( $args ) ) {
+			$this->args    = array_merge( $this->args, $args );
 			$this->results = null;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Set the values to use for the arguments that the plugin did not pass.
+	 *
+	 * @param array<string, mixed> $defaults The default arguments.
+	 *
+	 * @return self
+	 */
+	public function set_defaults( array $defaults ): self {
+		if ( $defaults !== $this->defaults ) {
+			$this->defaults = $defaults;
+			$this->results  = null;
 		}
 
 		return $this;
@@ -91,17 +112,16 @@ class Registry {
 	}
 
 	/**
-	 * Run the checks and get their results. The checks only run once per request.
+	 * Run the checks and get their results, in the order the checks were added. The checks only run once per request.
 	 *
-	 * Each result is an array with the keys 'id', 'label', 'severity', 'status', 'message',
-	 * 'fix_url' and 'fix_label'. Checks that do not apply to the store are left out.
-	 *
-	 * @return array<int, array<string, string>>
+	 * @return array<int, array<string, string>> One array per check, the keys are listed in docs/setup-checks.md. Checks that do not apply are left out.
 	 */
 	public function get_results(): array {
 		if ( null !== $this->results ) {
 			return $this->results;
 		}
+
+		$owner = $this->get_owner();
 
 		/**
 		 * Filters the setup checks of a settings page before they run.
@@ -110,31 +130,63 @@ class Registry {
 		 * @param string                                      $page_id The id of the settings page.
 		 * @param object|null                                 $owner   The object the settings page belongs to.
 		 */
-		$checks = apply_filters( 'krokedil_settings_page_setup_checks', $this->checks, $this->page_id, $this->owner );
+		$checks = apply_filters( 'krokedil_settings_page_setup_checks', $this->checks, $this->page_id, $owner );
 
-		$results = array();
+		$this->results = array();
 		foreach ( is_array( $checks ) ? $checks : array() as $check ) {
-			$result = $this->run_check( $check );
+			$result = $this->run_check( $check, $owner );
 
 			if ( null !== $result && CheckResult::STATUS_SKIPPED !== $result['status'] ) {
-				$results[] = $result;
+				$this->results[] = $result;
 			}
 		}
 
-		// usort is not stable before PHP 8, so keep the registered order as the tie breaker.
-		$order = array_flip( array_keys( $results ) );
-		uksort(
-			$results,
-			function ( $a, $b ) use ( $results, $order ) {
-				$diff = self::get_sort_weight( $results[ $a ] ) - self::get_sort_weight( $results[ $b ] );
-
-				return 0 !== $diff ? $diff : $order[ $a ] - $order[ $b ];
-			}
-		);
-
-		$this->results = array_values( $results );
-
 		return $this->results;
+	}
+
+	/**
+	 * Get the results of the checks that did not pass, the ones that need attention the most first.
+	 *
+	 * @param string $state Optional. Only get the results in this state: a SetupCheck::SEVERITY_* constant, or 'error'.
+	 *
+	 * @return array<int, array<string, string>>
+	 */
+	public function get_failed( string $state = '' ): array {
+		$failed = array();
+
+		foreach ( array( SetupCheck::SEVERITY_REQUIRED, SetupCheck::SEVERITY_RECOMMENDED, 'error', SetupCheck::SEVERITY_INFO ) as $failed_state ) {
+			if ( '' !== $state && $state !== $failed_state ) {
+				continue;
+			}
+
+			foreach ( $this->get_results() as $result ) {
+				if ( self::get_state( $result ) === $failed_state ) {
+					$failed[] = $result;
+				}
+			}
+		}
+
+		return $failed;
+	}
+
+	/**
+	 * Get the title of the sidebar box and the system report section.
+	 *
+	 * @return string
+	 */
+	public function get_title(): string {
+		$title = $this->get_arg( 'title' );
+
+		return is_string( $title ) && '' !== $title ? $title : __( 'Store setup check', 'krokedil-settings' );
+	}
+
+	/**
+	 * Get the URL of the section with the full results in the WooCommerce system report.
+	 *
+	 * @return string
+	 */
+	public function get_report_url(): string {
+		return admin_url( 'admin.php?page=wc-status' ) . '#' . $this->get_report_id();
 	}
 
 	/**
@@ -143,69 +195,216 @@ class Registry {
 	 * @return void
 	 */
 	public function output(): void {
+		if ( empty( $this->get_results() ) ) {
+			return;
+		}
+
+		$plugin_name = $this->get_plugin_name();
+		$banner      = $this->get_banner();
+		?>
+		<div class="krokedil_settings__setup_checks">
+			<p class="krokedil_settings__setup_checks_intro">
+				<?php
+				/* translators: %s: plugin name. */
+				echo esc_html( sprintf( __( 'Checks store settings that %s requires or recommends.', 'krokedil-settings' ), '' !== $plugin_name ? $plugin_name : __( 'the plugin', 'krokedil-settings' ) ) );
+				?>
+			</p>
+			<p class="<?php echo esc_attr( 'krokedil_settings__setup_checks_banner krokedil_settings__setup_checks_banner--' . $banner['state'] ); ?>">
+				<span class="<?php echo esc_attr( 'dashicons ' . ( 'passed' === $banner['state'] ? 'dashicons-yes-alt' : 'dashicons-warning' ) ); ?>" aria-hidden="true"></span>
+				<?php echo esc_html( $banner['text'] ); ?>
+			</p>
+			<ul class="krokedil_settings__setup_checks_list">
+				<?php foreach ( $this->get_failed() as $result ) : ?>
+					<li class="<?php echo esc_attr( 'krokedil_settings__setup_check krokedil_settings__setup_check--' . self::get_state( $result ) ); ?>" data-check-id="<?php echo esc_attr( $result['id'] ); ?>">
+						<span class="krokedil_settings__setup_check_label">&raquo; <?php echo esc_html( self::get_label( $result ) ); ?></span>
+						<?php echo self::get_help_tip( $result ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wc_help_tip() escapes its output. ?>
+						<p class="krokedil_settings__setup_check_message"><?php echo wp_kses( self::get_message_html( $result ), self::get_allowed_html() ); ?></p>
+						<?php if ( '' !== $result['fix_url'] ) : ?>
+							<a class="krokedil_settings__setup_check_fix no-external-icon" href="<?php echo esc_url( $result['fix_url'] ); ?>"><?php echo esc_html( self::get_fix_label( $result ) ); ?></a>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<a class="krokedil_settings__setup_checks_report no-external-icon" href="<?php echo esc_url( $this->get_report_url() ); ?>"><?php esc_html_e( 'View full report', 'krokedil-settings' ); ?></a>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Output the results as a section of the WooCommerce system report.
+	 *
+	 * @return void
+	 */
+	public function output_system_report(): void {
 		$results = $this->get_results();
 
 		if ( empty( $results ) ) {
 			return;
 		}
 
-		$passed = count( wp_list_filter( $results, array( 'status' => CheckResult::STATUS_PASSED ) ) );
+		$plugin_name = $this->get_plugin_name();
+		$title       = '' !== $plugin_name ? $plugin_name . ' – ' . $this->get_title() : $this->get_title();
+		$colors      = array(
+			SetupCheck::SEVERITY_RECOMMENDED => '#996800',
+			SetupCheck::SEVERITY_INFO        => '#2271b1',
+		);
 		?>
-		<div class="krokedil_settings__setup_checks">
-			<p class="krokedil_settings__setup_checks_summary">
-				<?php
-				/* translators: 1: number of passed checks, 2: total number of checks. */
-				echo esc_html( sprintf( __( '%1$d of %2$d checks passed', 'krokedil-settings' ), $passed, count( $results ) ) );
-				?>
-			</p>
-			<ul class="krokedil_settings__setup_checks_list">
+		<table class="wc_status_table widefat" cellspacing="0" id="<?php echo esc_attr( $this->get_report_id() ); ?>">
+			<thead>
+				<tr>
+					<th colspan="3" data-export-label="<?php echo esc_attr( $title ); ?>">
+						<h2><?php echo esc_html( $title ); ?></h2>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
 				<?php foreach ( $results as $result ) : ?>
-					<?php $this->output_result( $result ); ?>
+					<?php $state = self::get_state( $result ); ?>
+					<tr>
+						<td data-export-label="<?php echo esc_attr( self::get_label( $result ) ); ?>"><?php echo esc_html( self::get_label( $result ) ); ?>:</td>
+						<td class="help"><?php echo self::get_help_tip( $result ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wc_help_tip() escapes its output. ?></td>
+						<td>
+							<?php if ( 'passed' === $state ) : ?>
+								<mark class="yes"><span class="dashicons dashicons-yes"></span></mark>
+								<?php echo wp_kses( $result['message'], self::get_allowed_html() ); ?>
+							<?php else : ?>
+								<?php // WooCommerce only styles the error mark red, so the other states get their color inline. ?>
+								<mark class="error" style="<?php echo esc_attr( isset( $colors[ $state ] ) ? 'color:' . $colors[ $state ] : '' ); ?>">
+									<span class="dashicons dashicons-warning"></span>
+									<?php echo wp_kses( self::get_message_html( $result ), self::get_allowed_html() ); ?>
+									<?php if ( '' !== $result['fix_url'] ) : ?>
+										<a href="<?php echo esc_url( $result['fix_url'] ); ?>"><?php echo esc_html( self::get_fix_label( $result ) ); ?></a>
+									<?php endif; ?>
+								</mark>
+							<?php endif; ?>
+						</td>
+					</tr>
 				<?php endforeach; ?>
-			</ul>
-		</div>
+			</tbody>
+		</table>
 		<?php
 	}
 
 	/**
-	 * Output a single check result.
+	 * Get an argument, falling back to its default.
 	 *
-	 * @param array<string, string> $result The result, see get_results().
+	 * @param string $key The argument key.
 	 *
-	 * @return void
+	 * @return mixed Null if the argument is not set.
 	 */
-	protected function output_result( array $result ): void {
-		$is_passed = CheckResult::STATUS_PASSED === $result['status'];
-		$state     = self::get_state( $result );
-		$fix_label = '' !== $result['fix_label'] ? $result['fix_label'] : __( 'Fix this', 'krokedil-settings' );
-		?>
-		<li class="<?php echo esc_attr( 'krokedil_settings__setup_check krokedil_settings__setup_check--' . $state ); ?>" data-check-id="<?php echo esc_attr( $result['id'] ); ?>">
-			<span class="<?php echo esc_attr( 'krokedil_settings__setup_check_icon dashicons ' . self::get_icon( $state ) ); ?>" aria-hidden="true"></span>
-			<div class="krokedil_settings__setup_check_body">
-				<span class="krokedil_settings__setup_check_label"><?php echo esc_html( $result['label'] ); ?></span>
-				<span class="krokedil_settings__setup_check_badge"><?php echo esc_html( self::get_state_label( $state ) ); ?></span>
-				<?php if ( '' !== $result['message'] ) : ?>
-					<p class="krokedil_settings__setup_check_message"><?php echo esc_html( $result['message'] ); ?></p>
-				<?php endif; ?>
-				<?php if ( ! $is_passed && '' !== $result['fix_url'] ) : ?>
-					<a class="krokedil_settings__setup_check_fix no-external-icon" href="<?php echo esc_url( $result['fix_url'] ); ?>"><?php echo esc_html( $fix_label ); ?></a>
-				<?php endif; ?>
-			</div>
-		</li>
-		<?php
+	protected function get_arg( string $key ) {
+		return $this->args[ $key ] ?? $this->defaults[ $key ] ?? null;
 	}
 
 	/**
-	 * Run a single check. A check that throws gets the error status, so it cannot break the settings page.
+	 * Get the object the settings page belongs to, e.g. a WC_Payment_Gateway.
 	 *
-	 * @param mixed $check A SetupCheck instance or a check argument array.
+	 * @return object|null
+	 */
+	protected function get_owner() {
+		$owner = $this->get_arg( 'owner' );
+
+		// A closure lets the plugin register its checks early, without loading the gateway on every request.
+		if ( $owner instanceof \Closure ) {
+			$owner = $owner();
+		}
+
+		return is_object( $owner ) ? $owner : null;
+	}
+
+	/**
+	 * Get the name of the plugin the checks belong to.
+	 *
+	 * @return string
+	 */
+	protected function get_plugin_name(): string {
+		$plugin_name = $this->get_arg( 'plugin_name' );
+
+		return is_string( $plugin_name ) ? $plugin_name : '';
+	}
+
+	/**
+	 * Get the id of the section in the WooCommerce system report.
+	 *
+	 * @return string
+	 */
+	protected function get_report_id(): string {
+		return 'krokedil-setup-checks-' . sanitize_html_class( $this->page_id );
+	}
+
+	/**
+	 * Get the state and text of the summary banner. The worst state among the results decides it.
+	 *
+	 * @return array{state: string, text: string}
+	 */
+	protected function get_banner(): array {
+		$required = count( $this->get_failed( SetupCheck::SEVERITY_REQUIRED ) );
+		if ( $required > 0 ) {
+			/* translators: %d: number of checks. */
+			return self::make_banner( SetupCheck::SEVERITY_REQUIRED, _n( '%d required check fails.', '%d required checks fail.', $required, 'krokedil-settings' ), $required );
+		}
+
+		$recommended = count( $this->get_failed( SetupCheck::SEVERITY_RECOMMENDED ) );
+		if ( $recommended > 0 ) {
+			/* translators: %d: number of checks. */
+			return self::make_banner( SetupCheck::SEVERITY_RECOMMENDED, _n( '%d recommended check fails.', '%d recommended checks fail.', $recommended, 'krokedil-settings' ), $recommended );
+		}
+
+		$errors = count( $this->get_failed( 'error' ) );
+		if ( $errors > 0 ) {
+			/* translators: %d: number of checks. */
+			return self::make_banner( 'error', _n( '%d check could not be run.', '%d checks could not be run.', $errors, 'krokedil-settings' ), $errors );
+		}
+
+		$passed = count( wp_list_filter( $this->get_results(), array( 'status' => CheckResult::STATUS_PASSED ) ) );
+
+		// Info checks do not fail the setup, but with them in the list "all checks passed" would be wrong.
+		if ( count( $this->get_results() ) > $passed ) {
+			/* translators: %d: number of checks. */
+			return self::make_banner( 'passed', _n( '%d check passed.', '%d checks passed.', $passed, 'krokedil-settings' ), $passed );
+		}
+
+		// Not _n(), since its singular needs the number and "All 1 checks passed" reads badly.
+		if ( 1 === $passed ) {
+			return self::make_banner( 'passed', __( 'The check passed.', 'krokedil-settings' ), $passed );
+		}
+
+		/* translators: %d: number of checks. */
+		return self::make_banner( 'passed', __( 'All %d checks passed.', 'krokedil-settings' ), $passed );
+	}
+
+	/**
+	 * Build the summary banner.
+	 *
+	 * @param string $state The banner state.
+	 * @param string $text  The banner text, with a placeholder for the number of checks.
+	 * @param int    $count The number of checks.
+	 *
+	 * @return array{state: string, text: string}
+	 */
+	protected static function make_banner( string $state, string $text, int $count ): array {
+		return array(
+			'state' => $state,
+			'text'  => sprintf( $text, $count ),
+		);
+	}
+
+	/**
+	 * Run a single check. A check that throws gets the error status, so it cannot break the page.
+	 *
+	 * @param mixed       $check A SetupCheck instance or a check argument array.
+	 * @param object|null $owner The object the settings page belongs to.
 	 *
 	 * @return array<string, string>|null Null if the check is not a valid check.
 	 */
-	protected function run_check( $check ) {
-		$id       = is_array( $check ) && isset( $check['id'] ) && is_string( $check['id'] ) ? $check['id'] : '';
-		$label    = $id;
-		$severity = SetupCheck::SEVERITY_REQUIRED;
+	protected function run_check( $check, $owner ) {
+		$id      = is_array( $check ) && isset( $check['id'] ) && is_string( $check['id'] ) ? $check['id'] : '';
+		$details = array(
+			'label'       => $id,
+			'severity'    => SetupCheck::SEVERITY_REQUIRED,
+			'description' => '',
+			'docs_url'    => '',
+		);
 
 		try {
 			if ( is_array( $check ) ) {
@@ -217,13 +416,19 @@ class Registry {
 			}
 
 			if ( $check instanceof Check ) {
-				$check->set_owner( $this->owner );
+				$check->set_owner( $owner );
 			}
 
-			$id       = $check->get_id();
-			$label    = $check->get_label();
-			$severity = $check->get_severity();
-			$result   = $check->run();
+			$id                  = $check->get_id();
+			$details['label']    = $check->get_label();
+			$details['severity'] = $check->get_severity();
+
+			if ( $check instanceof DetailedSetupCheck ) {
+				$details['description'] = $check->get_description();
+				$details['docs_url']    = $check->get_docs_url();
+			}
+
+			$result = $check->run();
 		} catch ( \Throwable $exception ) {
 			do_action( 'krokedil_settings_page_render_error', $id, $exception, array( 'page_id' => $this->page_id ) );
 
@@ -234,14 +439,21 @@ class Registry {
 			$result = CheckResult::error( __( 'This check could not be run.', 'krokedil-settings' ) );
 		}
 
+		$default_docs_url = $this->get_arg( 'docs_url' );
+		if ( '' === $details['docs_url'] && is_string( $default_docs_url ) ) {
+			$details['docs_url'] = $default_docs_url;
+		}
+
 		return array(
-			'id'        => $id,
-			'label'     => $label,
-			'severity'  => $severity,
-			'status'    => $result->get_status(),
-			'message'   => $result->get_message(),
-			'fix_url'   => $result->get_fix_url(),
-			'fix_label' => $result->get_fix_label(),
+			'id'          => $id,
+			'label'       => $details['label'],
+			'severity'    => $details['severity'],
+			'status'      => $result->get_status(),
+			'message'     => $result->get_message(),
+			'fix_url'     => $result->get_fix_url(),
+			'fix_label'   => $result->get_fix_label(),
+			'description' => $details['description'],
+			'docs_url'    => $details['docs_url'],
 		);
 	}
 
@@ -261,61 +473,95 @@ class Registry {
 	}
 
 	/**
-	 * Get the position of a result in the list. What needs attention the most comes first.
+	 * Get the label of a result, with its severity.
 	 *
 	 * @param array<string, string> $result The result, see get_results().
 	 *
-	 * @return int
-	 */
-	protected static function get_sort_weight( array $result ): int {
-		$weights = array(
-			SetupCheck::SEVERITY_REQUIRED    => 0,
-			SetupCheck::SEVERITY_RECOMMENDED => 1,
-			'error'                          => 2,
-			SetupCheck::SEVERITY_INFO        => 3,
-			'passed'                         => 4,
-		);
-
-		return $weights[ self::get_state( $result ) ] ?? 2;
-	}
-
-	/**
-	 * Get the dashicon class for a display state.
-	 *
-	 * @param string $state The display state, see get_state().
-	 *
 	 * @return string
 	 */
-	protected static function get_icon( string $state ): string {
-		$icons = array(
-			'passed'                         => 'dashicons-yes-alt',
-			SetupCheck::SEVERITY_REQUIRED    => 'dashicons-dismiss',
-			SetupCheck::SEVERITY_RECOMMENDED => 'dashicons-warning',
-			SetupCheck::SEVERITY_INFO        => 'dashicons-info',
-		);
-
-		return $icons[ $state ] ?? 'dashicons-editor-help';
-	}
-
-	/**
-	 * Get the badge text for a display state.
-	 *
-	 * @param string $state The display state, see get_state().
-	 *
-	 * @return string
-	 */
-	protected static function get_state_label( string $state ): string {
-		switch ( $state ) {
-			case 'passed':
-				return __( 'Done', 'krokedil-settings' );
-			case SetupCheck::SEVERITY_REQUIRED:
-				return __( 'Required', 'krokedil-settings' );
-			case SetupCheck::SEVERITY_RECOMMENDED:
-				return __( 'Recommended', 'krokedil-settings' );
-			case SetupCheck::SEVERITY_INFO:
-				return __( 'Info', 'krokedil-settings' );
-			default:
-				return __( 'Unknown', 'krokedil-settings' );
+	protected static function get_label( array $result ): string {
+		if ( SetupCheck::SEVERITY_REQUIRED === $result['severity'] ) {
+			/* translators: %s: the label of a check. */
+			return sprintf( __( '%s (required)', 'krokedil-settings' ), $result['label'] );
 		}
+
+		if ( SetupCheck::SEVERITY_RECOMMENDED === $result['severity'] ) {
+			/* translators: %s: the label of a check. */
+			return sprintf( __( '%s (recommended)', 'krokedil-settings' ), $result['label'] );
+		}
+
+		return $result['label'];
+	}
+
+	/**
+	 * Get the link text for the fix URL of a result.
+	 *
+	 * @param array<string, string> $result The result, see get_results().
+	 *
+	 * @return string
+	 */
+	protected static function get_fix_label( array $result ): string {
+		return '' !== $result['fix_label'] ? $result['fix_label'] : __( 'Fix this', 'krokedil-settings' );
+	}
+
+	/**
+	 * Get the help tip of a result.
+	 *
+	 * @param array<string, string> $result The result, see get_results().
+	 *
+	 * @return string
+	 */
+	protected static function get_help_tip( array $result ): string {
+		if ( '' === $result['description'] || ! function_exists( 'wc_help_tip' ) ) {
+			return '';
+		}
+
+		return wc_help_tip( $result['description'] );
+	}
+
+	/**
+	 * Get the message of a result, followed by the link to its documentation.
+	 *
+	 * @param array<string, string> $result The result, see get_results().
+	 *
+	 * @return string HTML, not escaped.
+	 */
+	protected static function get_message_html( array $result ): string {
+		if ( '' === $result['docs_url'] ) {
+			return $result['message'];
+		}
+
+		$link = '<a href="' . esc_url( $result['docs_url'] ) . '" target="_blank" rel="noopener">' . esc_html__( 'plugin docs', 'krokedil-settings' ) . '</a>';
+
+		if ( SetupCheck::SEVERITY_REQUIRED === $result['severity'] ) {
+			/* translators: %s: link to the plugin documentation. */
+			$read_more = __( 'Read more about this requirement in the %s.', 'krokedil-settings' );
+		} elseif ( SetupCheck::SEVERITY_RECOMMENDED === $result['severity'] ) {
+			/* translators: %s: link to the plugin documentation. */
+			$read_more = __( 'Read more about this recommendation in the %s.', 'krokedil-settings' );
+		} else {
+			/* translators: %s: link to the plugin documentation. */
+			$read_more = __( 'Read more in the %s.', 'krokedil-settings' );
+		}
+
+		return trim( $result['message'] . ' ' . sprintf( esc_html( $read_more ), $link ) );
+	}
+
+	/**
+	 * Get the HTML that is allowed in a message.
+	 *
+	 * @return array<string, array<string, bool>>
+	 */
+	protected static function get_allowed_html(): array {
+		return array(
+			'a'      => array(
+				'href'   => true,
+				'target' => true,
+				'rel'    => true,
+			),
+			'strong' => array(),
+			'em'     => array(),
+			'code'   => array(),
+		);
 	}
 }

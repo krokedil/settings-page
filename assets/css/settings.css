@@ -413,9 +413,52 @@ body.woocommerce_page_wc-settings .nav-tab-wrapper.krokedil_nav_tabs .nav-tab-ac
 
 /* Setup checks sidebar box */
 
-.krokedil_settings__setup_checks_summary {
-    margin: 5px 0 10px 0;
+.krokedil_settings__setup_checks p.krokedil_settings__setup_checks_intro {
+    margin: 8px 0 12px 0;
     color: #50575e;
+}
+
+.krokedil_settings__setup_checks p.krokedil_settings__setup_checks_banner {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 12px 0;
+    padding: 8px 10px;
+    border-left: 4px solid #00a32a;
+    background-color: #edfaef;
+    color: #1d2327;
+}
+
+.krokedil_settings__setup_checks_banner .dashicons {
+    flex-shrink: 0;
+    color: #00a32a;
+}
+
+.krokedil_settings__setup_checks p.krokedil_settings__setup_checks_banner--required {
+    border-left-color: #d63638;
+    background-color: #fcf0f1;
+}
+
+.krokedil_settings__setup_checks_banner--required .dashicons {
+    color: #d63638;
+}
+
+.krokedil_settings__setup_checks p.krokedil_settings__setup_checks_banner--recommended {
+    border-left-color: #dba617;
+    background-color: #fcf9e8;
+}
+
+.krokedil_settings__setup_checks_banner--recommended .dashicons {
+    color: #bd8600;
+}
+
+.krokedil_settings__setup_checks p.krokedil_settings__setup_checks_banner--error {
+    border-left-color: #787c82;
+    background-color: #f0f0f1;
+}
+
+.krokedil_settings__setup_checks_banner--error .dashicons {
+    color: #787c82;
 }
 
 ul.krokedil_settings__setup_checks_list {
@@ -425,81 +468,23 @@ ul.krokedil_settings__setup_checks_list {
 }
 
 .krokedil_settings__setup_check {
-    display: flex;
-    gap: 8px;
-    margin: 0;
-    padding: 10px 0;
-    border-top: 1px solid #dcdcde;
-}
-
-.krokedil_settings__setup_check_icon {
-    flex-shrink: 0;
-    color: #787c82;
-}
-
-.krokedil_settings__setup_check_body {
-    flex-grow: 1;
-    min-width: 0;
+    margin: 0 0 12px 0;
 }
 
 .krokedil_settings__setup_check_label {
     font-weight: 600;
 }
 
-.krokedil_settings__setup_check_badge {
-    float: right;
-    margin-left: 8px;
-    padding: 0 8px;
-    border-radius: 10px;
-    font-size: 11px;
-    line-height: 20px;
-    background-color: #dcdcde;
-    color: #2c3338;
+.krokedil_settings__setup_check .woocommerce-help-tip {
+    font-size: 1.1em;
+    vertical-align: text-bottom;
 }
 
-.krokedil_settings__setup_check p.krokedil_settings__setup_check_message {
-    clear: both;
-    margin: 4px 0 0 0;
-    color: #50575e;
+.krokedil_settings__setup_check p.krokedil_settings__setup_check_message,
+.krokedil_settings__setup_check a.krokedil_settings__setup_check_fix {
+    margin: 2px 0 0 14px;
 }
 
-.krokedil_settings__setup_check_fix {
+.krokedil_settings__setup_check a.krokedil_settings__setup_check_fix {
     display: inline-block;
-    margin-top: 4px;
-}
-
-.krokedil_settings__setup_check--passed .krokedil_settings__setup_check_icon {
-    color: #00a32a;
-}
-
-.krokedil_settings__setup_check--passed .krokedil_settings__setup_check_badge {
-    background-color: #edfaef;
-    color: #005c12;
-}
-
-.krokedil_settings__setup_check--required .krokedil_settings__setup_check_icon {
-    color: #d63638;
-}
-
-.krokedil_settings__setup_check--required .krokedil_settings__setup_check_badge {
-    background-color: #fcf0f1;
-    color: #8a2424;
-}
-
-.krokedil_settings__setup_check--recommended .krokedil_settings__setup_check_icon {
-    color: #dba617;
-}
-
-.krokedil_settings__setup_check--recommended .krokedil_settings__setup_check_badge {
-    background-color: #fcf9e8;
-    color: #674e00;
-}
-
-.krokedil_settings__setup_check--info .krokedil_settings__setup_check_icon {
-    color: #2271b1;
-}
-
-.krokedil_settings__setup_check--info .krokedil_settings__setup_check_badge {
-    background-color: #f0f6fc;
-    color: #0a4b78;
 }
