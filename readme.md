@@ -30,7 +30,7 @@ To this method you need to pass a unique page id, and an array of arguments. The
 - `sidebar` (array) - An array with the configuration for the sidebar.
 - `general_content` (callable) - A callable function or method that will output the HTML for the general settings page you want to extend.
 
-More information about the support and addons arrays can be found in the [Support](./docs/support.md), [Addons](./docs/addons.md) and [Sidebar](./docs/sidebar.md) documentation. If you do not pass anything to the support or addons keys, the tabs will not be added for them. Which can be useful if you do not wish to offer any addons for specific plugins.
+More information about the support and addons arrays can be found in the [Support](./docs/support.md), [Addons](./docs/addons.md) and [Sidebar](./docs/sidebar.md) documentation. A check list of the store setup can be added to the sidebar, see [Store setup checks](./docs/setup-checks.md). If you do not pass anything to the support or addons keys, the tabs will not be added for them. Which can be useful if you do not wish to offer any addons for specific plugins.
 
 ```php
 use Krokedil\SettingsPage\SettingsPage;

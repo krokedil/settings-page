@@ -3,6 +3,7 @@ namespace Krokedil\SettingsPage;
 
 defined( 'ABSPATH' ) || exit;
 
+use Krokedil\SettingsPage\SetupChecks\Registry;
 use Krokedil\SettingsPage\Traits\Singleton;
 
 /**
@@ -24,6 +25,13 @@ class SettingsPage {
 	 * @var array<string, array<string, mixed>> $pages
 	 */
 	protected $pages = array();
+
+	/**
+	 * The setup checks of each page, keyed by page id.
+	 *
+	 * @var array<string, Registry> $setup_checks
+	 */
+	protected $setup_checks = array();
 
 	/**
 	 * Initialize the class.
@@ -134,6 +142,7 @@ class SettingsPage {
 			'general_content'   => null,
 			'fallback_content'  => null,
 			'error_notice'      => '',
+			'sidebar'           => array(),
 		);
 
 		$args = wp_parse_args( $args, $default_args );
@@ -143,9 +152,196 @@ class SettingsPage {
 			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $owner ) : null,
 			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $owner ) : null,
 			'args'       => $args,
+			'owner'      => $owner,
 		);
 
 		return $this;
+	}
+
+	/**
+	 * Add store setup checks to a page. Call it early, e.g. on admin_init, so the checks are also in the system report.
+	 *
+	 * @param string                   $id     ID of the page.
+	 * @param array<int|string, mixed> $checks List of SetupCheck instances and check argument arrays, see docs/setup-checks.md.
+	 * @param array<string, mixed>     $args   Optional arguments, see docs/setup-checks.md.
+	 *
+	 * @return self
+	 */
+	public function add_setup_checks( string $id, array $checks, array $args = array() ): self {
+		if ( ! isset( $this->setup_checks[ $id ] ) ) {
+			$this->setup_checks[ $id ] = new Registry( $id );
+		}
+
+		$this->setup_checks[ $id ]->add( $checks )->set_args( $args );
+
+		if ( ! has_action( 'woocommerce_system_status_report', array( $this, 'output_setup_checks_report' ) ) ) {
+			add_action( 'woocommerce_system_status_report', array( $this, 'output_setup_checks_report' ) );
+			add_action( 'admin_notices', array( $this, 'output_setup_checks_notices' ) );
+
+			// Priority 5 prints before the list of payment methods, which WooCommerce prints at priority 10.
+			add_action( 'woocommerce_settings_checkout', array( $this, 'output_setup_checks_payments_notices' ), 5 );
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get the results of the setup checks of a page, e.g. to decide whether to show a notice.
+	 *
+	 * @param string $id ID of the page.
+	 *
+	 * @return array<int, array<string, string>> One array per check, the keys are listed in docs/setup-checks.md.
+	 */
+	public function get_setup_check_results( string $id ): array {
+		$registry = $this->setup_checks( $id );
+
+		return $registry ? $registry->get_results() : array();
+	}
+
+	/**
+	 * Get the setup checks for a page.
+	 *
+	 * @param string $id ID of the page.
+	 *
+	 * @return Registry|null
+	 */
+	public function setup_checks( string $id ): ?Registry {
+		if ( ! isset( $this->setup_checks[ $id ] ) ) {
+			return null;
+		}
+
+		return $this->setup_checks[ $id ]->set_defaults(
+			array(
+				'plugin_name' => $this->plugin_name,
+				'owner'       => $this->pages[ $id ]['owner'] ?? null,
+			)
+		);
+	}
+
+	/**
+	 * Output the setup checks of every page as sections of the WooCommerce system report.
+	 *
+	 * @return void
+	 */
+	public function output_setup_checks_report(): void {
+		$this->render_setup_checks(
+			function ( Registry $registry ) {
+				$registry->output_system_report();
+			}
+		);
+	}
+
+	/**
+	 * Output a notice for every page with failed required checks, while its payment or shipping method is enabled.
+	 * It cannot be dismissed, and is left out where the sidebar box already shows the same checks.
+	 *
+	 * @return void
+	 */
+	public function output_setup_checks_notices(): void {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown -- WooCommerce capability.
+			return;
+		}
+
+		$this->render_setup_checks(
+			function ( Registry $registry ) {
+				if ( $registry->is_enabled() && ! $registry->is_box_on_current_page() ) {
+					$registry->output_notice();
+				}
+			}
+		);
+	}
+
+	/**
+	 * Output the failed required checks of payment gateways for their rows in the list of payment methods.
+	 *
+	 * WooCommerce removes the admin notices of other plugins on that page, and its list has no hook for the rows.
+	 * So the notices are printed hidden above the list, with a script that moves each one into its row.
+	 *
+	 * @return void
+	 */
+	public function output_setup_checks_payments_notices(): void {
+		global $current_section;
+
+		// The hook also runs on the settings page of each payment method.
+		if ( ! empty( $current_section ) || ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown -- WooCommerce capability.
+			return;
+		}
+
+		ob_start();
+		$this->render_setup_checks(
+			function ( Registry $registry ) {
+				$registry->output_row_notice();
+			}
+		);
+		$notices = trim( (string) ob_get_clean() );
+
+		if ( '' === $notices ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by the renderer above.
+		echo '<div class="krokedil-setup-checks-row-notices">' . $notices . '</div>';
+
+		// Printed inline and not enqueued: the script works on the element before it, so the copies of this
+		// package in other plugins cannot clash over a script handle or act on each other's notices.
+		wp_print_inline_script_tag( (string) file_get_contents( __DIR__ . '/../assets/js/setup-checks-payments.js' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file.
+	}
+
+	/**
+	 * Render something for the setup checks of every page. A page that throws is skipped, so it cannot break the admin.
+	 *
+	 * @param callable $render Receives the Registry of a page and prints its output.
+	 *
+	 * @return void
+	 */
+	protected function render_setup_checks( callable $render ): void {
+		foreach ( array_keys( $this->setup_checks ) as $id ) {
+			$registry     = $this->setup_checks( $id );
+			$buffer_level = ob_get_level();
+
+			ob_start();
+			try {
+				if ( $registry ) {
+					call_user_func( $render, $registry );
+				}
+
+				echo (string) ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Buffered output is escaped by the renderer above.
+			} catch ( \Throwable $exception ) {
+				while ( ob_get_level() > $buffer_level ) {
+					ob_end_clean();
+				}
+
+				do_action( 'krokedil_settings_page_render_error', $id, $exception, array( 'page_id' => $id ) );
+			}
+		}
+	}
+
+	/**
+	 * Add the setup checks box to the sidebars of a page.
+	 *
+	 * @param string $id ID of the page.
+	 *
+	 * @return void
+	 */
+	protected function add_setup_checks_box( string $id ): void {
+		$registry = $this->setup_checks( $id );
+
+		if ( ! $registry || ! $registry->has_checks() ) {
+			return;
+		}
+
+		$box = array(
+			'id'      => 'krokedil_setup_checks',
+			'title'   => $registry->get_title(),
+			'content' => array( $registry, 'output' ),
+			'class'   => 'krokedil_settings__setup_checks_box',
+		);
+
+		foreach ( array( 'support', 'addons' ) as $subsection ) {
+			if ( $this->pages[ $id ][ $subsection ] ) {
+				$this->pages[ $id ][ $subsection ]->add_sidebar_box( $box );
+			}
+		}
 	}
 
 	/**
@@ -175,6 +371,8 @@ class SettingsPage {
 
 		ob_start();
 		try {
+			$this->add_setup_checks_box( $id );
+
 			switch ( $current_subsection ) {
 				case 'support':
 					// If we are on the support tab. Print the support content.

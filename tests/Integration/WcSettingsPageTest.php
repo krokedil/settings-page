@@ -237,6 +237,6 @@ class WcSettingsPageTest extends WPTestCase {
 		$html = WcSettingsPage::krokedil_divider_html( '', 'my_divider', array( 'id' => 'my_divider' ) );
 
 		$this->assertStringContainsString( 'form-section-my_divider-end', $html );
-		$this->assertStringContainsString( '<hr>', $html );
+		$this->assertStringContainsString( '<hr />', $html );
 	}
 }
