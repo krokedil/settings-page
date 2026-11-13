@@ -178,7 +178,7 @@ class SettingsPage {
 			add_action( 'woocommerce_system_status_report', array( $this, 'output_setup_checks_report' ) );
 			add_action( 'admin_notices', array( $this, 'output_setup_checks_notices' ) );
 
-			// Priority 5 prints above the list of payment methods, which WooCommerce prints at priority 10.
+			// Priority 5 prints before the list of payment methods, which WooCommerce prints at priority 10.
 			add_action( 'woocommerce_settings_checkout', array( $this, 'output_setup_checks_payments_notices' ), 5 );
 		}
 
@@ -252,9 +252,10 @@ class SettingsPage {
 	}
 
 	/**
-	 * Output the failed required checks of payment gateways above the list of payment methods.
+	 * Output the failed required checks of payment gateways for their rows in the list of payment methods.
 	 *
-	 * WooCommerce removes the admin notices of other plugins on that page, so the notice is printed in the page content.
+	 * WooCommerce removes the admin notices of other plugins on that page, and its list has no hook for the rows.
+	 * So the notices are printed hidden above the list, with a script that moves each one into its row.
 	 *
 	 * @return void
 	 */
@@ -266,13 +267,24 @@ class SettingsPage {
 			return;
 		}
 
+		ob_start();
 		$this->render_setup_checks(
 			function ( Registry $registry ) {
-				if ( $registry->is_payment_gateway() ) {
-					$registry->output_notice( true );
-				}
+				$registry->output_row_notice();
 			}
 		);
+		$notices = trim( (string) ob_get_clean() );
+
+		if ( '' === $notices ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by the renderer above.
+		echo '<div class="krokedil-setup-checks-row-notices">' . $notices . '</div>';
+
+		// Printed inline and not enqueued: the script works on the element before it, so the copies of this
+		// package in other plugins cannot clash over a script handle or act on each other's notices.
+		wp_print_inline_script_tag( (string) file_get_contents( __DIR__ . '/../assets/js/setup-checks-payments.js' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file.
 	}
 
 	/**

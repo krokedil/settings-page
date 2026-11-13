@@ -332,28 +332,63 @@ class Registry {
 	}
 
 	/**
-	 * Whether the checks belong to a payment gateway.
-	 *
-	 * @return bool
-	 */
-	public function is_payment_gateway(): bool {
-		return $this->get_owner() instanceof \WC_Payment_Gateway;
-	}
-
-	/**
-	 * Output a notice listing the failed required checks. Prints nothing when they all pass.
-	 *
-	 * @param bool $inline Whether the notice is printed inside the page content, where WordPress must not move it to the top of the page.
+	 * Output an admin notice listing the failed required checks. Prints nothing when they all pass.
 	 *
 	 * @return void
 	 */
-	public function output_notice( bool $inline = false ): void {
-		$failed = false === $this->get_arg( 'notice' ) ? array() : $this->get_failed( SetupCheck::SEVERITY_REQUIRED );
+	public function output_notice(): void {
+		$failed = $this->get_notice_checks();
 
 		if ( empty( $failed ) ) {
 			return;
 		}
+		?>
+		<div class="notice notice-error krokedil-setup-checks-notice" data-page-id="<?php echo esc_attr( $this->page_id ); ?>">
+			<?php $this->output_notice_content( $failed ); ?>
+		</div>
+		<?php
+	}
 
+	/**
+	 * Output the failed required checks as a hidden notice for the row of the payment gateway in the list of payment methods.
+	 *
+	 * WooCommerce renders that list with React, so the notice is moved into the row by assets/js/setup-checks-payments.js.
+	 *
+	 * @return void
+	 */
+	public function output_row_notice(): void {
+		$owner  = $this->get_owner();
+		$failed = $owner instanceof \WC_Payment_Gateway ? $this->get_notice_checks() : array();
+
+		if ( empty( $failed ) || ! $owner instanceof \WC_Payment_Gateway ) {
+			return;
+		}
+
+		// Styled inline, since the stylesheet of the package is not loaded on this page.
+		?>
+		<div class="krokedil-setup-checks-row-notice" data-gateway-id="<?php echo esc_attr( $owner->id ); ?>" data-page-id="<?php echo esc_attr( $this->page_id ); ?>" style="background: #fcf0f1; border-left: 4px solid #d63638; padding: 4px 12px; margin: 8px 0;" hidden>
+			<?php $this->output_notice_content( $failed ); ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Get the failed checks that a notice lists.
+	 *
+	 * @return array<int, array<string, string>>
+	 */
+	protected function get_notice_checks(): array {
+		return false === $this->get_arg( 'notice' ) ? array() : $this->get_failed( SetupCheck::SEVERITY_REQUIRED );
+	}
+
+	/**
+	 * Output the content of a notice.
+	 *
+	 * @param array<int, array<string, string>> $failed The failed checks to list.
+	 *
+	 * @return void
+	 */
+	protected function output_notice_content( array $failed ): void {
 		$plugin_name = $this->get_plugin_name();
 		$count       = count( $failed );
 		/* translators: %d: number of checks. */
@@ -364,21 +399,19 @@ class Registry {
 			$summary = sprintf( __( '%1$s store setup, %2$s', 'krokedil-settings' ), $plugin_name, $summary );
 		}
 		?>
-		<div class="<?php echo esc_attr( 'notice notice-error krokedil-setup-checks-notice' . ( $inline ? ' inline' : '' ) ); ?>" data-page-id="<?php echo esc_attr( $this->page_id ); ?>">
-			<p><strong><?php echo esc_html( $summary ); ?></strong></p>
-			<?php foreach ( $failed as $result ) : ?>
-				<p>
-					&raquo; <?php echo esc_html( self::get_label( $result ) ); ?>
-					<?php if ( '' !== $result['message'] ) : ?>
-						&ndash; <?php echo wp_kses( $result['message'], self::get_allowed_html() ); ?>
-					<?php endif; ?>
-					<?php if ( '' !== $result['fix_url'] ) : ?>
-						<a href="<?php echo esc_url( $result['fix_url'] ); ?>"><?php echo esc_html( self::get_fix_label( $result ) ); ?></a>
-					<?php endif; ?>
-				</p>
-			<?php endforeach; ?>
-			<p><a href="<?php echo esc_url( $this->get_report_url() ); ?>"><?php esc_html_e( 'View full report', 'krokedil-settings' ); ?></a></p>
-		</div>
+		<p><strong><?php echo esc_html( $summary ); ?></strong></p>
+		<?php foreach ( $failed as $result ) : ?>
+			<p>
+				&raquo; <?php echo esc_html( self::get_label( $result ) ); ?>
+				<?php if ( '' !== $result['message'] ) : ?>
+					&ndash; <?php echo wp_kses( $result['message'], self::get_allowed_html() ); ?>
+				<?php endif; ?>
+				<?php if ( '' !== $result['fix_url'] ) : ?>
+					<a href="<?php echo esc_url( $result['fix_url'] ); ?>"><?php echo esc_html( self::get_fix_label( $result ) ); ?></a>
+				<?php endif; ?>
+			</p>
+		<?php endforeach; ?>
+		<p><a href="<?php echo esc_url( $this->get_report_url() ); ?>"><?php esc_html_e( 'View full report', 'krokedil-settings' ); ?></a></p>
 		<?php
 	}
 
