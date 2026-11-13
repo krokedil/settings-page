@@ -286,6 +286,115 @@ class Registry {
 	}
 
 	/**
+	 * Whether the payment or shipping method the checks belong to is enabled in the store.
+	 *
+	 * @return bool
+	 */
+	public function is_enabled(): bool {
+		$enabled = $this->get_arg( 'enabled' );
+
+		if ( is_callable( $enabled ) ) {
+			return (bool) call_user_func( $enabled );
+		}
+
+		if ( null !== $enabled ) {
+			return (bool) $enabled;
+		}
+
+		$owner = $this->get_owner();
+
+		// Gateways and shipping methods keep it in their enabled property. Anything else is in use as long as it is active.
+		return null === $owner || ! isset( $owner->enabled ) || 'yes' === $owner->enabled;
+	}
+
+	/**
+	 * Whether the current admin page is the plugin's own WooCommerce settings page.
+	 *
+	 * @return bool
+	 */
+	public function is_own_settings_page(): bool {
+		$own_section = $this->get_arg( 'section' );
+		$own_section = is_string( $own_section ) && '' !== $own_section ? $own_section : $this->page_id;
+
+		return 'wc-settings' === self::get_query_arg( 'page' ) && sanitize_key( $own_section ) === self::get_query_arg( 'section' );
+	}
+
+	/**
+	 * Whether the current admin page shows the sidebar box, which makes a notice on the same page redundant.
+	 *
+	 * The notice is printed before the settings page renders, so this can only be read from the URL.
+	 *
+	 * @return bool
+	 */
+	public function is_box_on_current_page(): bool {
+		// The sidebar is only part of the Support and Addons tabs.
+		return $this->is_own_settings_page() && in_array( self::get_query_arg( 'subsection' ), array( 'support', 'addons' ), true );
+	}
+
+	/**
+	 * Whether the checks belong to a payment gateway.
+	 *
+	 * @return bool
+	 */
+	public function is_payment_gateway(): bool {
+		return $this->get_owner() instanceof \WC_Payment_Gateway;
+	}
+
+	/**
+	 * Output a notice listing the failed required checks. Prints nothing when they all pass.
+	 *
+	 * @param bool $inline Whether the notice is printed inside the page content, where WordPress must not move it to the top of the page.
+	 *
+	 * @return void
+	 */
+	public function output_notice( bool $inline = false ): void {
+		$failed = false === $this->get_arg( 'notice' ) ? array() : $this->get_failed( SetupCheck::SEVERITY_REQUIRED );
+
+		if ( empty( $failed ) ) {
+			return;
+		}
+
+		$plugin_name = $this->get_plugin_name();
+		$count       = count( $failed );
+		/* translators: %d: number of checks. */
+		$summary = sprintf( _n( '%d required check fails.', '%d required checks fail.', $count, 'krokedil-settings' ), $count );
+
+		if ( '' !== $plugin_name ) {
+			/* translators: 1: plugin name, 2: summary of the failed checks, e.g. "3 required checks fail." */
+			$summary = sprintf( __( '%1$s store setup, %2$s', 'krokedil-settings' ), $plugin_name, $summary );
+		}
+		?>
+		<div class="<?php echo esc_attr( 'notice notice-error krokedil-setup-checks-notice' . ( $inline ? ' inline' : '' ) ); ?>" data-page-id="<?php echo esc_attr( $this->page_id ); ?>">
+			<p><strong><?php echo esc_html( $summary ); ?></strong></p>
+			<?php foreach ( $failed as $result ) : ?>
+				<p>
+					&raquo; <?php echo esc_html( self::get_label( $result ) ); ?>
+					<?php if ( '' !== $result['message'] ) : ?>
+						&ndash; <?php echo wp_kses( $result['message'], self::get_allowed_html() ); ?>
+					<?php endif; ?>
+					<?php if ( '' !== $result['fix_url'] ) : ?>
+						<a href="<?php echo esc_url( $result['fix_url'] ); ?>"><?php echo esc_html( self::get_fix_label( $result ) ); ?></a>
+					<?php endif; ?>
+				</p>
+			<?php endforeach; ?>
+			<p><a href="<?php echo esc_url( $this->get_report_url() ); ?>"><?php esc_html_e( 'View full report', 'krokedil-settings' ); ?></a></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Get a query argument of the current request as a key.
+	 *
+	 * @param string $key The query argument.
+	 *
+	 * @return string
+	 */
+	protected static function get_query_arg( string $key ): string {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only reads which admin page is shown.
+		return isset( $_GET[ $key ] ) && is_string( $_GET[ $key ] ) ? sanitize_key( wp_unslash( $_GET[ $key ] ) ) : '';
+	}
+
+	/**
 	 * Get an argument, falling back to its default.
 	 *
 	 * @param string $key The argument key.

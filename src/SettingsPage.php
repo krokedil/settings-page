@@ -176,6 +176,10 @@ class SettingsPage {
 
 		if ( ! has_action( 'woocommerce_system_status_report', array( $this, 'output_setup_checks_report' ) ) ) {
 			add_action( 'woocommerce_system_status_report', array( $this, 'output_setup_checks_report' ) );
+			add_action( 'admin_notices', array( $this, 'output_setup_checks_notices' ) );
+
+			// Priority 5 prints above the list of payment methods, which WooCommerce prints at priority 10.
+			add_action( 'woocommerce_settings_checkout', array( $this, 'output_setup_checks_payments_notices' ), 5 );
 		}
 
 		return $this;
@@ -223,6 +227,50 @@ class SettingsPage {
 		$this->render_setup_checks(
 			function ( Registry $registry ) {
 				$registry->output_system_report();
+			}
+		);
+	}
+
+	/**
+	 * Output a notice for every page with failed required checks, while its payment or shipping method is enabled.
+	 * It cannot be dismissed, and is left out where the sidebar box already shows the same checks.
+	 *
+	 * @return void
+	 */
+	public function output_setup_checks_notices(): void {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown -- WooCommerce capability.
+			return;
+		}
+
+		$this->render_setup_checks(
+			function ( Registry $registry ) {
+				if ( $registry->is_enabled() && ! $registry->is_box_on_current_page() ) {
+					$registry->output_notice();
+				}
+			}
+		);
+	}
+
+	/**
+	 * Output the failed required checks of payment gateways above the list of payment methods.
+	 *
+	 * WooCommerce removes the admin notices of other plugins on that page, so the notice is printed in the page content.
+	 *
+	 * @return void
+	 */
+	public function output_setup_checks_payments_notices(): void {
+		global $current_section;
+
+		// The hook also runs on the settings page of each payment method.
+		if ( ! empty( $current_section ) || ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown -- WooCommerce capability.
+			return;
+		}
+
+		$this->render_setup_checks(
+			function ( Registry $registry ) {
+				if ( $registry->is_payment_gateway() ) {
+					$registry->output_notice( true );
+				}
 			}
 		);
 	}
