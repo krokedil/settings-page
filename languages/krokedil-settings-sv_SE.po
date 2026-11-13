@@ -7,6 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -71,107 +72,146 @@ msgstr "Pluginresurser"
 msgid "Additional resources"
 msgstr "Ytterligare resurser"
 
-msgid "Store setup"
-msgstr "Butikens inställningar"
+msgid "Store setup check"
+msgstr "Kontroll av butikens inställningar"
 
-msgid "%1$d of %2$d checks passed"
-msgstr "%1$d av %2$d kontroller godkända"
+msgid "Checks store settings that %s requires or recommends."
+msgstr "Kontrollerar butiksinställningar som %s kräver eller rekommenderar."
+
+msgid "View full report"
+msgstr "Visa fullständig rapport"
+
+msgid "%s (required)"
+msgstr "%s (krävs)"
+
+msgid "%s (recommended)"
+msgstr "%s (rekommenderas)"
 
 msgid "Fix this"
 msgstr "Åtgärda"
 
+msgid "plugin docs"
+msgstr "pluginets dokumentation"
+
+msgid "Read more about this requirement in the %s."
+msgstr "Läs mer om detta krav i %s."
+
+msgid "Read more about this recommendation in the %s."
+msgstr "Läs mer om denna rekommendation i %s."
+
+msgid "Read more in the %s."
+msgstr "Läs mer i %s."
+
 msgid "This check could not be run."
 msgstr "Kontrollen kunde inte köras."
 
-msgid "Done"
-msgstr "Klar"
+msgid "Terms and conditions page set"
+msgstr "Sida för köpvillkor vald"
 
-msgid "Required"
-msgstr "Krävs"
+msgid "Customers must be able to read your terms and conditions in the checkout."
+msgstr "Kunder måste kunna läsa dina köpvillkor i kassan."
 
-msgid "Recommended"
-msgstr "Rekommenderas"
+msgid "No terms and conditions page is set."
+msgstr "Ingen sida för köpvillkor är vald."
 
-msgid "Info"
-msgstr "Info"
+msgid "Select a terms and conditions page"
+msgstr "Välj en sida för köpvillkor"
 
-msgid "Unknown"
-msgstr "Okänd"
+msgid "Checkout page set"
+msgstr "Kassasida vald"
 
-msgid "Terms and conditions page"
-msgstr "Sida för köpvillkor"
+msgid "The checkout is shown on the checkout page selected in WooCommerce."
+msgstr "Kassan visas på den kassasida som är vald i WooCommerce."
 
-msgid "Select a terms and conditions page in the WooCommerce settings."
-msgstr "Välj en sida för köpvillkor i WooCommerce-inställningarna."
+msgid "No checkout page is set."
+msgstr "Ingen kassasida är vald."
 
-msgid "Select page"
-msgstr "Välj sida"
+msgid "Select a checkout page"
+msgstr "Välj en kassasida"
 
-msgid "Checkout page"
-msgstr "Kassasida"
+msgid "Store served over HTTPS"
+msgstr "Butiken använder HTTPS"
 
-msgid "Select a checkout page in the WooCommerce settings."
-msgstr "Välj en kassasida i WooCommerce-inställningarna."
+msgid "Personal and payment details are sent in the checkout, which requires a secure connection."
+msgstr "Person- och betalningsuppgifter skickas i kassan, vilket kräver en säker anslutning."
 
-msgid "Secure connection (HTTPS)"
-msgstr "Säker anslutning (HTTPS)"
-
-msgid "The store address does not use HTTPS. Install an SSL certificate and change the site address to https."
+msgid "Your store address does not use HTTPS. Install an SSL certificate and change the site address to https."
 msgstr "Butikens adress använder inte HTTPS. Installera ett SSL-certifikat och ändra webbplatsens adress till https."
 
-msgid "Change address"
-msgstr "Ändra adress"
+msgid "Change the site address"
+msgstr "Ändra webbplatsens adress"
 
-msgid "Permalinks"
-msgstr "Permalänkar"
+msgid "Pretty permalinks configured"
+msgstr "Permalänkar inställda"
 
-msgid "Plain permalinks are not supported. Select another permalink structure."
-msgstr "Enkla permalänkar stöds inte. Välj en annan permalänkstruktur."
+msgid "Callbacks from the payment provider rely on WordPress using pretty permalinks."
+msgstr "Återkopplingar från betalningsleverantören kräver att WordPress använder en annan permalänkstruktur än \"Enkel\"."
 
-msgid "Change permalinks"
-msgstr "Ändra permalänkar"
+msgid "The permalink structure is set to \"Plain\", which is not supported."
+msgstr "Permalänkstrukturen är inställd på \"Enkel\", vilket inte stöds."
 
-msgid "Number of decimals"
-msgstr "Antal decimaler"
+msgid "Change the permalink structure"
+msgstr "Ändra permalänkstrukturen"
 
-msgid "Set the number of decimals for prices to %d to avoid rounding differences."
-msgstr "Ställ in antalet decimaler för priser till %d för att undvika avrundningsdifferenser."
+msgid "Number of decimals set to %d"
+msgstr "Antal decimaler inställt på %d"
 
-msgid "Change decimals"
-msgstr "Ändra decimaler"
+msgid "Fewer decimals make WooCommerce round prices and taxes, which can make the order total differ from the amount the customer pays."
+msgstr "Färre decimaler gör att WooCommerce avrundar priser och moms, vilket kan göra att ordersumman skiljer sig från beloppet kunden betalar."
 
-msgid "Store currency"
-msgstr "Butikens valuta"
+msgid "Currently set to %d."
+msgstr "För närvarande inställt på %d."
 
-msgid "The store currency is not supported. Supported currencies: %s."
-msgstr "Butikens valuta stöds inte. Valutor som stöds: %s."
+msgid "Change the number of decimals"
+msgstr "Ändra antalet decimaler"
 
-msgid "Change currency"
-msgstr "Ändra valuta"
+msgid "Store currency supported"
+msgstr "Butikens valuta stöds"
 
-msgid "Store country"
-msgstr "Butikens land"
+msgid "Payments can only be made in the currencies that the payment provider supports."
+msgstr "Betalningar kan bara göras i de valutor som betalningsleverantören stöder."
+
+msgid "The store currency %1$s is not supported. Supported currencies: %2$s."
+msgstr "Butikens valuta %1$s stöds inte. Valutor som stöds: %2$s."
+
+msgid "Change the store currency"
+msgstr "Ändra butikens valuta"
+
+msgid "Store country supported"
+msgstr "Butikens land stöds"
+
+msgid "The payment provider only serves stores in certain countries."
+msgstr "Betalningsleverantören stöder bara butiker i vissa länder."
 
 msgid "The store country is not supported. Supported countries: %s."
 msgstr "Butikens land stöds inte. Länder som stöds: %s."
 
-msgid "Change country"
-msgstr "Ändra land"
+msgid "Change the store country"
+msgstr "Ändra butikens land"
 
-msgid "API credentials"
-msgstr "API-uppgifter"
+msgid "API credentials entered"
+msgstr "API-uppgifter angivna"
 
-msgid "Enter your API credentials in the plugin settings."
-msgstr "Ange dina API-uppgifter i pluginets inställningar."
+msgid "The plugin needs your API credentials to connect to the payment provider."
+msgstr "Pluginet behöver dina API-uppgifter för att ansluta till betalningsleverantören."
+
+msgid "No API credentials are entered in the plugin settings."
+msgstr "Inga API-uppgifter är angivna i pluginets inställningar."
 
 msgid "Enabled in the store"
 msgstr "Aktiverad i butiken"
 
+msgid "Customers can only use the plugin when it is enabled."
+msgstr "Kunder kan bara använda pluginet när det är aktiverat."
+
 msgid "The plugin is not enabled, so customers cannot use it yet."
 msgstr "Pluginet är inte aktiverat, så kunder kan inte använda det ännu."
 
-msgid "Live mode"
-msgstr "Skarpt läge"
+msgid "Test mode turned off"
+msgstr "Testläget avstängt"
+
+msgid "No real payments are made while test mode is active."
+msgstr "Inga riktiga betalningar görs när testläget är aktivt."
 
 msgid "Test mode is active. Turn it off before you take real orders."
 msgstr "Testläget är aktivt. Stäng av det innan du tar emot riktiga ordrar."
@@ -179,5 +219,34 @@ msgstr "Testläget är aktivt. Stäng av det innan du tar emot riktiga ordrar."
 msgid "The selected page \"%s\" is not published, so customers cannot open it."
 msgstr "Den valda sidan \"%s\" är inte publicerad, så kunder kan inte öppna den."
 
-msgid "Edit page"
-msgstr "Redigera sida"
+msgid "Edit the page"
+msgstr "Redigera sidan"
+
+msgid "%d required check fails."
+msgid_plural "%d required checks fail."
+msgstr[0] "%d obligatorisk kontroll misslyckas."
+msgstr[1] "%d obligatoriska kontroller misslyckas."
+
+msgid "%d recommended check fails."
+msgid_plural "%d recommended checks fail."
+msgstr[0] "%d rekommenderad kontroll misslyckas."
+msgstr[1] "%d rekommenderade kontroller misslyckas."
+
+msgid "%d check could not be run."
+msgid_plural "%d checks could not be run."
+msgstr[0] "%d kontroll kunde inte köras."
+msgstr[1] "%d kontroller kunde inte köras."
+
+msgid "%d check passed."
+msgid_plural "%d checks passed."
+msgstr[0] "%d kontroll godkänd."
+msgstr[1] "%d kontroller godkända."
+
+msgid "The check passed."
+msgstr "Kontrollen godkänd."
+
+msgid "All %d checks passed."
+msgstr "Alla %d kontroller godkända."
+
+msgid "%1$s store setup, %2$s"
+msgstr "%1$s butiksinställningar, %2$s"
