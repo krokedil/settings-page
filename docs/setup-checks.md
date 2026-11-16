@@ -2,7 +2,7 @@
 
 Setup checks tell the merchant which store settings have to be fixed and which we recommend changing. The package runs the checks and renders them, so they look the same in every plugin. They are shown in four places:
 
-- A **Store setup check** box in the sidebar. It has a summary banner (all passed, required checks fail, or recommended checks fail) and lists only the checks that did not pass. The box is added after any boxes passed in the `sidebar` args, see [Sidebar](./sidebar.md), and shows wherever the sidebar shows, which is the Support and Addons tabs.
+- A **Store setup check** box in the sidebar. It has a summary banner (all passed, required checks fail, or recommended checks fail) and lists only the checks that did not pass. The box is added after any boxes passed in the `sidebar` args, see [Sidebar](./sidebar.md), and shows wherever the sidebar shows, which is the Support and Addons tabs. The box is left out when none of the checks apply to the store.
 - A section in the WooCommerce system report (WooCommerce → Status) with every check. The box links to it with "View full report", and it is part of the system report that the support form attaches.
 - An admin notice on every admin page, listing the failed required checks. It only shows while the payment or shipping method is enabled, and it cannot be dismissed. It is left out on the Support and Addons tabs of the plugin's own settings page, where the box already shows the same checks. Recommended and info checks never cause a notice.
 - The same notice in the row of the payment method in the list of payment methods (WooCommerce → Settings → Payments), for checks that belong to a payment gateway. Here it also shows while the gateway is disabled, since this is where it gets enabled. See [The payment methods list](#the-payment-methods-list).
@@ -86,8 +86,8 @@ The box lists failed required checks first, then recommended, then info. An `inf
 | `label` | string | The label shown for the check, worded as the wanted outcome, e.g. "Terms and conditions page set". The package adds "(required)" or "(recommended)". Defaults to the id. |
 | `description` | string | Optional help text shown in the help tip of the check, explaining why it matters. |
 | `severity` | string | `required` (default), `recommended` or `info`. |
-| `message` | string | Shown when the check fails. Links (`<a>`), `<strong>`, `<em>` and `<code>` are allowed. |
-| `passed_message` | string | Optional, shown when the check passes. |
+| `message` | string or Closure | Shown when the check fails. Links (`<a>`), `<strong>`, `<em>` and `<code>` are allowed. A Closure receives the page owner and is called when the check runs, so the message can name the current value, e.g. "Currently set to 0." |
+| `passed_message` | string or Closure | Optional, shown when the check passes. |
 | `fix_url` | string | Optional URL where the merchant can fix a failed check. |
 | `fix_label` | string | Optional link text for `fix_url`. Say what the link does, e.g. "Change the permalink structure". Defaults to "Fix this". |
 | `docs_url` | string | Optional documentation link. The package adds "Read more about this requirement in the plugin docs." after the message. |
