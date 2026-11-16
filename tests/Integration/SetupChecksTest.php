@@ -609,4 +609,62 @@ class SetupChecksTest extends WPTestCase {
 		$this->assertTrue( $shown );
 		$this->assertFalse( $registry->is_box_on_current_page() );
 	}
+
+	public function test_setup_checks_box_is_left_out_when_no_check_applies(): void {
+		$html = $this->render_sidebar(
+			'skipped_page',
+			array(
+				array(
+					'id'       => 'not_applicable',
+					'callback' => '__return_null',
+				),
+			)
+		);
+
+		$this->assertStringContainsString( 'Remote box', $html );
+		$this->assertStringNotContainsString( 'krokedil_settings__setup_checks_box', $html );
+	}
+
+	public function test_built_in_messages_name_the_value_at_the_time_the_check_runs(): void {
+		update_option( 'woocommerce_price_num_decimals', '0' );
+		update_option( 'woocommerce_currency', 'SEK' );
+
+		// Created while the old values are set, as when a plugin registers its checks before the settings are saved.
+		$checks = array( Checks::price_decimals( 2 ), Checks::currency( array( 'EUR' ) ) );
+
+		update_option( 'woocommerce_price_num_decimals', '1' );
+		update_option( 'woocommerce_currency', 'NOK' );
+
+		$results = $this->run_checks( $checks );
+
+		$this->assertSame( 'Currently set to 1.', $results['price_decimals']['message'] );
+		$this->assertStringContainsString( 'The store currency NOK is not supported.', $results['currency']['message'] );
+	}
+
+	public function test_message_can_be_a_closure_that_receives_the_owner(): void {
+		$gateway = new TestGateway();
+
+		$results = $this->run_checks(
+			array(
+				array(
+					'id'       => 'lazy',
+					'callback' => '__return_false',
+					'message'  => function ( $owner ) {
+						return 'Failed for ' . $owner->id;
+					},
+				),
+				array(
+					'id'       => 'function_name',
+					'callback' => '__return_false',
+					'message'  => 'Date',
+				),
+			),
+			$gateway
+		);
+
+		$this->assertSame( 'Failed for krokedil_test_gateway', $results['lazy']['message'] );
+
+		// A message that happens to be the name of a function is still just a message.
+		$this->assertSame( 'Date', $results['function_name']['message'] );
+	}
 }
