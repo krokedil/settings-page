@@ -326,7 +326,8 @@ class SettingsPage {
 	protected function add_setup_checks_box( string $id ): void {
 		$registry = $this->setup_checks( $id );
 
-		if ( ! $registry || ! $registry->has_checks() ) {
+		// No box when no check applies to the store, since it would be an empty card.
+		if ( ! $registry || empty( $registry->get_results() ) ) {
 			return;
 		}
 
