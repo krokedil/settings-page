@@ -112,11 +112,11 @@ class Check implements DetailedSetupCheck {
 		}
 
 		if ( $outcome ) {
-			return CheckResult::passed( $this->get_string_arg( 'passed_message' ) );
+			return CheckResult::passed( $this->get_message_arg( 'passed_message' ) );
 		}
 
 		return CheckResult::failed(
-			$this->get_string_arg( 'message' ),
+			$this->get_message_arg( 'message' ),
 			$this->get_string_arg( 'fix_url' ),
 			$this->get_string_arg( 'fix_label' )
 		);
@@ -174,6 +174,24 @@ class Check implements DetailedSetupCheck {
 		}
 
 		return ! empty( $value );
+	}
+
+	/**
+	 * Get a message argument. A closure is called now, so the message can name the value the check just read.
+	 *
+	 * @param string $key The argument key.
+	 *
+	 * @return string
+	 */
+	protected function get_message_arg( string $key ): string {
+		$value = $this->args[ $key ] ?? '';
+
+		// Only closures, since a plain message like "Date" is also the name of a callable function.
+		if ( $value instanceof \Closure ) {
+			$value = $value( $this->owner );
+		}
+
+		return is_string( $value ) ? $value : '';
 	}
 
 	/**

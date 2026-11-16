@@ -125,8 +125,11 @@ class Checks {
 				'label'       => sprintf( __( 'Number of decimals set to %d', 'krokedil-settings' ), $decimals ),
 				'description' => __( 'Fewer decimals make WooCommerce round prices and taxes, which can make the order total differ from the amount the customer pays.', 'krokedil-settings' ),
 				'severity'    => SetupCheck::SEVERITY_RECOMMENDED,
-				/* translators: %d: number of decimals. */
-				'message'     => sprintf( __( 'Currently set to %d.', 'krokedil-settings' ), wc_get_price_decimals() ),
+				// A closure, so the message names the value at the time the check runs and not when it was registered.
+				'message'     => function () {
+					/* translators: %d: number of decimals. */
+					return sprintf( __( 'Currently set to %d.', 'krokedil-settings' ), wc_get_price_decimals() );
+				},
 				'fix_url'     => admin_url( 'admin.php?page=wc-settings&tab=general' ),
 				'fix_label'   => __( 'Change the number of decimals', 'krokedil-settings' ),
 				'callback'    => function () use ( $decimals ) {
@@ -152,8 +155,11 @@ class Checks {
 				'label'       => __( 'Store currency supported', 'krokedil-settings' ),
 				'description' => __( 'Payments can only be made in the currencies that the payment provider supports.', 'krokedil-settings' ),
 				'severity'    => SetupCheck::SEVERITY_REQUIRED,
-				/* translators: 1: the store currency code, 2: comma separated list of currency codes. */
-				'message'     => sprintf( __( 'The store currency %1$s is not supported. Supported currencies: %2$s.', 'krokedil-settings' ), get_woocommerce_currency(), implode( ', ', $currencies ) ),
+				// A closure, so the message names the currency at the time the check runs and not when it was registered.
+				'message'     => function () use ( $currencies ) {
+					/* translators: 1: the store currency code, 2: comma separated list of currency codes. */
+					return sprintf( __( 'The store currency %1$s is not supported. Supported currencies: %2$s.', 'krokedil-settings' ), get_woocommerce_currency(), implode( ', ', $currencies ) );
+				},
 				'fix_url'     => admin_url( 'admin.php?page=wc-settings&tab=general' ),
 				'fix_label'   => __( 'Change the store currency', 'krokedil-settings' ),
 				'callback'    => function () use ( $currencies ) {
