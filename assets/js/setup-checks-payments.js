@@ -41,6 +41,21 @@
 			}
 
 			krokedil_setup_checks_payments.bindEvents();
+
+			// The script is printed before the element of the list, so the list can only be found once the page is loaded.
+			if ( 'loading' === document.readyState ) {
+				document.addEventListener( 'DOMContentLoaded', krokedil_setup_checks_payments.start );
+			} else {
+				krokedil_setup_checks_payments.start();
+			}
+		},
+
+		/**
+		 * Finds the list of payment methods and starts moving the notices into it.
+		 */
+		start: function () {
+			krokedil_setup_checks_payments.list = document.getElementById( 'experimental_wc_settings_payments_main' ) || document.body;
+
 			krokedil_setup_checks_payments.placeNotices();
 			krokedil_setup_checks_payments.observeList();
 
@@ -60,7 +75,6 @@
 			}
 
 			krokedil_setup_checks_payments.container = container;
-			krokedil_setup_checks_payments.list = document.getElementById( 'experimental_wc_settings_payments_main' ) || document.body;
 			krokedil_setup_checks_payments.notices = Array.from( container.querySelectorAll( '.krokedil-setup-checks-row-notice' ) );
 
 			return krokedil_setup_checks_payments.notices.length > 0;
