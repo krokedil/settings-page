@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+
+* Added support for custom sidebar boxes. Boxes are registered through the `boxes` key of the `sidebar` args and render as separate sidebar cards above the plugin resources, each with an `id`, `title` (plain string or locale array), `content` (string or callable) and optional `class`. A box whose rendering throws is skipped and the `krokedil_settings_page_render_error` action is fired, so a broken box cannot blank the settings page. See `docs/sidebar.md`.
+* Added store setup checks, which tell the merchant which store settings have to be fixed and which we recommend changing. See `docs/setup-checks.md`.
+    * Shown in a "Store setup check" sidebar box, as a section in the WooCommerce system report, and as an admin notice when required checks fail. For payment gateways the notice is also shown in the row of the gateway in the list of payment methods.
+    * A check is `required`, `recommended` or `info`. There are built-in checks in `SetupChecks\Checks` for the terms page, checkout page, HTTPS, permalinks, store currency, store country, credentials, price decimals, enabled and test mode, and a check can also be an array or a class implementing `SetupChecks\SetupCheck`.
+    * New `SettingsPage::add_setup_checks()` and `SettingsPage::get_setup_check_results()` methods, and a `krokedil_settings_page_setup_checks` filter.
+
+### Fixed
+
+* Fixed the sidebar leaving its wrapper `<div>` unclosed, which made the markup after the sidebar rely on browser error recovery for correct nesting.
+* Added the missing `sidebar` key to the `register_page()` default args, fixing an undefined array key warning when registering a page without a sidebar.
+
+### Changed
+
+* Moved the sidebar card styling (background, border and padding) from the sidebar container to the sections inside it, so multiple sidebar cards can stack with a gap. A sidebar without custom boxes renders visually unchanged.
 
 ------------------
 ## [1.3.8] - 2026-10-29

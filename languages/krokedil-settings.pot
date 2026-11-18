@@ -66,3 +66,182 @@ msgstr ""
 #: Traits/Sidebar.php:36
 msgid "Additional resources"
 msgstr ""
+
+msgid "Store setup check"
+msgstr ""
+
+msgid "Checks store settings that %s requires or recommends."
+msgstr ""
+
+msgid "View full report"
+msgstr ""
+
+msgid "%s (required)"
+msgstr ""
+
+msgid "%s (recommended)"
+msgstr ""
+
+msgid "Fix this"
+msgstr ""
+
+msgid "plugin docs"
+msgstr ""
+
+msgid "Read more about this requirement in the %s."
+msgstr ""
+
+msgid "Read more about this recommendation in the %s."
+msgstr ""
+
+msgid "Read more in the %s."
+msgstr ""
+
+msgid "This check could not be run."
+msgstr ""
+
+msgid "Terms and conditions page set"
+msgstr ""
+
+msgid "Customers must be able to read your terms and conditions in the checkout."
+msgstr ""
+
+msgid "No terms and conditions page is set."
+msgstr ""
+
+msgid "Select a terms and conditions page"
+msgstr ""
+
+msgid "Checkout page set"
+msgstr ""
+
+msgid "The checkout is shown on the checkout page selected in WooCommerce."
+msgstr ""
+
+msgid "No checkout page is set."
+msgstr ""
+
+msgid "Select a checkout page"
+msgstr ""
+
+msgid "Store served over HTTPS"
+msgstr ""
+
+msgid "Personal and payment details are sent in the checkout, which requires a secure connection."
+msgstr ""
+
+msgid "Your store address does not use HTTPS. Install an SSL certificate and change the site address to https."
+msgstr ""
+
+msgid "Change the site address"
+msgstr ""
+
+msgid "Pretty permalinks configured"
+msgstr ""
+
+msgid "Callbacks from the payment provider rely on WordPress using pretty permalinks."
+msgstr ""
+
+msgid "The permalink structure is set to \"Plain\", which is not supported."
+msgstr ""
+
+msgid "Change the permalink structure"
+msgstr ""
+
+msgid "Number of decimals set to %d"
+msgstr ""
+
+msgid "Fewer decimals make WooCommerce round prices and taxes, which can make the order total differ from the amount the customer pays."
+msgstr ""
+
+msgid "Currently set to %d."
+msgstr ""
+
+msgid "Change the number of decimals"
+msgstr ""
+
+msgid "Store currency supported"
+msgstr ""
+
+msgid "Payments can only be made in the currencies that the payment provider supports."
+msgstr ""
+
+msgid "The store currency %1$s is not supported. Supported currencies: %2$s."
+msgstr ""
+
+msgid "Change the store currency"
+msgstr ""
+
+msgid "Store country supported"
+msgstr ""
+
+msgid "The payment provider only serves stores in certain countries."
+msgstr ""
+
+msgid "The store country is not supported. Supported countries: %s."
+msgstr ""
+
+msgid "Change the store country"
+msgstr ""
+
+msgid "API credentials entered"
+msgstr ""
+
+msgid "The plugin needs your API credentials to connect to the payment provider."
+msgstr ""
+
+msgid "No API credentials are entered in the plugin settings."
+msgstr ""
+
+msgid "Enabled in the store"
+msgstr ""
+
+msgid "Customers can only use the plugin when it is enabled."
+msgstr ""
+
+msgid "The plugin is not enabled, so customers cannot use it yet."
+msgstr ""
+
+msgid "Test mode turned off"
+msgstr ""
+
+msgid "No real payments are made while test mode is active."
+msgstr ""
+
+msgid "Test mode is active. Turn it off before you take real orders."
+msgstr ""
+
+msgid "The selected page \"%s\" is not published, so customers cannot open it."
+msgstr ""
+
+msgid "Edit the page"
+msgstr ""
+
+msgid "%d required check fails."
+msgid_plural "%d required checks fail."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d recommended check fails."
+msgid_plural "%d recommended checks fail."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d check could not be run."
+msgid_plural "%d checks could not be run."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d check passed."
+msgid_plural "%d checks passed."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "The check passed."
+msgstr ""
+
+msgid "All %d checks passed."
+msgstr ""
+
+msgid "%1$s store setup, %2$s"
+msgstr ""
