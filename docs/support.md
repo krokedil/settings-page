@@ -3,7 +3,7 @@ The support tab outputs content items, optionally grouped in sections, and a but
 
 The support configuration is an array with these keys:
 - `content` (array) - Content items, output in order. See [Content items](#content-items).
-- `sections` (array) - Sections, output in order after `content`. See [Sections](#sections).
+- `sections` (array) - Sections, output in order. When set, they replace `content`. See [Sections](#sections).
 - `use_helpscout` (`yes`|`no`) - Whether to show the support ticket button. Defaults to `yes`.
 
 Set at least one of `content` and `sections`, otherwise the support page only shows the sidebar.
@@ -16,7 +16,9 @@ Each section has:
 
 When the page is registered with `styled_output`, every section is a box that can be collapsed, with the same look as the sections of the General tab. The sections are open by default. Without `styled_output`, a section is a plain heading followed by its content.
 
-The support ticket button is output at the end of the last section. Without sections, it is output after `content`.
+The support ticket button is output at the end of the last section, without the "If you still need help" text above it, since the sections have their own text. Without sections, the text and the button are output after `content`.
+
+When `sections` is set, `content` is not output. A config that is read by several versions of a plugin, like the remote configs, can keep `content` for the versions of this package that do not support sections.
 
 ```php
 'support' => array(
@@ -104,3 +106,28 @@ Vertical space.
 ```php
 array( 'type' => 'spacer' )
 ```
+
+### title
+A subheading, keyed by language code, in the same style as the setting labels of the General tab.
+```php
+array( 'type' => 'title', 'en' => 'Kustom support', 'sv' => 'Kustom support' )
+```
+
+### box
+A grey box with an optional `title` and its own content items in `items`.
+```php
+array(
+    'type'  => 'box',
+    'title' => array( 'en' => 'Before opening a support ticket:' ),
+    'items' => array(
+        array(
+            'type'  => 'list',
+            'items' => array(
+                array( 'type' => 'text', 'en' => '<b>Logs</b> - Attach the logs.' ),
+            ),
+        ),
+    ),
+)
+```
+
+The `title` and `box` types need a version of this package with support sections, older versions skip them.

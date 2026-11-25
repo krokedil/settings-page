@@ -155,11 +155,25 @@ trait Sidebar {
 	}
 
 	/**
+	 * Whether the page the sidebar is on has styled output.
+	 *
+	 * @return bool
+	 */
+	protected function is_styled_sidebar(): bool {
+		return property_exists( $this, 'styled_output' ) && ! empty( $this->styled_output );
+	}
+
+	/**
 	 * Output the Sidebar.
 	 *
 	 * @return void
 	 */
 	public function output_sidebar(): void {
+		if ( $this->is_styled_sidebar() ) {
+			$this->output_styled_sidebar();
+			return;
+		}
+
 		$plugin_resources     = $this->sidebar['plugin_resources']['links'] ?? array();
 		$additional_resources = $this->sidebar['additional_resources']['links'] ?? array();
 
@@ -197,6 +211,49 @@ trait Sidebar {
 					<?php $this->output_developed_by(); ?>
 				</div>
 			</div>
+		<?php
+	}
+
+	/**
+	 * Output the sidebar of a page with styled output. The resources box looks like the sections of the settings,
+	 * with a header that has a title, an optional description and a divider.
+	 *
+	 * @return void
+	 */
+	protected function output_styled_sidebar(): void {
+		$resources = array(
+			'plugin_resources'     => __( 'Plugin resources', 'krokedil-settings' ),
+			'additional_resources' => __( 'Additional resources', 'krokedil-settings' ),
+		);
+
+		?>
+		<div class="krokedil_settings__sidebar">
+			<?php $this->output_sidebar_boxes(); ?>
+			<div class="krokedil_settings__sidebar_section">
+				<?php
+				foreach ( $resources as $key => $title ) :
+					$links       = $this->sidebar[ $key ]['links'] ?? array();
+					$description = self::get_text( $this->sidebar[ $key ]['description'] ?? '' );
+
+					if ( empty( $links ) ) {
+						continue;
+					}
+					?>
+					<div class="krokedil_settings__sidebar_header">
+						<h3 class="krokedil_settings__sidebar_title"><?php echo esc_html( $title ); ?></h3>
+						<?php if ( '' !== $description ) : ?>
+							<p class="krokedil_settings__sidebar_description"><?php echo esc_html( $description ); ?></p>
+						<?php endif; ?>
+					</div>
+					<div class="krokedil_settings__sidebar_content">
+						<?php foreach ( $links as $link ) : ?>
+							<p><?php echo wp_kses_post( self::get_link( $link ) ); ?></p>
+						<?php endforeach; ?>
+					</div>
+				<?php endforeach; ?>
+				<?php $this->output_developed_by(); ?>
+			</div>
+		</div>
 		<?php
 	}
 }

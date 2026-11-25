@@ -9,7 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Added support for custom sidebar boxes. Boxes are registered through the `boxes` key of the `sidebar` args and render as separate sidebar cards above the plugin resources, each with an `id`, `title` (plain string or locale array), `content` (string or callable) and optional `class`. A box whose rendering throws is skipped and the `krokedil_settings_page_render_error` action is fired, so a broken box cannot blank the settings page. See `docs/sidebar.md`.
-* Added support sections. The `support` config can hold a `sections` list instead of, or after, `content`. Each section has a `title`, an optional `description` and its own `content` items. On pages with `styled_output` the sections render as boxes that can be collapsed, like the sections of the General tab, and are open by default. The support ticket button goes in the last section. Configs with only `content` render as before. See `docs/support.md`.
+* Added support sections. The `support` config can hold a `sections` list, which replaces `content` when set, so a remote config can keep `content` for older package versions. Each section has a `title`, an optional `description` and its own `content` items. On pages with `styled_output` the sections render as boxes that can be collapsed, like the sections of the General tab, and are open by default. The support ticket button goes at the end of the last section, without the text above it. Configs with only `content` render as before. See `docs/support.md`.
+* Added the `title` and `box` content types, for subheadings and grey boxes in the support content. See `docs/support.md`.
+* Added an optional `description` to the sidebar resources, shown under the title on pages with `styled_output`. See `docs/sidebar.md`.
+* Added `set_page_header()` to set the title and description in the page header.
 * Added store setup checks, which tell the merchant which store settings have to be fixed and which we recommend changing. See `docs/setup-checks.md`.
     * Shown in a "Store setup check" sidebar box, as a section in the WooCommerce system report, and as an admin notice when required checks fail. For payment gateways the notice is also shown in the row of the gateway in the list of payment methods.
     * A check is `required`, `recommended` or `info`. There are built-in checks in `SetupChecks\Checks` for the terms page, checkout page, HTTPS, permalinks, store currency, store country, credentials, price decimals, enabled and test mode, and a check can also be an array or a class implementing `SetupChecks\SetupCheck`.
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* On pages with `styled_output`, the sidebar resources box now looks like the sections of the settings: white, with the title and description in a header and the links without the » prefix.
 * Moved the sidebar card styling (background, border and padding) from the sidebar container to the sections inside it, so multiple sidebar cards can stack with a gap. A sidebar without custom boxes renders visually unchanged.
 
 ------------------

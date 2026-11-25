@@ -139,17 +139,17 @@ class Support {
 		<div class='krokedil_support'>
 			<div class="krokedil_support__info">
 				<?php
-				foreach ( $content as $item ) {
-					echo wp_kses_post( self::print_content( $item ) );
-				}
+				// Sections replace the content, so a config can keep its content for package versions without sections.
+				if ( ! empty( $sections ) ) {
+					foreach ( $sections as $index => $section ) {
+						$this->output_section( $section, $index, count( $sections ) - 1 === $index );
+					}
+				} else {
+					foreach ( $content as $item ) {
+						echo wp_kses_post( self::print_content( $item ) );
+					}
 
-				foreach ( $sections as $index => $section ) {
-					$this->output_section( $section, $index, count( $sections ) - 1 === $index );
-				}
-
-				// Without sections, the support button goes after the content, as before sections existed.
-				if ( empty( $sections ) ) {
-					$this->output_support_button();
+					$this->output_support_button( true );
 				}
 				?>
 			</div>
@@ -186,7 +186,7 @@ class Support {
 				}
 
 				if ( $is_last ) {
-					$this->output_support_button();
+					$this->output_support_button( false );
 				}
 				?>
 			</div>
@@ -211,7 +211,7 @@ class Support {
 				}
 
 				if ( $is_last ) {
-					$this->output_support_button();
+					$this->output_support_button( false );
 				}
 				?>
 			</div>
@@ -222,15 +222,19 @@ class Support {
 	/**
 	 * Output the button that opens a support ticket with Krokedil, unless HelpScout is turned off.
 	 *
+	 * @param bool $with_intro Whether to print the text above the button. Sections have their own text instead.
+	 *
 	 * @return void
 	 */
-	protected function output_support_button(): void {
+	protected function output_support_button( bool $with_intro ): void {
 		if ( 'yes' !== ( $this->support['use_helpscout'] ?? 'yes' ) ) {
 			return;
 		}
 
 		?>
-		<p><?php esc_html_e( 'If you still need help, please open a support ticket with Krokedil.', 'krokedil-settings' ); ?></p>
+		<?php if ( $with_intro ) : ?>
+			<p><?php esc_html_e( 'If you still need help, please open a support ticket with Krokedil.', 'krokedil-settings' ); ?></p>
+		<?php endif; ?>
 		<button type="button" class="button button-primary support-button"><?php esc_html_e( 'Open support ticket with Krokedil', 'krokedil-settings' ); ?></button>
 		<?php // Hidden WooCommerce status report, turned into the text report by support.js and attached to the Beacon. ?>
 		<div id="krokedil-status-report" hidden>

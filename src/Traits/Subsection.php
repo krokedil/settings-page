@@ -211,6 +211,22 @@ trait Subsection {
 				$ignore_p_tag = true;
 				$text         = '<div class="krokedil_settings__spacer"></div>';
 				break;
+			case 'title':
+				$ignore_p_tag = true;
+				$text         = '<h4 class="krokedil_settings__content_title">' . self::get_text( $item ) . '</h4>';
+				break;
+			case 'box':
+				$ignore_p_tag = true;
+				$box_title    = self::get_text( $item['title'] ?? '' );
+				$text         = '<div class="krokedil_settings__content_box">';
+				if ( '' !== $box_title ) {
+					$text .= '<p class="krokedil_settings__content_box_title">' . $box_title . '</p>';
+				}
+				foreach ( $item['items'] ?? array() as $box_item ) {
+					$text .= self::print_content( $box_item );
+				}
+				$text .= '</div>';
+				break;
 			default:
 				return '';
 		}

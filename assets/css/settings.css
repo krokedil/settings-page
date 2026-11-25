@@ -351,6 +351,81 @@ div.krokedil_settings__spacer {
   pointer-events: none;
 }
 
+/* Content titles and boxes, used by the support sections. */
+.krokedil_settings__content h4.krokedil_settings__content_title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+    margin: 1.5em 0 0.5em;
+}
+
+.krokedil_settings__content h4.krokedil_settings__content_title:first-child {
+    margin-top: 0.5em;
+}
+
+.krokedil_settings__content .krokedil_settings__content_box {
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    padding: 6px 18px;
+    margin: 1em 0;
+}
+
+.krokedil_settings__content .krokedil_settings__content_box p.krokedil_settings__content_box_title {
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.krokedil_settings__content .krokedil_settings__content_box ul.krokedil_settings__list li {
+    margin-left: 18px;
+    margin-bottom: 1em;
+}
+
+/* Styled output: the sidebar resources box looks like the sections of the settings. */
+.krokedil_settings_page.styled .krokedil_settings__sidebar .krokedil_settings__sidebar_section {
+    background-color: white;
+    border-color: #e5e5e5;
+    padding: 0;
+    font-family: inherit;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__sidebar .krokedil_settings__sidebar_header {
+    padding: 10px 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__sidebar h3.krokedil_settings__sidebar_title {
+    margin-bottom: 0;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__sidebar p.krokedil_settings__sidebar_description {
+    margin-top: 7px;
+    opacity: 0.8;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__sidebar .krokedil_settings__sidebar_content {
+    padding: 10px 20px;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__sidebar .krokedil_settings__sidebar_content p {
+    margin: 0.5em 0;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__sidebar .krokedil_settings__sidebar_footer_krokedil,
+.krokedil_settings_page.styled .krokedil_settings__sidebar .krokedil_settings__sidebar_footer {
+    margin: 0;
+    padding: 10px 20px 20px;
+}
+
+.krokedil_settings_page.styled .krokedil_settings__sidebar .krokedil_settings__sidebar_box {
+    background-color: white;
+    border-color: #e5e5e5;
+}
+
+/* The empty form table before the first section, plus the flex gap after it, would push the sections below the top of the sidebar. */
+.krokedil_settings_page.styled .krokedil_settings__content > table.form-table:not(:has(*)) {
+    display: none;
+}
+
 body.woocommerce_page_wc-settings .nav-tab-wrapper.krokedil_nav_tabs {
     border-bottom: 1px solid #c3c4c7;
     margin: 0;

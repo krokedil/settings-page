@@ -6,6 +6,8 @@ A Sidebar will be added to both the support and addons page if the sidebar confi
 
 Both of the resources keys take a `links` array with the exact same link configuration as the [support](./support.md) page, and will output the links in the order they are passed in the array.
 
+On pages with `styled_output`, the resources box looks like the sections of the settings, and a resources key can also take a `description` (string or array with language codes as keys), shown under the title. Without `styled_output` the description is not shown.
+
 ```php
 array(
     'plugin_resources' => array(
