@@ -261,6 +261,7 @@ div.krokedil_settings__spacer {
     .krokedil_settings_page.styled p.submit {
         position: sticky;
         bottom: 1.5em;
+        display: inline-block;
     }
 }
 
