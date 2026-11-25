@@ -6,7 +6,7 @@ The support configuration is an array with these keys:
 - `sections` (array) - Sections, output in order. When set, they replace `content`. See [Sections](#sections).
 - `use_helpscout` (`yes`|`no`) - Whether to show the support ticket button. Defaults to `yes`.
 
-Set at least one of `content` and `sections`, otherwise the support page only shows the sidebar.
+Without `content` and `sections`, the support page only shows the support ticket button (unless `use_helpscout` is `no`) and the sidebar.
 
 ## Sections
 Each section has:
