@@ -149,7 +149,7 @@ class SettingsPage {
 
 		$this->pages[ $id ] = array(
 			'navigation' => new Navigation( $args ),
-			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $owner ) : null,
+			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $owner, ! empty( $args['styled_output'] ) ) : null,
 			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $owner ) : null,
 			'args'       => $args,
 			'owner'      => $owner,

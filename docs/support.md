@@ -1,43 +1,80 @@
 # Support Tab Configuration
-The support tab can output information based on different types of items passed inside it.
-Right now the support is limited to different types of links, but can be extended going forward with new types as the requirement for them is added.
+The support tab outputs content items, optionally grouped in sections, and a button that opens a support ticket with Krokedil.
 
-The support configuration should be an array with the optional properties `links` and `link_texts`.
-Please note that if none of the optional properties are set, the support page will not have any content except the sidebar.
+The support configuration is an array with these keys:
+- `content` (array) - Content items, output in order. See [Content items](#content-items).
+- `sections` (array) - Sections, output in order after `content`. See [Sections](#sections).
+- `use_helpscout` (`yes`|`no`) - Whether to show the support ticket button. Defaults to `yes`.
 
-## Links
-The `links` key should contain an array of links that will be output on the support page.
-These will be output in the order they are passed in the array.
+Set at least one of `content` and `sections`, otherwise the support page only shows the sidebar.
 
-The link array should contain the following keys:
-- `text` (string) - The title of the link.
-- `target` (string) - The target attribute for the link. For example `_blank` or `_self`. For `_blank` targets the plugin will automatically add a icon showing its an external link that will open in a new tab.
-- `class` (string) - The class attribute for the link if you want to add a custom class. You can pass the class 'no-external-icon' to override the default external link icon that the plugin adds.
-- `href` (array) - An array with the different languages as keys and the link as the value. The language can be any 2 letter ISO 639-1 language code. And will be matched with the current language of the site. Always pass `en` since that will be used as a fallback if the current language is not found.
+## Sections
+Each section has:
+- `title` (string|array) - The section heading. A string or an array with 2 letter ISO 639-1 language codes as keys, `en` is the fallback.
+- `description` (string|array) - Optional text under the heading, in the same format as `title`.
+- `content` (array) - The content items of the section.
+
+When the page is registered with `styled_output`, every section is a box that can be collapsed, with the same look as the sections of the General tab. The sections are open by default. Without `styled_output`, a section is a plain heading followed by its content.
+
+The support ticket button is output at the end of the last section. Without sections, it is output after `content`.
+
+```php
+'support' => array(
+    'sections' => array(
+        array(
+            'title'       => array( 'en' => 'Documentation', 'sv' => 'Dokumentation' ),
+            'description' => array( 'en' => 'Guides for the plugin.' ),
+            'content'     => array(
+                array(
+                    'type'   => 'link',
+                    'text'   => 'Get started',
+                    'target' => '_blank',
+                    'href'   => 'https://docs.krokedil.com/',
+                ),
+            ),
+        ),
+        array(
+            'title'   => 'Support',
+            'content' => array(
+                array( 'type' => 'text', 'en' => 'Contact us using the button below.' ),
+            ),
+        ),
+    ),
+),
+```
+
+## Content items
+Every item has a `type`.
+
+### text
+A text, keyed by language code. HTML is allowed.
+```php
+array( 'type' => 'text', 'en' => 'Your text', 'sv' => 'Din text' )
+```
+
+### link
+- `text` (string|array) - The link text.
+- `href` (string|array) - The URL, or an array with language codes as keys. Always pass `en`, it is the fallback.
+- `target` (string) - For example `_blank` or `_self`. `_blank` links get an icon that shows they open in a new tab.
+- `class` (string) - Extra classes. `no-external-icon` removes the external link icon.
 ```php
 array(
-    array(
-        'text'   => 'Your link title',
-        'target' => '_blank',
-        'class'  => 'my-link-class my-other-link-class',
-        'href'   => array(
-            'en' => 'https://example.com',
-            'sv' => 'https://example.se',
-        ),
+    'type'   => 'link',
+    'text'   => 'Your link title',
+    'target' => '_blank',
+    'class'  => 'my-link-class',
+    'href'   => array(
+        'en' => 'https://example.com',
+        'sv' => 'https://example.se',
     ),
 )
 ```
 
-## Link Texts
-The `link_texts` key should contain an array of texts that will be output on the support page.
-These will be output in the order they are passed in the array.
-
-The link text array should contain the following keys:
-- `text` (array) - An array with the different languages as keys and the text as the value. The language can be any 2 letter ISO 639-1 language code. And will be matched with the current language of the site. Always pass `en` since that will be used as a fallback if the current language is not found.
-- `link` (array) - An array with the link configuration for the text. The same as the link configuration above.
-
+### link_text
+A text with one link in it. `text` is keyed by language code and contains one `%s`, which is replaced by `link`, a link in the format above.
 ```php
 array(
+    'type' => 'link_text',
     'text' => array(
         'en' => 'Your english text that should contain a link %s.',
         'sv' => 'Your swedish text that should contain a link %s.',
@@ -46,10 +83,24 @@ array(
         'text'   => 'Your link title',
         'target' => '_blank',
         'class'  => 'no-external-icon',
-        'href'   =>
-        array(
-            'en' => 'https://example.com',
-            'sv' => 'https://example.se',
-        ),
+        'href'   => array( 'en' => 'https://example.com' ),
     ),
-),
+)
+```
+
+### list
+A bulleted list. `items` holds content items.
+```php
+array(
+    'type'  => 'list',
+    'items' => array(
+        array( 'type' => 'text', 'en' => 'First item' ),
+    ),
+)
+```
+
+### spacer
+Vertical space.
+```php
+array( 'type' => 'spacer' )
+```
