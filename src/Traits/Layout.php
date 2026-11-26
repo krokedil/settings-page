@@ -95,6 +95,19 @@ trait Layout {
 	}
 
 	/**
+	 * Set the title and description in the page header.
+	 *
+	 * @param string $title       The page title.
+	 * @param string $description The page description.
+	 *
+	 * @return void
+	 */
+	public function set_page_header( string $title, string $description ): void {
+		$this->page_title       = $title;
+		$this->page_description = $description;
+	}
+
+	/**
 	 * Set the header's back link. Falls back to the payments back link if a value is left empty.
 	 *
 	 * @param string $label The link text.

@@ -149,7 +149,7 @@ class SettingsPage {
 
 		$this->pages[ $id ] = array(
 			'navigation' => new Navigation( $args ),
-			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $owner ) : null,
+			'support'    => $args['support'] ? new Support( $args['support'], $args['sidebar'], $owner, ! empty( $args['styled_output'] ) ) : null,
 			'addons'     => $args['addons'] ? new Addons( $args['addons'], $args['sidebar'], $owner ) : null,
 			'args'       => $args,
 			'owner'      => $owner,
@@ -379,6 +379,7 @@ class SettingsPage {
 					// If we are on the support tab. Print the support content.
 					$support->set_icon( $icon );
 					$support->set_plugin_name( $this->plugin_name );
+					$support->set_page_header( ...$this->get_page_header( $page ) );
 					$support->output_header();
 					$navigation->output();
 					$support->output();
@@ -387,6 +388,7 @@ class SettingsPage {
 					// If we are on the addons tab. Print the addons content.
 					$addons->set_icon( $icon );
 					$addons->set_plugin_name( $this->plugin_name );
+					$addons->set_page_header( ...$this->get_page_header( $page ) );
 					$addons->output_header();
 					$navigation->output();
 					$addons->output();
@@ -434,6 +436,35 @@ class SettingsPage {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get the header title and description of a page, the same as on its General tab.
+	 * Taken from the page_title and page_description args, or else from the payment or shipping method the page belongs to.
+	 *
+	 * @param array<string, mixed> $page The registered page.
+	 *
+	 * @return array{0: string, 1: string} The title and the description.
+	 */
+	protected function get_page_header( array $page ): array {
+		$args  = $page['args'] ?? array();
+		$owner = $page['owner'] ?? null;
+
+		$title       = $args['page_title'] ?? null;
+		$description = $args['page_description'] ?? null;
+
+		if ( null === $title && is_object( $owner ) && method_exists( $owner, 'get_method_title' ) ) {
+			$title = $owner->get_method_title();
+		}
+
+		if ( null === $description && is_object( $owner ) && method_exists( $owner, 'get_method_description' ) ) {
+			$description = $owner->get_method_description();
+		}
+
+		return array(
+			is_string( $title ) && '' !== $title ? $title : 'Settings',
+			is_string( $description ) ? wp_strip_all_tags( $description ) : '',
+		);
 	}
 
 	/**
