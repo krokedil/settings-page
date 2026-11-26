@@ -24,6 +24,7 @@ jQuery(function ($) {
         }
 
         window.Beacon("config", {
+          color: "#a1c038",
           messaging: {
             contactForm: {
               allowAttachments: true,
