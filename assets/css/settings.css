@@ -238,6 +238,11 @@ div.krokedil_settings__spacer {
 	flex-wrap: wrap;
 }
 
+/* Without the settings navigation, keep the content in line with the page header. */
+.krokedil_settings_page.styled .krokedil_settings__wrapper:not(:has(.krokedil_settings__settings_navigation)) {
+	padding-left: 5px;
+}
+
 .krokedil_settings_page.styled .krokedil_settings__wrapper .krokedil_settings__content {
 	flex: 1;
     flex-wrap: wrap;
