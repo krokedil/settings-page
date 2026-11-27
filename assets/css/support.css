@@ -40,8 +40,6 @@
 }
 
 .krokedil_settings_page.styled .krokedil_support .krokedil_settings__section {
-    width: 100%;
-    box-sizing: border-box;
     border-bottom: 1px solid #e5e5e5;
     /* The settings sections get 20px from margin + flex gap, the support sections are not in a flex container. */
     margin-bottom: 20px;
